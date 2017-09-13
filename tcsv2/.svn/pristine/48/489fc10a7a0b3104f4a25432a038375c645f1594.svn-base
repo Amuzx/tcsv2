@@ -1,0 +1,70 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:outputPanel id="teacherLoginPanel">
+	<h2 class="title">添加学生</h2>
+ 	 <div class="teacher-login-btn">  
+           <p:commandButton value="导入学生"  type="button"  onclick="PF('teacherLoginDialog').show();" icon="ui-icon-plusthick" />
+     </div>
+     <div>
+	<table>
+		<tr>
+			<td width="80px"><h:outputLabel for="stuName" value="姓名："/></td>
+			<td><p:inputText id="stuName" value="#{studentView.student.stuName}"/></td>
+		</tr>
+
+		<tr>
+			<td><h:outputLabel for="stuSex" value="性别："/></td>
+			<td><p:inputText id="stuSex" value="#{studentView.student.stuSex}"/></td>
+		</tr>
+		
+		<tr>
+			<td><h:outputLabel for="stuQQ" value="QQ："/></td>
+			<td><p:inputText id="stuQQ" value="#{studentView.student.stuQQ}"/></td>
+		</tr>
+		
+		<tr>
+			<td><h:outputLabel for="stuTel" value="电话："/></td>
+			<td><p:inputText id="stuTel" value="#{studentView.student.stuTel}"/></td>
+		</tr>
+		
+		<tr>
+			<td><h:outputLabel for="stuMajor" value="专业："/></td>
+			<td><p:inputText id="stuMajor" value="#{studentView.student.stuMajor}"/></td>
+		</tr>
+		
+		<tr>
+			<td><h:outputLabel for="stuYear" value="入学年份："/></td>
+			<td><p:inputText id="stuYear" value="#{studentView.student.stuYear}"/></td>
+		</tr>
+		
+		<tr>
+			<td><h:outputLabel for="stuClass" value="班级："/></td>
+			<td><p:inputText id="stuClass" value="#{studentView.student.stuClass}"/></td>
+		</tr>
+	</table>
+	</div>
+	
+	<p:dialog   header="教师登录" widgetVar="teacherLoginDialog" showEffect="fade" hideEffect="fade" height="150" width="360">
+	<h:form>
+			<center>
+      	   <table>
+      	      <tr><td height="36px">工号:</td><td><p:inputText /></td></tr>
+      	      <tr><td height="36px">密码:</td><td><p:inputText /></td></tr>
+      	      <tr>
+      	      <td>
+      	        <div class="teacher-login-btn" style="margin:16px auto;">  
+      	           <p:commandButton value="登录"  style=" width:110px;height:32px;margin-left:6px;"/>
+                   <p:commandButton value="重置"  type="reset" style="position:absolute;width:110px;height:32px;margin-left:48px;"/>
+                 </div>
+      	       </td>
+      	       </tr>
+      	    </table>
+      	    </center>
+      	   </h:form>
+	</p:dialog>
+	</p:outputPanel>
+
+</f:view>

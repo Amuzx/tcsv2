@@ -1,0 +1,37 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h2 class="title">角色信息管理</h2>
+	
+	<h:form id="roleListForm">
+		<p:dataTable id="roleListTable" var="role"
+			value="#{roleView.roleList}" rows="5"
+			paginator="#{not empty roleView.roleList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<p:column headerText="角色id"  width="10%">
+				<h:outputText value="#{role.roleId}" />
+			</p:column>
+
+			<p:column headerText="角色名"  width="20%">
+				<h:outputText value="#{role.name}" />
+			</p:column>
+			
+			<p:column headerText="角色状态"  width="10%" >
+				<h:outputText value="#{role.disabled ? '禁用' : '开启'}" />
+			</p:column>
+			
+			<p:column headerText="角色描述"   width="60%">
+				 <h:outputText value="#{role.remark}" />
+			</p:column>
+			
+		</p:dataTable>
+		
+		
+	</h:form>
+</f:view>

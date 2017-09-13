@@ -1,0 +1,17 @@
+#JDBC
+jdbc.driver=oracle.jdbc.OracleDriver
+jdbc.url=jdbc:oracle:thin:@10.120.17.2:1521:devdb
+jdbc.username=EDSINT
+jdbc.password=EDS_int.0618D14
+
+#JNDI
+datasource.jndi.name=jdbc/EDS
+
+#Datasource ConnectionPool
+datasource.maxActive=100
+datasource.initialSize=10
+
+#Hibernate Related Settings
+db.dialect=org.hibernate.dialect.Oracle10gDialect
+db.showSql=false
+db.generateDdl=true

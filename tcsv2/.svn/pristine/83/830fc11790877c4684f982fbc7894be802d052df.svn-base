@@ -1,0 +1,153 @@
+package com.meession.communication2.view;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
+
+import org.primefaces.event.RateEvent;
+
+import com.meession.communication2.entity.NewPlan;
+import com.meession.communication2.entity.NewUser;
+import com.meession.communication2.service.INewStudentService;
+
+@SuppressWarnings("serial")
+@ManagedBean
+@ViewScoped
+public class NewStudentPageView implements Serializable{
+
+	@ManagedProperty("#{newStudentServiceImpl}")
+	private INewStudentService newStudentService;
+	
+	private NewUser student;
+	
+	private NewPlan newPlan;
+	
+	private Integer rating3 = 0;
+	
+	private Integer chooseStars = 0;
+	
+	private String status = "";
+	
+	private String isAffirm = "";
+	
+	private List<NewPlan> studentListPlan;
+	
+	@PostConstruct
+	private void init(){
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		NewUser user = (NewUser) session.getAttribute("user");
+		student = this.newStudentService.findStudent(user.getId());
+		studentListPlan = this.newStudentService.findPlanForStudent();
+		for(NewPlan plan : studentListPlan){
+			rating3 = plan.getScore();
+			if(plan.getStustatus() == 1){
+				isAffirm = "已确认";
+			}else{
+				isAffirm = "确认";
+			}
+			if(!"".equals(plan.getResult()) && plan.getResult() != null){
+				status = "已完成";
+			}else{
+				status = "未完成";
+			}
+		}
+	}
+	
+	/**
+	 * 根据计划ID查找该计划
+	 * @param e
+	 */
+	public void findPlanById(ActionEvent e){
+		int planId = (int) e.getComponent().getAttributes().get("planId");
+		newPlan = this.newStudentService.findPlanById(planId);
+		System.out.println(newPlan.getContent());
+	}
+	
+	/**
+	 * 学生确认完成沟通
+	 */
+	public void affirmFinishPlan(ActionEvent e){
+		int pId = (int) e.getComponent().getAttributes().get("pId");
+		this.newStudentService.updateFinishPlan(chooseStars,pId);
+	}
+
+	/**
+	 * 选择的星星数
+	 * @param rateEvent
+	 */
+    public void onrate(RateEvent rateEvent) {
+    	chooseStars =  ((Integer) rateEvent.getRating()).intValue();
+    }
+	
+	public Integer getChooseStars() {
+		return chooseStars;
+	}
+
+	public void setChooseStars(Integer chooseStars) {
+		this.chooseStars = chooseStars;
+	}
+
+	public String getIsAffirm() {
+		return isAffirm;
+	}
+
+	public void setIsAffirm(String isAffirm) {
+		this.isAffirm = isAffirm;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public INewStudentService getNewStudentService() {
+		return newStudentService;
+	}
+
+	public void setNewStudentService(INewStudentService newStudentService) {
+		this.newStudentService = newStudentService;
+	}
+
+	public NewUser getStudent() {
+		return student;
+	}
+
+	public void setStudent(NewUser student) {
+		this.student = student;
+	}
+
+	public List<NewPlan> getStudentListPlan() {
+		return studentListPlan;
+	}
+
+	public void setStudentListPlan(List<NewPlan> studentListPlan) {
+		this.studentListPlan = studentListPlan;
+	}
+
+	public NewPlan getNewPlan() {
+		return newPlan;
+	}
+
+	public void setNewPlan(NewPlan newPlan) {
+		this.newPlan = newPlan;
+	}
+
+	public Integer getRating3() {
+		return rating3;
+	}
+
+	public void setRating3(Integer rating3) {
+		this.rating3 = rating3;
+	}
+	
+}

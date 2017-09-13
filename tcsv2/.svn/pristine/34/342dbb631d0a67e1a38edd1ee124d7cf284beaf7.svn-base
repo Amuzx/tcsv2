@@ -1,0 +1,13 @@
+package com.meession.communication.dao;
+
+import java.util.List;
+
+import com.meession.communication.entity.Plan;
+
+public interface IplanDao {
+	public Plan save(Plan p);
+	public void update(Plan p);
+	public void delete(long uid);
+	public Plan findByuserAccount(long uid);
+	public List<Plan> list();
+}

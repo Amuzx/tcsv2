@@ -1,0 +1,51 @@
+package com.meession.communication2.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.meession.communication2.dao.INewStudentDao;
+import com.meession.communication2.entity.NewPlan;
+import com.meession.communication2.entity.NewUser;
+import com.meession.communication2.service.INewStudentService;
+/**
+ * 
+ * @author xxw
+ *
+ */
+@Service
+public class NewStudentServiceImpl implements INewStudentService {
+
+	@Resource(name="newStudentDaoImpl")
+	private INewStudentDao newStudentDao;
+	
+	@Override
+	public NewUser findStudent() {
+		NewUser user = this.newStudentDao.findStudent();
+		return user;
+	}
+
+	@Override
+	public List<NewPlan> findPlanForStudent() {
+		List<NewPlan> listStudentPLan = this.newStudentDao.findPlanForStudent();
+		return listStudentPLan;
+	}
+
+	@Override
+	public NewPlan findPlanById(int planId) {
+		NewPlan newPlan = this.newStudentDao.findPlanById(planId);
+		return newPlan;
+	}
+
+	@Override
+	public void updateFinishPlan(int chooseStars,int pId) {
+		System.out.println("pId======="+pId);
+		NewPlan newPlan = this.newStudentDao.findPlanById(pId);
+		newPlan.setScore(chooseStars);
+		newPlan.setStustatus(1);
+		this.newStudentDao.updateFinishPlan(newPlan);
+	}
+
+}

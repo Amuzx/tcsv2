@@ -1,0 +1,22 @@
+package com.meession.communication.view;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+import com.meession.communication.service.IStudentService;
+
+@ManagedBean
+@ViewScoped
+public class StudentView {
+
+	private IStudentService studentService;
+
+	public IStudentService getStudentService() {
+		return studentService;
+	}
+
+	public void setStudentService(IStudentService studentService) {
+		this.studentService = studentService;
+	}
+	
+}

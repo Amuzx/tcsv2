@@ -1,0 +1,81 @@
+package com.meession.communication2.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.meession.common.support.dao.DaoSupport;
+import com.meession.communication2.dao.INewUserDao;
+import com.meession.communication2.entity.NewUser;
+
+@Repository("newUserDao")
+public class NewUserDaoImpl extends DaoSupport implements INewUserDao {
+
+	/**
+	 * 添加学生
+	 */
+	@Override
+	public void addStudentUser(NewUser newuser) {
+		String sql = "from NewUser where type=2";
+		List listUser = getDaoTemplate().list(NewUser.class,sql);
+		System.out.println(listUser.size()+"====listSize");
+		if(listUser.size() > 0){
+			boolean isUpdate = false;
+			for(Object obj : listUser){
+				if(obj instanceof Object){
+					NewUser user = (NewUser)obj;
+					//当学生学号相同，则表示数据库含有该学生，更新该对象
+					if(user.getStuNumber().equals(newuser.getStuNumber())){
+						newuser.setStuNumber(user.getStuNumber());
+						newuser.setStuName(user.getStuName());
+						newuser.setStuSex(user.getStuSex());
+						newuser.setStuQQ(user.getStuQQ());
+						newuser.setStuTel(user.getStuTel());
+						newuser.setStuClass(user.getStuClass());
+						newuser.setStuYear(user.getStuYear());
+						getDaoTemplate().update(newuser);
+						getDaoTemplate().flush();
+						System.out.println("this is update");
+						isUpdate = true;
+						break;
+					}else{
+						continue;
+					}
+				}else{
+					System.out.println("不是对象类型");
+					break;
+				}
+			}
+			//当循环执行完成时还没更新，则表示数据库没有该对象，将该对象持久化
+			if(isUpdate){
+				System.out.println("更新成功！");
+			}else{
+				getDaoTemplate().save(newuser);
+				getDaoTemplate().flush();
+			}
+		}else{
+			//当数据库中的没有数据时，直接将该对象持久化
+			getDaoTemplate().save(newuser);
+			getDaoTemplate().flush();
+		}
+	}
+	
+	/**
+	 * 查询所有的学生
+	 */
+	@Override
+	public List<NewUser> listStudentUser() {
+		List<NewUser> listStudent = getDaoTemplate().list(NewUser.class);
+		return listStudent;
+	}
+
+	/**
+	 * 删除学生
+	 */
+	@Override
+	public void deleteStudentUserById(int id) {
+		getDaoTemplate().delete(NewUser.class, id);
+		getDaoTemplate().flush();
+	}
+
+}

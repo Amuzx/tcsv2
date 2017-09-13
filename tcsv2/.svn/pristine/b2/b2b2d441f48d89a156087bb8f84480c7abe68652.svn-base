@@ -1,0 +1,321 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:outputPanel id="teacherLoginPanel">
+		<h2 class="title">添加学生</h2>
+		<div class="teacher-option-btn">
+			<h:form>
+				<p:commandButton value="手动添加学生" type="button" onclick="PF('addStudentDialog1').show();" icon="ui-icon-plusthick" style="margin-right:20px;" />
+				<p:commandButton value="Excel导入学生" type="button" onclick="PF('importStudentDialog1').show();" icon="ui-icon-plusthick" />
+			</h:form>
+		</div>
+		
+		<p:messages id="message" showDetail="true" autoUpdate="true" closable="true" />
+		
+		<p:dialog header="添加学生" widgetVar="addStudentDialog1"
+			showEffect="fade" hideEffect="fade" height="340" width="420">
+			<h:form id="studentInfo">
+				<center>
+					<table>
+						<tr height="36px">
+							<td width="60px"><h:outputLabel for="stuNo" value="学号：" /></td>
+							<td><p:inputText id="stuNo" value="#{newStudentView.newuser.stuNumber}" /></td>
+						</tr>
+					
+						<tr height="36px">
+							<td width="60px"><h:outputLabel for="stuName" value="姓名：" /></td>
+							<td><p:inputText id="stuName" value="#{newStudentView.newuser.stuName}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuSex" value="性别：" /></td>
+							<td><p:inputText id="stuSex" value="#{newStudentView.newuser.stuSex}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuQQ" value="QQ：" /></td>
+							<td><p:inputText id="stuQQ" value="#{newStudentView.newuser.stuQQ}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuTel" value="电话：" /></td>
+							<td><p:inputText id="stuTel" value="#{newStudentView.newuser.stuTel}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuMajor" value="专业：" /></td>
+							<td><p:inputText id="stuMajor" value="#{newStudentView.newuser.stuMajor}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuYear" value="入学年份：" /></td>
+							<td><p:calendar id="stuYear" value="#{newStudentView.newuser.stuYear}" navigator="true" pattern="yyyy"/></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuClass" value="班级：" /></td>
+							<td><p:inputText id="stuClass" value="#{newStudentView.newuser.stuClass}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td class="teacher-login-btn" style="margin: 16px auto;">
+								<p:commandButton value="提交" actionListener="#{newStudentView.addStudentUser}" style=" width:100px;margin:15px 0 0 15px;" /> 
+								<p:commandButton value="重置" type="reset" style="position:absolute;width:100px;margin:15px 0 0  48px;" />
+							</td>
+						</tr>
+					</table>
+				</center>
+			</h:form>
+		</p:dialog>
+
+		<!-- 导入学生对话框 http://www.cnbeta.com/articles/464691.htm-->
+		<p:dialog header="导入学生" widgetVar="importStudentDialog1" modal="true"
+			width="700">
+			<h:form>
+				<iframe style="border: 0px none; width: 680px; height: 120px;"
+					frameborder="0" src="importStudent.xhtml"></iframe>
+			</h:form>
+		</p:dialog>
+	   </p:outputPanel>
+
+	<p:outputPanel id="studentListPanel" style="margin:5% 0;">
+		<h2 class="title">查看所有学生信息</h2>
+		<h:form id="showAllStudentInfo">
+			<p:dataTable id="studentListTable" var="newUser"
+				value="#{newStudentView.listNewUser}" rows="5"
+				paginator="#{not empty newStudentView.listNewUser}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+				emptyMessage="No items.">
+
+				<p:column headerText="学号" width="9%">
+					<h:outputText value="#{newUser.stuNumber}" />
+				</p:column>
+				
+				<p:column headerText="姓名" width="10%">
+					<h:outputText value="#{newUser.stuName}" />
+				</p:column>
+
+				<p:column headerText="性别" width="5%">
+					<h:outputText value="#{(newUser.stuSex==0)?'女':'男'}" escape="true"/>
+				</p:column>
+
+				<p:column headerText="QQ" width="10%">
+					<h:outputText value="#{newUser.stuQQ}" />
+				</p:column>
+
+				<p:column headerText="联系方式" width="15%">
+					<h:outputText value="#{newUser.stuTel}" />
+				</p:column>
+
+				<p:column headerText="专业" width="10%">
+					<h:outputText value="#{newUser.stuMajor}" />
+				</p:column>
+
+				<p:column headerText="入学年份" width="10%">
+					<h:outputText value="#{newUser.stuYear}" ><f:convertDateTime pattern="yyyy"/> </h:outputText>
+				</p:column>
+
+				<p:column headerText="班级" width="4%">
+					<h:outputText value="#{newUser.stuClass}" />
+				</p:column>
+				
+			
+				<p:column headerText="操作" width="24%">
+				<center>
+					<p:commandButton id="deleteStudent" value="删除学生" style="color:blue;margin-right:5px;"
+						icon="ui-icon-trash"/>
+					<p:commandButton value="新增计划" style="color:blue;margin-right:5px;" actionListener="#{newPlanView.showDialog}" update="@form:showAllStudentInfo,@form:@parent:communicationplanDialog" icon="ui-icon-plusthick" >
+						<f:attribute name="y" value="#{newUser.userId}" ></f:attribute>
+					</p:commandButton>
+				</center>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<br />
+
+		<!-- 添加计划 -->
+		<p:dialog header="沟通计划" widgetVar="communicationplanDialog"
+			id="communicationplanDialog" modal="true" width="500">
+			<h:form>
+				<center>
+					<table>
+					    <tr height="36px">
+							<td><h:outputLabel for="stuName" value="姓名：" /></td>
+							<td><p:inputText id="stuName" value="#{newPlanView.newplan.studentname}" disabled="true"/></td>
+							
+						</tr>
+						
+						<tr height="36px">
+							<td><h:outputLabel for="stuNumber" value="学号：" /></td>
+							<td><p:inputText id="stuNumber" value="#{newPlanView.newplan.studentnum}" disabled="true"/></td>
+						</tr>
+						
+						<tr height="36px">
+							<td width="60px"><h:outputLabel for="time" value="时间：" /></td>
+							<td><p:calendar id="time" value="#{newPlanView.newplan.createTime}" /></td>
+						</tr>
+						
+						<tr height="36px">
+							<td><h:outputLabel for="location" value="地点：" /></td>
+							<td><p:inputText id="location" value="#{newPlanView.newplan.location}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="title" value="Title：" /></td>
+							<td><p:inputText id="title" value="#{newPlanView.newplan.title}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="context" value="沟通详情：" /></td>
+							<td><p:inputText id="context" value="#{newPlanView.newplan.content}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td class="teacher-login-btn" style="margin: 16px auto;"><p:commandButton
+									value="提交" actionListener="#{newPlanView.addPlan}"
+									style=" width:100px;margin:15px 0 0 15px;" update="@form:@parent:showAllPlanInfo"/> <p:commandButton
+									value="重置" type="reset"
+									style="position:absolute;width:100px;margin:15px 0 0  48px;" />
+							</td>
+						</tr>
+					</table>
+				</center>
+			</h:form>
+		</p:dialog>
+		<h2 class="title">查看沟通计划</h2>
+			
+		<!-- 查询面板 ，start-->
+		<h:form id="studentQueryForm">
+			<table>
+				<tr>
+					<td align="right">姓名:</td>
+					<td><p:inputText /></td>
+					<td align="right">电话号码:</td>
+					<td><p:inputText /></td>
+					<td align="right">专业:</td>
+					<td><p:inputText /></td>
+				</tr>
+				<tr>
+					<td />
+					<td><p:commandButton value="查询" icon="icon-user" /> <p:commandButton
+							value="重置" type="reset" icon="ui-icon-plusthick" /></td>
+					<td />
+				</tr>
+			</table>
+		</h:form>
+		<br/>
+		
+		<h:form id="showAllPlanInfo">
+			<p:dataTable id="planListTable" var="plan"
+				value="#{newPlanView.infolist}" rows="5"
+				paginator="#{not empty newPlanView.infolist}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+				emptyMessage="No items.">
+
+				<p:column headerText="学号" width="10%">
+					<h:outputText value="#{plan.studentnum}"/>
+				</p:column>
+
+				<p:column headerText="学生姓名" width="12%">																																																					姓名" width="10%">
+					<h:outputText value="#{plan.studentname}"/>
+				</p:column>
+
+			<!-- 	<p:column headerText="老师" width="10%">
+					<h:outputText value="#{plan.teachername}"/>
+				</p:column> -->
+				
+				<p:column headerText="时间" width="10%">
+					<h:outputText value="#{plan.createTime}" ><f:convertDateTime pattern="yyyy/mm/dd"/></h:outputText>
+				</p:column>
+				
+				<p:column headerText="标题" width="8%">
+					<h:outputText value="#{plan.title}"/>
+				</p:column>
+				<p:column headerText="摘要" width="8%">
+					<h:outputText value="#{plan.content}"/>
+				</p:column>
+	
+				<p:column headerText="操作" width="24%">
+				<center>
+					<p:commandButton id="updatePlan" value="更新计划"  style="color:blue;margin-right:5px;"
+						icon="ui-icon-pencil" actionListener="#{newPlanView.showchangedialog}"
+						oncomplete="PF('changeplandialog').show();" update="@form:showAllPlanInfo,@form:@parent:changeplandialog">
+						<f:attribute name="updateplan" value="#{plan}"></f:attribute>
+					</p:commandButton>
+				    <p:commandButton value="更新内容"  style="color:blue;margin-right:5px;"
+						icon="ui-icon-pencil"
+						actionListener="#{newPlanView.showchangedialog}"
+						oncomplete="PF('changedialog').show();" update="@form:showAllPlanInfo,@form:@parent:changedialog">
+						<f:attribute name="updateplan" value="#{plan}"></f:attribute>
+				    </p:commandButton>
+			        <p:commandButton value="删除" style="color:blue;margin-right:5px;"
+						icon="ui-icon-trash"  actionListener="#{newPlanView.delete}" update="@form:showAllPlanInfo">
+						<f:attribute name="deleteplan" value="#{plan.pId}"></f:attribute>
+				 	<p:confirm header="Delete"
+							message="Are you sure you want to delete it?" icon="ui-icon-alert" />
+					</p:commandButton>
+				</center>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<!-- 更新内容 -->
+		<p:dialog id="changedialog" widgetVar="changedialog" modal="true"
+			width="400">
+			<h:form id="updateplandialog">
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel for="xm" value="学生名字:" />
+				<p:inputText id="xm" value="#{newPlanView.updatePlan.studentname}" disabled="true"/>
+				<p:outputLabel for="id" value="学号" />
+				<p:inputText id="id" value="#{newPlanView.updatePlan.studentnum}" disabled="true"/>
+				<!-- <p:outputLabel for="teacher" value="老师:" />
+				<p:inputText id="teacher" value="#{newPlanView.updatePlan.teachername}" disabled="true"/> -->
+				<p:outputLabel for="createDate" value="时间:" />
+				<p:inputText id="createDate" value="#{newPlanView.updatePlan.createTime}" disabled="true"/>
+				<p:outputLabel for="title" value="沟通摘要:" />
+				<p:inputTextarea id="title" value="#{newPlanView.updatePlan.content}" />
+				<p:outputLabel for="result" value="沟通结果:" />
+				<p:inputTextarea id="result" value="#{newPlanView.updatePlan.result}" />
+				<p:commandButton
+					style="width: 70px; height: 30px;"
+					value="重置" type="reset" />
+				<p:commandButton
+					style="width: 70px; height: 30px;"
+					actionListener="#{newPlanView.update}" value="更新" >
+				</p:commandButton>
+			</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<!-- 更新计划 -->
+		<p:dialog id="changeplandialog" widgetVar="changeplandialog" modal="true"
+			width="400">
+			<h:form id="updateplandialog1">
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:outputLabel for="xm" value="学生名字:" />
+				<p:inputText id="xm" value="#{newPlanView.updatePlan.studentname}" disabled="true"/>
+				<p:outputLabel for="id" value="学号" />
+				<p:inputText id="id" value="#{newPlanView.updatePlan.studentnum}" disabled="true"/>
+				<!-- <p:outputLabel for="teacher" value="老师:" />
+				<p:inputText id="teacher" value="#{newPlanView.updatePlan.teachername}" disabled="true"/> -->
+				<p:outputLabel for="createDate" value="时间:" />
+				<p:inputText id="createDate" value="#{newPlanView.updatePlan.createTime}" disabled="true"/>
+				<p:outputLabel for="title" value="沟通摘要:" />
+				<p:inputTextarea id="title" value="#{newPlanView.updatePlan.content}" />
+				<p:commandButton
+					style="width: 70px; height: 30px;"
+					value="重置" type="reset" />
+				<p:commandButton
+					style="width: 70px; height: 30px;"
+					actionListener="#{newPlanView.update}" value="更新" >
+				</p:commandButton>
+			</h:panelGrid>
+			</h:form>
+		</p:dialog>
+	</p:outputPanel>
+</f:view>

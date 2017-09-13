@@ -1,0 +1,17 @@
+package com.meession.communication.view;
+
+import com.meession.communication.entity.User1;
+
+public class UserView1 {
+
+	private User1 user;
+
+	public User1 getUser() {
+		return user;
+	}
+
+	public void setUser(User1 user) {
+		this.user = user;
+	}
+	
+}

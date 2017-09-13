@@ -1,0 +1,12 @@
+package com.meession.communication2.dao;
+
+import java.util.List;
+
+import com.meession.communication2.entity.newUser;
+
+public interface INewUserDao {
+
+	public void addStudentUser(newUser newuser);
+	
+	public List<newUser> listStudentUser();
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14529315857780" configfile="/tcsv2/WebContent/WEB-INF/faces-config-nav.xml">
+  <nodes xsi:type="pageflow:PFPage" name="communication/login.xhtml" x="122" y="562" id="pf14529325650441" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" outlinks="pf14529325650442 pf14529325650443 pf14529325650444 pf14529325650445" inlinks="pf14529325650445" path="/pages/communication/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="communication/admin.xhtml" x="338" y="178" id="pf14529325650446" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14529325650442" path="/pages/communication/admin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="communication/teacher.xhtml" x="338" y="562" id="pf14529325650447" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14529325650443" path="/pages/communication/teacher.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="communication/index.xhtml" x="338" y="946" id="pf14529325650448" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14529325650444" path="/pages/communication/student.xhtml"/>
+  <links id="pf14529325650442" target="pf14529325650446" source="pf14529325650441" outcome="0"/>
+  <links id="pf14529325650443" target="pf14529325650447" source="pf14529325650441" outcome="1"/>
+  <links id="pf14529325650444" target="pf14529325650448" source="pf14529325650441" outcome="2"/>
+  <links id="pf14529325650445" target="pf14529325650441" source="pf14529325650441" outcome="3">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+</pageflow:Pageflow>

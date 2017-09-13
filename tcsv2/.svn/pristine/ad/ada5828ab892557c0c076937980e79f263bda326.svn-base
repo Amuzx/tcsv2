@@ -1,0 +1,12 @@
+package com.meession.communication2.service;
+
+import java.util.List;
+
+import com.meession.communication2.entity.newUser;
+
+public interface INewUserService {
+
+	public newUser addStudentUser(newUser newuser);
+	
+	public List<newUser> listStudentUser();
+}

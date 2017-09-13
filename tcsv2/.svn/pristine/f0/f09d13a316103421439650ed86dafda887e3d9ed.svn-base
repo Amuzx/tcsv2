@@ -1,0 +1,12 @@
+package com.meession.communication.dao;
+
+import java.util.List;
+
+import com.meession.communication.entity.Student1;
+
+public interface IStudentDao {
+
+	public String addStudent(Student1 student);
+	
+	public List<Student1> listStudent();
+}

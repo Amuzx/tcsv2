@@ -1,0 +1,73 @@
+package com.meession.communication2.view;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+
+import com.meession.communication2.entity.newUser;
+import com.meession.communication2.service.INewUserService;
+
+@SuppressWarnings("serial")
+@ManagedBean
+@ViewScoped
+public class newStudentView implements Serializable{
+
+	@ManagedProperty("#{newUserServiceImpl}")
+	private INewUserService newUserService;
+	
+	private newUser newuser;
+	
+	private List<newUser> listNewUser;
+
+	@PostConstruct
+	public void init(){
+		newuser = new newUser();
+		listNewUser = this.newUserService.listStudentUser();
+	}
+	
+	/**
+	 * 添加学生
+	 */
+	public void addStudentUser(){
+		newUser user = this.newUserService.addStudentUser(newuser);
+		if(user != null){
+			RequestContext.getCurrentInstance().execute("PF('addStudentDialog').hide()");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info!", "add "+user.getUsername()+" successful!"));
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "error!", "the user is null"));
+		}
+	}
+	
+	public List<newUser> getListNewUser() {
+		return listNewUser;
+	}
+
+	public void setListNewUser(List<newUser> listNewUser) {
+		this.listNewUser = listNewUser;
+	}
+
+	public INewUserService getNewUserService() {
+		return newUserService;
+	}
+
+	public void setNewUserService(INewUserService newUserService) {
+		this.newUserService = newUserService;
+	}
+
+	public newUser getNewuser() {
+		return newuser;
+	}
+
+	public void setNewuser(newUser newuser) {
+		this.newuser = newuser;
+	}
+	
+}

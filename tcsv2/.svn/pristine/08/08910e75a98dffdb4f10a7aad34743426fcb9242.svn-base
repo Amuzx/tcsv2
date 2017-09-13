@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>TCS</title>
+	<link rel="stylesheet" href="../../css/all.min.css" />
+	<link rel="shortcut icon" href="../../favicon.ico" />
+	<link rel="bookmark" href="../../favicon.ico" />
+</h:head>
+<body>
+	<ui:insert name="topbar">
+		<ui:include src="topbar.xhtml">
+			<ui:param name="menuIndex" value="#{menuIndex}" />
+		</ui:include>
+	</ui:insert>
+
+	<div class="content">
+		<div class="masterPane">
+			<ui:insert name="menu">
+				<ui:include src="menu.xhtml" />
+			</ui:insert>
+		</div>
+		<div class="detailPane">
+			<div class="page">
+				<div class="container">
+					<ui:insert name="content">
+					</ui:insert>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="footer">
+		©Volkswagen Group China. All rights reserved.
+		For any technical issues and supports, please contact UHD via Email (<a style="color: #fff" href="mailto:vgc.uhd@volkswagen.com.cn">vgc.uhd@volkswagen.com.cn</a>) or Hotline (3333)
+	</div>
+
+	<p:confirmDialog global="true">
+		<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+
+	<p:growl autoUpdate="true" life="10000" />
+	
+	<p:ajaxStatus onstart="showLoader()" oncomplete="hideLoader()" />
+
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" styleClass="loader">
+		<p:graphicImage value="/images/ajax-loader.gif" width="48" height="48" />
+	</p:dialog>
+	<script>
+		var loader = false;
+		function showLoader() {
+			loader = true;
+			setTimeout(function(){
+				if(loader) {
+					PF('statusDialog').show();
+				}
+			}, 300);
+		}
+		function hideLoader() {
+			loader = false;
+			PF('statusDialog').hide();
+		}
+	</script>
+</body>
+</html>

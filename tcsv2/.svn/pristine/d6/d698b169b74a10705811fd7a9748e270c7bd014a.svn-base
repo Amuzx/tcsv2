@@ -1,0 +1,30 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+<p:outputPanel id="teacherLoginPanel">
+ 	 <div class="teacher-login-btn">  
+           <p:commandButton value="请先登录"  type="button"  onclick="PF('teacherLoginDialog').show();" icon="ui-icon-login" /><!-- ui-icon-plusthick -->
+     </div>
+	<p:dialog   header="教师登录" widgetVar="teacherLoginDialog" showEffect="fade" hideEffect="fade" height="150" width="360">
+	<h:form>
+			<center>
+      	   <table>
+      	      <tr><td height="36px">工号:</td><td><p:inputText /></td></tr>
+      	      <tr><td height="36px">密码:</td><td><p:inputText /></td></tr>
+      	      <tr>
+      	      <td>
+      	        <div class="teacher-login-btn" style="margin:16px auto;">  
+      	           <p:commandButton value="登录"  style=" width:110px;height:32px;margin-left:6px;"/>
+                   <p:commandButton value="重置"  type="reset" style="position:absolute;width:110px;height:32px;margin-left:48px;"/>
+                 </div>
+      	       </td>
+      	       </tr>
+      	    </table>
+      	    </center>
+      	   </h:form>
+	</p:dialog>
+ </p:outputPanel>
+
+</f:view>

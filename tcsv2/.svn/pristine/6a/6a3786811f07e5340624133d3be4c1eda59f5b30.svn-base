@@ -1,0 +1,5 @@
+package com.meession.communication.service;
+
+public interface IStudentService {
+
+}

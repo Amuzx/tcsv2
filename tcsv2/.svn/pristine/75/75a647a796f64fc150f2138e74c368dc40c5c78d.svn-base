@@ -1,0 +1,45 @@
+package com.meession.communication.service.impl;
+
+import java.io.InputStream;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
+import com.meession.communication.dao.IAdminDao;
+import com.meession.communication.entity.User1;
+import com.meession.communication.service.IAdminService;
+import com.meession.system.aop.Logable;
+
+@Service
+public class AdminServiceImpl implements IAdminService {
+	
+	@Resource(name="adminDao1")
+	private IAdminDao adminDao;
+	
+	public void setAdminDao(IAdminDao adminDao) {
+		this.adminDao = adminDao;
+	}
+
+	@Override
+	@Logable(value="import",message="import users")
+	@Transactional
+	public void importUser(InputStream userStream) {
+
+	}
+
+	@Override
+	public String addUser(User1 user) {
+		String isSuccess = adminDao.addUser(user);
+		return isSuccess;
+	}
+
+	@Override
+	public List<User1> listUser() {
+		List<User1> listUser = adminDao.listUser();
+		return listUser;
+	}
+
+}

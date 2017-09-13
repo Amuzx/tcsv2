@@ -1,0 +1,76 @@
+package com.meession.communication.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="user1")
+public class User1 {
+
+	/**
+	 * 用户ID
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long userId;
+	
+	/**
+	 * 用户账号
+	 */
+	private Long userAccount;
+	
+	/**
+	 * 用户密码
+	 */
+	private String pwd;
+	
+	/**
+	 * 用户类型
+	 */
+	private int userType;
+
+	public User1(Long userId, Long userAccount, String pwd, int userType) {
+		super();
+		this.userId = userId;
+		this.userAccount = userAccount;
+		this.pwd = pwd;
+		this.userType = userType;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Long getUserAccount() {
+		return userAccount;
+	}
+
+	public void setUserAccount(Long userAccount) {
+		this.userAccount = userAccount;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public int getUserType() {
+		return userType;
+	}
+
+	public void setUserType(int userType) {
+		this.userType = userType;
+	}
+	
+}

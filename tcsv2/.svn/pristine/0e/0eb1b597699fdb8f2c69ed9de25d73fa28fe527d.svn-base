@@ -1,0 +1,15 @@
+package com.meession.communication.service;
+
+import java.io.InputStream;
+import java.util.List;
+
+import com.meession.communication.entity.Student1;
+
+public interface IStudentService {
+
+	public void importStudent(InputStream studentStream);
+	
+	public String addStudent(Student1 student);
+	
+	public List<Student1> listStudent();
+}

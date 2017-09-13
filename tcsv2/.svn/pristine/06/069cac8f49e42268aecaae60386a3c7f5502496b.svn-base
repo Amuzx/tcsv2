@@ -1,0 +1,71 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<p:outputPanel id="teacherLoginPanel">
+ 	 <div class="teacher-login-btn">
+           <p:commandButton value="手动添加学生"  type="button"  onclick="PF('addStudentDialog').show();" icon="ui-icon-plusthick"  style="margin-right:20px;"/>
+           <p:commandButton value="Excel导入学生"  type="button"  onclick="PF('importStudentDialog').show();" icon="ui-icon-plusthick" />
+     </div>
+     
+	<p:dialog   header="添加学生" widgetVar="addStudentDialog" showEffect="fade" hideEffect="fade" height="300" width="420">
+	<h:form id="studentInfo">
+			<center>
+			<table>
+				<tr height="36px">
+					<td width="60px"><h:outputLabel for="stuName" value="姓名："/></td>
+					<td><p:inputText id="stuName" value="#{studentView1.student.stuName}"/></td>
+				</tr>
+		
+				<tr  height="36px">
+					<td><h:outputLabel for="stuSex" value="性别："/></td>
+					<td><p:inputText id="stuSex" value="#{studentView1.student.stuSex}"/></td>
+				</tr>
+				
+				<tr  height="36px">
+					<td><h:outputLabel for="stuQQ" value="QQ："/></td>
+					<td><p:inputText id="stuQQ" value="#{studentView1.student.stuQQ}"/></td>
+				</tr>
+				
+				<tr  height="36px">
+					<td><h:outputLabel for="stuTel" value="电话："/></td>
+					<td><p:inputText id="stuTel" value="#{studentView1.student.stuTel}"/></td>
+				</tr>
+				
+				<tr  height="36px">
+					<td><h:outputLabel for="stuMajor" value="专业："/></td>
+					<td><p:inputText id="stuMajor" value="#{studentView1.student.stuMajor}"/></td>
+				</tr>
+				
+				<tr  height="36px">
+					<td><h:outputLabel for="stuYear" value="入学年份："/></td>
+					<td><p:inputText id="stuYear" value="#{studentView1.student.stuYear}"/></td>
+				</tr>
+				
+				<tr  height="36px">
+					<td><h:outputLabel for="stuClass" value="班级："/></td>
+					<td><p:inputText id="stuClass" value="#{studentView1.student.stuClass}"/></td>
+				</tr>
+				
+				<tr  height="36px">
+					 <td class="teacher-login-btn" style="margin:16px auto;">  
+		      	           <p:commandButton value="提交" type="submit" actionListener="#{studentView1.addStudent}"  style=" width:100px;margin:15px 0 0 15px;"/>
+		                   <p:commandButton value="重置"  type="reset" style="position:absolute;width:100px;margin:15px 0 0  48px;"/>
+		             </td>
+				</tr>
+			</table>
+			</center>
+    </h:form>
+	</p:dialog>
+	
+	<!-- 导入学生对话框-->
+	<p:dialog header="导入学生" widgetVar="importStudentDialog" id="importStudentDialog" modal="true" width="700">
+		<h:form>
+       	<iframe style="border: 0px none; width: 680px; height: 120px;"
+				frameborder="0" src="importStudent.xhtml"></iframe>
+         </h:form>
+	</p:dialog>
+</p:outputPanel>
+
+</f:view>

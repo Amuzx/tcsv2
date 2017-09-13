@@ -1,0 +1,36 @@
+package com.meession.communication.dao.impl;
+
+import java.util.List;
+import org.springframework.stereotype.Repository;
+import com.meession.common.support.dao.DaoSupport;
+import com.meession.communication.dao.IplanDao;
+@Repository("planImpl")
+public class PlanImpl extends DaoSupport implements IplanDao{
+
+	@Override
+	public com.meession.communication.entity.Plan save(com.meession.communication.entity.Plan p) {
+		getDaoTemplate().save(p);
+		return p;
+	}
+
+	@Override
+	public void update(com.meession.communication.entity.Plan p) {
+		getDaoTemplate().update(p);
+	}
+
+	@Override
+	public com.meession.communication.entity.Plan findByuserAccount(long uid) {
+		String sql="select p from plantable p where userAccount=?";
+		return getDaoTemplate().find(com.meession.communication.entity.Plan.class, sql, uid);
+	}
+
+	@Override
+	public List<com.meession.communication.entity.Plan> list() {
+		return getDaoTemplate().list(com.meession.communication.entity.Plan.class);
+	}
+
+	@Override
+	public void delete(long uid) {
+		getDaoTemplate().delete(uid);
+	}
+}

@@ -1,0 +1,197 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<!-- 查询面板 ，end-->
+	
+	<!-- 显示列表面板 ，start-->
+	<h:form id="teacherListForm">
+		<p:dataTable id="teacherListTable" var="teacher"
+			value="#{teacherView.teacherList}" rows="5"
+			paginator="#{not empty teacherView.teacherList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items."
+			rowKey="#{teacher.workerNum}"
+			selection="#{teacherView.selectedTeacherList}">
+        
+        	<p:column selectionMode="multiple"
+				style="width:16px;text-align:center" />
+
+			<p:column headerText="姓名" style="width:100px">
+				<h:outputText value="#{teacher.teacherName}" />
+			</p:column>
+			<p:column headerText="职工号" style="width:100px">
+				<h:outputText value="#{teacher.workerNum}" />
+			</p:column>
+			<p:column headerText="职称" style="width:100px">
+				<h:outputText value="#{teacher.title}" />
+			</p:column>
+
+			<p:column headerText="用户名">
+				<h:outputText value="#{teacher.name}" />
+			</p:column>
+			<p:column headerText="电话号码">
+				<h:outputText value="#{teacher.cellPhone}" />
+			</p:column>
+			<p:column headerText="邮箱地址">
+				<h:outputText value="#{teacher.email}" />
+			</p:column>
+			<p:column headerText="用户状态">
+				<h:outputText value="#{teacher.disabled? '禁用' : '开启'}" />
+			</p:column>
+			
+			<p:column headerText="备注信息">
+				<h:outputText value="#{teacher.remark}" />
+			</p:column>
+		</p:dataTable>
+		<div class="group-btn">
+			 	     
+			<p:commandButton value="手动添加老师"   icon="ui-icon-plusthick"
+			         onclick="PF('addTeacherDialog').show();" type="button" />
+			         
+			<p:commandButton value="excel导入老师" icon="ui-icon-plusthick" 
+				     onclick="PF('importTeacherDialog').show();" />
+		</div>
+		
+	</h:form>
+	<!-- 显示列表面板 ，end-->
+	
+	 <!-- 弹出对话框，start -->
+   <!-- 添加对话框-->
+   <h:form  id="addTeacherForm">
+	<p:dialog header="添加老师" widgetVar="addTeacherDialog"
+		id="addTeacherDialog"  modal="true" width="900">
+        <table>
+			<tr>
+				<td align="right" width="30%">职工号:</td><td><p:inputText   value="#{teacherView.teacherAdd.workerNum}" /></td><td align="right" width="30%">职称:</td><td><p:inputText  value="#{teacherView.teacherAdd.title}"/></td>
+				<td align="right" width="30%">电话号码:</td><td><p:inputText   value="#{teacherView.teacherAdd.cellPhone}" /></td>
+			</tr>
+			<tr>
+				<td align="right">姓名:</td><td><p:inputText   value="#{teacherView.teacherAdd.teacherName}" /></td><td align="right">邮箱地址:</td><td><p:inputText value="#{teacherView.teacherAdd.email}"/></td>
+				<td align="right">是否禁用:</td><td><p:selectBooleanCheckbox  value="#{teacherView.teacherAdd.disabled}" /></td>
+			</tr>
+			<tr  >
+				<td align="right" width="25%" height="100px"  >备注信息:</td><td  colspan="3"><p:inputTextarea  value="#{teacherView.teacherAdd.remark}"/> </td>
+				<td></td><td></td>
+			</tr>
+			
+			<tr>
+				<td />
+				<td>
+					<div class="group-btn">
+						<p:commandButton value="确定" icon="icon-user"
+							actionListener="#{teacherView.query}" />
+					</div>
+				</td>
+				<td>
+					<div class="group-btn">
+						<p:commandButton value="重置" type="reset" icon="ui-icon-plusthick" />
+					</div>
+				</td>
+				<td />
+			</tr>
+		</table>
+
+	</p:dialog>
+	</h:form>
+	
+	
+	 <!-- 导入对话框-->
+	 <h:form id="importTeacherForm">
+	<p:dialog header="导入老师" widgetVar="importTeacherDialog"
+		id="importTeacherDialog" modal="true" width="900">
+		
+       	<iframe style="border: 0px none; width: 640px; height: 300px;"
+				frameborder="0"  src="../admin/orgaImport.xhtml"></iframe>
+	</p:dialog>
+	</h:form>
+	
+	 <!-- 修改对话框-->
+	 <h:form id="modifyTeacherForm">
+	<p:dialog header="修改老师信息" widgetVar="modifyTeacherDialog"
+		id="modifyTeacherDialog" modal="true" width="900">
+           <table>
+				<tr>
+				<td align="right" width="30%">职工号:</td><td><p:inputText   value="#{teacherView.teacherAdd.workerNum}" /></td><td align="right" width="30%">职称:</td><td><p:inputText  value="#{teacherView.teacherAdd.title}"/></td>
+				<td align="right" width="30%">电话号码:</td><td><p:inputText   value="#{teacherView.teacherAdd.cellPhone}" /></td>
+			</tr>
+			<tr>
+				<td align="right">姓名:</td><td><p:inputText   value="#{teacherView.teacherAdd.teacherName}" /></td><td align="right">邮箱地址:</td><td><p:inputText value="#{teacherView.teacherAdd.email}"/></td>
+				<td align="right">是否禁用:</td><td><p:selectBooleanCheckbox  value="#{teacherView.teacherAdd.disabled}" /></td>
+			</tr>
+			<tr  >
+				<td align="right" width="25%" height="100px"  >备注信息:</td><td  colspan="3"><p:inputTextarea  value="#{teacherView.teacherAdd.remark}"/> </td>
+				<td></td><td></td>
+			</tr>
+			<tr>
+				<td />
+				<td>
+					<div class="group-btn">
+						<p:commandButton value="确定" icon="icon-user"
+							actionListener="#{teacherView.query}" />
+					</div>
+				</td>
+				<td>
+					<div class="group-btn">
+						<p:commandButton value="重置" type="reset" icon="ui-icon-plusthick" />
+					</div>
+				</td>
+				<td />
+			</tr>
+		</table>
+	</p:dialog>
+	</h:form>
+	
+    <!-- 删除对话框-->
+    <h:form id="deleteTeacherForm">
+	<p:dialog header="删除老师" widgetVar="deleteTeacherDialog"
+		id="deleteTeacherDialog" modal="true" width="900">
+		
+         	<p:dataTable id="teacherDeleteTable" var="teacher"
+			value="#{teacherView.selectedTeacherList}" rows="5"
+			paginator="#{not empty teacherView.selectedTeacherList}"
+			
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items." 
+			>
+			<p:column headerText="姓名" style="width:100px">
+				<h:outputText value="#{teacher.teacherName}" />
+			</p:column>
+			<p:column headerText="职工号" style="width:100px">
+				<h:outputText value="#{teacher.workerNum}" />
+			</p:column>
+			<p:column headerText="职称" style="width:100px">
+				<h:outputText value="#{teacher.title}" />
+			</p:column>
+
+			<p:column headerText="用户名">
+				<h:outputText value="#{teacher.name}" />
+			</p:column>
+			<p:column headerText="电话号码">
+				<h:outputText value="#{teacher.cellPhone}" />
+			</p:column>
+			<p:column headerText="邮箱地址">
+				<h:outputText value="#{teacher.email}" />
+			</p:column>
+			<p:column headerText="用户状态">
+				<h:outputText value="#{teacher.disabled? '禁用' : '开启'}" />
+			</p:column>
+			
+			<p:column headerText="备注信息">
+				<h:outputText value="#{teacher.remark}" />
+			</p:column>
+		</p:dataTable>
+		<div class="group-btn">
+			<p:commandButton  icon="ui-icon-plusthick" value="确定"  />
+			<p:commandButton  icon="ui-icon-plusthick" value="取消"  type="button"   onclick="PF('deleteTeacherDialog').hide();"/>
+		</div>
+	</p:dialog>
+	</h:form>
+	 <!-- 弹出对话框，end-->
+	
+</f:view>

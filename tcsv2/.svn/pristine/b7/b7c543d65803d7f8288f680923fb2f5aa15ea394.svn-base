@@ -1,0 +1,152 @@
+.tb-dp {
+	border: 2px solid #33667C;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+.tb-dp .tr-top>th {
+	padding: 8px;
+	font-size: 14px;
+}
+
+.tb-dp .tr-top>th.blank {
+	background: #fff;
+	border: 2px solid #fff;
+	width: 2px;
+}
+
+.tb-dp .th1-txt {
+	background: #fff;
+	padding: 4px 12px;
+	color: #33667C;
+	font-weight: normal;
+	text-align: center;
+	font-size: 12px;
+}
+
+.tb-dp .th1-select.ui-selectonemenu {
+	background: #fff;
+	border: 1px solid #33667C;
+	display: block;
+}
+
+.tb-dp .th2-select.ui-selectonemenu {
+	background: #fff;
+	border: 1px solid #33667C;
+	display: inline-block;
+	margin-right: 12px;
+	vertical-align: top;
+}
+
+.tb-dp td {
+	border-bottom: 1px solid #33667C;
+	padding: 8px;
+	color: #33667C;
+	height: 32px;
+	box-sizing: border-box;
+	break-inside: avoid;
+	page-break-inside: avoid;
+}
+
+.tb-dp th {
+	border-top: 2px solid #33667C;
+	border-bottom: 2px solid #33667C;
+	text-align: left;
+	padding: 8px;
+	color: #33667C;
+	font-size: 14px;
+}
+
+.tb-dp thead th {
+	font-weight: bold;
+	background: #33667C;
+	color: #fff;
+}
+
+.tb-dp tbody th {
+	font-weight: bold;
+}
+
+.tb-dp .order-num {
+	display: inline-block;
+	height: 24px;
+	line-height: 24px;
+	vertical-align: top;
+	margin-right: 8px;
+}
+
+.tb-dp .dp-para {
+	border: none;
+	margin-bottom: 4px;
+}
+
+.tb-dp .dp-para strong {
+	font-size: 12px;
+}
+
+.tb-dp .dp-para td {
+	padding: 4px 12px 4px 0;
+	border: none;
+}
+
+.tb-dp .dp-para .td-radio {
+	font-size: 12px;
+}
+
+.tb-dp .dp-para .td-radio td {
+	padding: 0;
+}
+
+.tb-dp .dp-para .td-radio .ui-radiobutton {
+	margin: 2px 4px;
+	width: 16px;
+	line-height: 16px;
+	display: inline-block;
+}
+
+.tb-dp .dp-para .td-radio.ui-selectoneradio label {
+	display: block;
+	margin: 2px 12px 2px 2px;
+}
+
+.tb-dp .icon-arrow-right {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.tb-dp .icon-arrow-right:before {
+	content: "\e617";
+	margin: 0 8px 0 12px;
+}
+
+.tb-dp .underline {
+	border-bottom: 1px solid #33667C;
+	margin-right: 12px;
+	display: inline-block;
+}
+
+.tb-dp .radio {
+	font-family: "Arial Unicode MS";
+	border: 1px solid #33667C;
+	padding: 0 6px 0 5px;
+	margin: 0 4px 0 20px;
+	color: #fff;
+}
+
+.tb-dp .radio.checked {
+	color: #33667C;
+}
+
+.dp-desc {
+	font-size: 10px;
+	text-align: right;
+	color: #33667C;
+}

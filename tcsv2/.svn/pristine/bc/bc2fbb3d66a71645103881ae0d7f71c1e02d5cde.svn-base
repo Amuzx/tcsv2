@@ -1,0 +1,44 @@
+package com.meession.communication2.view;
+
+import java.io.Serializable;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+
+import com.meession.communication2.entity.newUser;
+import com.meession.communication2.service.INewUserService;
+
+@SuppressWarnings("serial")
+@ManagedBean
+@ViewScoped
+public class newStudentView implements Serializable{
+
+	@ManagedProperty("#{newUserServiceImpl}")
+	private INewUserService newUserService;
+	
+	private newUser newuser;
+
+	@PostConstruct
+	private void init(){
+		
+	}
+	
+	public INewUserService getNewUserService() {
+		return newUserService;
+	}
+
+	public void setNewUserService(INewUserService newUserService) {
+		this.newUserService = newUserService;
+	}
+
+	public newUser getNewuser() {
+		return newuser;
+	}
+
+	public void setNewuser(newUser newuser) {
+		this.newuser = newuser;
+	}
+	
+}

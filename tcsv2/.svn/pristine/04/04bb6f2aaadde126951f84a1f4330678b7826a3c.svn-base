@@ -1,0 +1,176 @@
+package com.meession.communication2.view;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+
+import org.primefaces.context.RequestContext;
+
+import com.meession.communication2.entity.NewPlan;
+import com.meession.communication2.entity.NewUser;
+import com.meession.communication2.service.INewPlanService;
+@SuppressWarnings("serial")
+@ManagedBean
+@ViewScoped
+public class newPlanView implements Serializable{
+	@ManagedProperty("#{newPlanServiceImpl}")
+	private INewPlanService newPlanService;
+	private NewUser user;
+	private String studentname;
+	private String studentnum;
+	private String teachername;
+	private NewPlan newplan1;
+	private NewPlan newplan;
+	private NewPlan updatePlan;
+	private List<NewPlan> infolist;
+	private String newnum;
+	
+	@PostConstruct
+	public void init(){
+		 user=new NewUser();
+		 newplan1=new NewPlan();
+		 updatePlan=new NewPlan();
+		infolist=this.newPlanService.infolist();
+	}
+	
+	public void showDialog(ActionEvent e){
+		newplan=new NewPlan();
+		int id = (int) e.getComponent().getAttributes().get("y");
+		System.out.println(id);
+		user = this.newPlanService.findUserById(id);
+		studentname=user.getStuName();
+		studentnum=user.getStuNumber();
+		teachername=user.gettName();
+		newplan.setTeachername(teachername);
+		newplan.setStudentname(studentname);
+		newplan.setStudentnum(studentnum);
+		newplan.setNewuser(user);
+		System.out.println(user.getStuNumber());
+		if(user == null){
+			System.out.println("user is null");
+		}else{
+			RequestContext.getCurrentInstance().execute("PF('communicationplanDialog').show()");
+		}
+	}
+	
+	   //添加计划
+		public void addPlan(){
+			NewPlan newplan1=this.newPlanService.save(newplan);
+			if(newplan1 != null){
+				infolist=this.newPlanService.infolist();
+				RequestContext.getCurrentInstance().execute("PF('communicationplanDialog').hide()");
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info!", "add "+newplan1.getTeachername()+" successful!"));
+			}else{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "error!", "the user is null"));
+			}
+		}
+	//删除
+	public void delete(ActionEvent e) {
+		Integer id = (Integer) e.getComponent().getAttributes().get("deleteplan");
+		newPlanService.deleteById(id);
+		infolist = newPlanService.infolist();
+		addMessage("删除成功");
+	}
+	
+	public void addMessage(String summary) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	public void showchangedialog(ActionEvent e){
+		updatePlan = (NewPlan) e.getComponent().getAttributes().get("updateplan");
+//		System.out.println(id+id);
+//		updatePlan = this.newPlanService.findByStuNo(id);
+	}
+	//更新
+	public void update() {
+		if (null != updatePlan) {
+			newPlanService.update(updatePlan);
+			RequestContext.getCurrentInstance().execute("PF('changedialog').hide()");
+		}else{
+			System.out.println("update is null");
+		}
+	}
+
+	public List<NewPlan> getInfolist() {
+		return infolist;
+	}
+
+	public void setInfolist(List<NewPlan> infolist) {
+		this.infolist = infolist;
+	}
+
+	
+	public INewPlanService getNewPlanService() {
+		return newPlanService;
+	}
+
+	public void setNewPlanService(INewPlanService newPlanService) {
+		this.newPlanService = newPlanService;
+	}
+
+	public NewPlan getNewplan() {
+		return newplan;
+	}
+
+	public void setNewplan(NewPlan newplan) {
+		this.newplan = newplan;
+	}
+	public NewUser getUser() {
+		return user;
+	}
+	public void setUser(NewUser user) {
+		this.user = user;
+	}
+	public String getNewnum() {
+		return newnum;
+	}
+	public void setNewnum(String newnum) {
+		this.newnum = newnum;
+	}
+	public String getStudentname() {
+		return studentname;
+	}
+
+	public void setStudentname(String studentname) {
+		this.studentname = studentname;
+	}
+
+	public String getStudentnum() {
+		return studentnum;
+	}
+
+	public void setStudentnum(String studentnum) {
+		this.studentnum = studentnum;
+	}
+
+	public String getTeachername() {
+		return teachername;
+	}
+
+	public void setTeachername(String teachername) {
+		this.teachername = teachername;
+	}
+	public NewPlan getNewplan1() {
+		return newplan1;
+	}
+
+	public void setNewplan1(NewPlan newplan1) {
+		this.newplan1 = newplan1;
+	}
+	public NewPlan getUpdatePlan() {
+		return updatePlan;
+	}
+
+	public void setUpdatePlan(NewPlan updatePlan) {
+		this.updatePlan = updatePlan;
+	}
+
+}

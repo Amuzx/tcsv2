@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="../templates/basicPage.xhtml">
+	<ui:define name="content">
+		<h1 class="title">Frequently Asked Questions (FAQ)</h1>
+
+		<h:form id="faqListForm">
+
+			<p:dataList value="#{faqListView.faqList}" var="faq" styleClass="faqList">
+				<h2>Q: <h:outputText value="#{faq.question}" /></h2>
+				<p><h:outputText value="#{faq.answer}" /></p>
+			</p:dataList>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
+
+

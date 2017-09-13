@@ -1,0 +1,156 @@
+.tb-mbo {
+	width: 100%;
+	-fs-table-paginate: paginate;
+	border-collapse: inherit;
+	color: #33667C;
+}
+
+.tb-mbo thead th {
+	border-color: #33667C;
+	border-style: solid;
+	border-width: 2px 0 2px 1px;
+	text-align: center;
+	font-size: 13px;
+	font-weight: bold;
+	padding: 4px;
+	box-sizing: border-box;
+}
+
+.tb-mbo thead th.last {
+	border-right-width: 2px;
+}
+
+.tb-mbo thead th:LAST-CHILD {
+	border-right-width: 2px;
+}
+
+.tb-mbo thead th.th0 {
+	border-width: 0 1px 2px 0;
+	width: 45%;
+	text-align: left;
+	padding-left: 0;
+}
+
+.tb-mbo thead th.th1 {
+	border-bottom-width: 0;
+	border-right-width: 2px;
+}
+
+.tb-mbo thead th.th2 {
+	border-top-width: 1px;
+	padding: 4px 2px;
+	font-size: 10px;
+}
+
+.tb-mbo tbody td, .tb-mbo tbody th {
+	border-color: #33667C;
+	border-style: solid;
+	break-inside: avoid;
+	page-break-inside: avoid;
+}
+
+.tb-mbo tbody td {
+	border-width: 0 0 1px 1px;
+	font-size: 12px;
+	padding: 8px 4px;
+}
+
+.tb-mbo tbody th {
+	border-width: 0 2px 2px 2px;
+	text-align: left;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 6px 4px;
+}
+
+.tb-mbo tbody td:FIRST-CHILD {
+	border-left-width: 2px;
+}
+
+.tb-mbo tbody td:LAST-CHILD {
+	border-right-width: 2px;
+}
+
+.tb-mbo tbody td.last {
+	border-right-width: 2px;
+}
+
+.tb-mbo tbody td.gap {
+	border-width: 1px 0 2px 0;
+	padding: 2px;
+}
+
+.tb-mbo tfoot td.td1 {
+	border-color: #33667C;
+	border-style: solid;
+	border-width: 2px 0 2px 1px;
+	background-color: #33667C;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 6px;
+}
+
+.tb-mbo tfoot td.td2 {
+	border-color: #33667C;
+	border-style: solid;
+	border-width: 2px 2px 2px 1px;
+	color: #33667C;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 6px 4px;
+	text-align: right;
+}
+
+.tb-mbo tfoot .tr1>td {
+	border-top: 1px solid #33667C;
+}
+.tb-mbo tfoot .tr1 td.td3, .tb-mbo tfoot .tr1 td.td4 {
+	padding-left: 0;
+	padding-right: 0;
+	font-weight: bold;
+	color: #33667C;
+}
+
+.tb-mbo tfoot .tr1 td.td3 {
+	padding-right: 4px;
+	font-family: "Arial Unicode MS";
+}
+
+.tb-mbo tfoot .tr1 td {
+	padding: 8px;
+}
+
+.tb-mbo tbody td.mbo-field {
+	border-width: 0;
+	padding: 0;
+	border-bottom-width: 1px;
+}
+
+.tb-mbo .tb-mbo-item table {
+	border-top: 1px solid #33667C;
+}
+
+.tb-mbo .tb-mbo-item thead {
+	display: none;
+}
+
+.tb-mbo .tb-mbo-item td {
+	box-sizing: border-box;
+}
+
+.tb-mbo .tb-mbo-item tbody, .tb-mbo .tb-mbo-item tbody tr {
+	border-width: 0;
+}
+
+.tb-mbo-item td.ui-state-highlight, .tb-mbo-item td.ui-state-error {
+	border-color: #33667C;
+}
+
+.tb-mbo .sum {
+	font-weight: bold;
+	font-size: 14px;
+	color: #33667C;
+	border: 1px solid #33667C;
+	padding: 2px 0;
+}

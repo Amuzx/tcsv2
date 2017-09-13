@@ -1,0 +1,87 @@
+package com.meession.communication2.view;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+
+import com.meession.communication2.entity.NewUser;
+import com.meession.communication2.service.INewAdminService;
+
+@SuppressWarnings("serial")
+@ManagedBean
+@ViewScoped
+public class NewAdminView implements Serializable {
+	
+	@ManagedProperty("#{newAdminServiceImpl}")
+	private INewAdminService adminService;
+	
+	/**
+	 * 要提交的用户
+	 */
+	private NewUser user;
+	
+	/**
+	 * 用户列表
+	 */
+	private List<NewUser> userList;
+	
+	@PostConstruct
+	public void userstuinit()
+	{
+		userList = this.adminService.listUser();
+		user = new NewUser();
+//		user.setUserAccount("20160107");
+//		user.setPwd("123456");
+//		user.setUserType(2);
+//		userList.add(user);
+	}
+	/**
+	 * 添加用户
+	 */
+	public void addUsers() {
+//		String isSuccess = null;
+		this.adminService.addUser(user);
+//		System.out.println(isSuccess);
+//		if ("save success!".equals(isSuccess)) {
+//			RequestContext.getCurrentInstance().execute("PF('addadminDialog').hide()");
+//			//RequestContext.getCurrentInstance().reset("PF('userstuInfo')");
+//		}else {
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"ERROR!","this account is already!"));
+//		}
+		
+	}
+
+	public INewAdminService getAdminService() {
+		return adminService;
+	}
+
+	public void setAdminService(INewAdminService adminService) {
+		this.adminService = adminService;
+	}
+
+
+	public NewUser getUser() {
+		return user;
+	}
+
+	public void setUser(NewUser user) {
+		this.user = user;
+	}
+	
+	public List<NewUser> getUserList() {
+		return userList;
+	}
+	public void setUserList(List<NewUser> userList) {
+		this.userList = userList;
+	}
+	
+
+}

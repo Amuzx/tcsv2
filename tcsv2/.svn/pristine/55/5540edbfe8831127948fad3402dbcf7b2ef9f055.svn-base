@@ -1,0 +1,176 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<h2 class="title">作业提交</h2>
+
+   <!-- 列举作业面板 -->
+	<p:outputPanel id="homeWorkListPanel">
+		<h:form>
+			<p:dataTable id="homeWorkListTable" var="homeWork"
+				value="#{submitView.homeWorkList}" rows="5"
+				paginator="#{not empty submitView.homeWorkList}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+				emptyMessage="No items.">
+
+				<p:column headerText="展开" style="width:50px">
+					<p:rowToggler />
+				</p:column>
+				<p:column headerText="类型">
+					<h:outputText value="#{homeWork.type}" />
+				</p:column>
+
+				<p:column headerText="评级">
+					<h:outputText value="#{homeWork.grade}" />
+				</p:column>
+
+				<p:column headerText="评价">
+					<h:outputText value="#{homeWork.evaluation}" />
+				</p:column>
+
+				<p:column headerText="提交时间">
+					<h:outputText value="#{homeWork.submitDate}" />
+				</p:column>
+
+				<p:column headerText="创建时间">
+					<h:outputText value="#{homeWork.createDate}" />
+				</p:column>
+
+				<p:column headerText="最后修改时间">
+					<h:outputText value="#{homeWork.lastModifyDate}" />
+				</p:column>
+
+				<p:column headerText="备注">
+					<h:outputText value="#{homeWork.remark}" />
+				</p:column>
+
+				<p:rowExpansion>
+					<p:outputPanel style="margin-left:80px;">
+						<p:panelGrid columns="3" columnClasses="label,value"
+							style="width:80%">
+							<f:facet name="header">
+								<h:outputText value="作业通知" style="color:white" />
+							</f:facet>
+							<h:outputText value="标题" />
+							<h:outputText value="通知内容" />
+							<h:outputText value="起止日期" />
+							<h:outputText value="#{homeWork.notification.title}" />
+							<h:outputText value="#{homeWork.notification.content}" />
+							<h:outputText
+								value="#{homeWork.notification.startDate} --- #{homeWork.notification.endDate}" />
+						</p:panelGrid>
+
+						<p:dataTable var="item" value="#{homeWork.homeWorkItemList}"
+							style="margin-top:50px;margin-bottom:50px">
+							<f:facet name="header">
+								<h:outputText value="作业详细信息" style="color:white" />
+							</f:facet>
+
+						<!-- 	<p:column headerText="类型">
+								<h:outputText value="#{item.type=='simple'}" />
+							</p:column> -->
+							<p:column headerText="标题">
+								<h:outputText value="#{item.title}" />
+							</p:column>
+							<p:column headerText="内容"  >
+								<h:outputText value="#{item.content}"    escape="false" >
+								 <f:converter converterId="LongTextConverter"></f:converter>
+								</h:outputText>
+							</p:column>
+							<p:column headerText="点评">
+								<h:outputText value="#{item.evaluation}" />
+							</p:column>
+						<!-- 	<p:column headerText="创建日期">
+								<h:outputText value="#{item.createDate}" />
+							</p:column> -->
+							<p:column headerText="最后一次更改日期">
+								<h:outputText value="#{item. lastModifyDate}" />
+							</p:column>
+							<p:column headerText="备注">
+								<h:outputText value="#{item.remark}" />
+							</p:column>
+							<p:column headerText="提交作业">
+								<p:commandButton value="编辑"   process="@this" update="@form:@parent:@parent:homeWorkUploadPanel" actionListener="#{submitView.uploadItem}"   oncomplete="showUploadPanel();" icon="fa fa-edit" >
+								   <f:attribute    name="homeWorkItem"  value="#{item}"/>
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:outputPanel>
+				</p:rowExpansion>
+			</p:dataTable>
+		</h:form>
+	</p:outputPanel>
+
+   <!-- 作业上传面板 -->
+	<p:outputPanel id="homeWorkUploadPanel" style="display:none">
+		<p:commandButton value="返回"   onclick="showListPanel();"  />
+
+		<h:form enctype="multipart/form-data">
+			<table style="margin-top: 20px; width: 60%" border="1px">
+				<tr height="50px">
+					<td align="right" width="30%">标题</td>
+					<td><h:outputText   value="#{submitView.homeWorkItem.title}" /> </td>
+				</tr>
+				<tr height="50px">
+					<td align="right">备注</td>
+					<td><h:outputText   value="#{submitView.homeWorkItem.remark}" /></td>
+				</tr>
+				
+				<tr height="50px">
+					<td  align="right" >选择文件:</td>
+					<td><p:fileUpload value="#{submitView.uploadFile}" mode="simple" skinSimple="true" /></td>
+				</tr>
+				<tr height="50px">
+					<td align="right">填写作业:</td>
+					<td>
+					           <div style="margin-left: 20px;margin-top: 20px">
+					             <h:outputText id="display"   value="#{submitView.itemContent}"  escape="false" >
+					                  <f:attribute  name="cutLength"  value="5000"/>
+					                  <f:converter converterId="LongTextConverter"></f:converter>
+					             </h:outputText>
+					             </div>
+					            <div class="group-btn">  
+					       	         <p:commandButton value="编辑"  onclick="PF('contentShowDialog').show();"  icon="ui-icon-document" />
+					       	    </div>
+					</td>
+				</tr>
+				<tr height="50px">
+					<td align="right">提交文件：</td>
+					<td><p:commandButton value="提交" ajax="false" /></td>
+				</tr>
+			</table>
+			
+			<p:dialog header="Content" widgetVar="contentShowDialog" showEffect="fade" hideEffect="fade">
+			       <div style="border: 1px solid black;height: 100%">
+                    <p:editor id="editor" widgetVar="homeWorkItemEditor" value="#{submitView.itemContent}"  height="600"  /> 
+					<h:panelGrid  columns="2" style="margin-top: 10px">
+							<p:commandButton value="完成" update="display"  process="editor"    oncomplete="PF('contentShowDialog').hide();"  icon="ui-icon-disk" />
+							<p:commandButton value="清空" type="button" onclick="PF('homeWorkItemEditor').clear();" icon="ui-icon-close" />
+						</h:panelGrid>
+				</div>
+           </p:dialog>
+		</h:form>
+	</p:outputPanel>
+
+	<script>
+		function showUploadPanel() {
+			$('#homeWorkTab\\:homeWorkListPanel').hide();
+			setTimeout(function() {
+				$('#homeWorkTab\\:homeWorkUploadPanel').show();
+			}, 100);
+		}
+
+		function showListPanel() {
+			$('#homeWorkTab\\:homeWorkUploadPanel').hide();
+			setTimeout(function() {
+				$('#homeWorkTab\\:homeWorkListPanel').show();
+			}, 100);
+		}
+	   
+		
+	</script>
+</f:view>

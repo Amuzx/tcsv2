@@ -1,0 +1,120 @@
+package com.meession.communication.view;
+import java.util.Date;
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import com.meession.communication.entity.Plan;
+import com.meession.communication.service.IPlanService;
+@ManagedBean(name="planView")
+public class PlanView {
+	private Date createDate;
+	private String location;
+	private String title;
+	private String context;
+	private long id;
+	private List<Plan> ifolist;
+	private Plan plan;
+	
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getContext() {
+		return context;
+	}
+	public void setContext(String context) {
+		this.context = context;
+	}
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+	public List<Plan> getIfolist() {
+		return ifolist;
+	}
+	public void setIfolist(List<Plan> ifolist) {
+		this.ifolist = ifolist;
+	}
+	public Plan getPlan() {
+		return plan;
+	}
+	public void setPlan(Plan plan) {
+		this.plan = plan;
+	}
+
+	@ManagedProperty("#{planServiceImpl}")
+	
+	private IPlanService iPlanService;
+	
+	
+	public IPlanService getiPlanService() {
+		return iPlanService;
+	}
+	public void setiPlanService(IPlanService iPlanService) {
+		this.iPlanService = iPlanService;
+	}
+
+	private Plan p=new Plan();
+	public Plan getP() {
+		return p;
+	}
+	public void setP(Plan p) {
+		this.p = p;
+	}
+	//保存信息
+	public void save(){
+		
+		p.setCreateDate(createDate);
+		p.setLocation(location);
+		p.setTitle(title);
+		p.setId(id);
+		p.setContext(context);
+		iPlanService.save(p);
+		ifolist=iPlanService.list();
+	}
+	public void delete(ActionEvent e){
+		int id = (Integer) e.getComponent().getAttributes().get("personid");
+		System.out.println(id);
+		iPlanService.delete(id);
+		ifolist=iPlanService.list();
+		addMessage("删除成功");
+	}
+	public void addMessage(String summary) {
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				summary, null);
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	@SuppressWarnings("unchecked")
+	public void showPersonDialog(ActionEvent e) {
+		ifolist = (List<Plan>) e.getComponent().getAttributes().get("person");
+	}
+	public void init() {
+		ifolist=iPlanService.list();
+		plan = new Plan();
+	}
+	public void update(ActionEvent e){
+		if (null != ifolist) {
+			iPlanService.update(plan);
+		}
+	}
+}

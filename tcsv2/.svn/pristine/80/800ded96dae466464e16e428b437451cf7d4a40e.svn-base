@@ -1,0 +1,233 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:outputPanel id="teacherLoginPanel">
+		<h2 class="title">添加学生</h2>
+		<div class="teacher-option-btn">
+			<h:form>
+				<p:commandButton value="手动添加学生" type="button" onclick="PF('addStudentDialog1').show();" icon="ui-icon-plusthick" style="margin-right:20px;" />
+				<p:commandButton value="Excel导入学生" type="button" onclick="PF('importStudentDialog1').show();" icon="ui-icon-plusthick" />
+			</h:form>
+		</div>
+		
+		<p:messages id="message" showDetail="true" autoUpdate="true" closable="true" />
+		
+		<p:dialog header="添加学生" widgetVar="addStudentDialog1"
+			showEffect="fade" hideEffect="fade" height="340" width="420">
+			<h:form id="studentInfo">
+				<center>
+					<table>
+						<tr height="36px">
+							<td width="60px"><h:outputLabel for="stuNo" value="学号：" /></td>
+							<td><p:inputText id="stuNo" value="#{newStudentView.newuser.stuNumber}" /></td>
+						</tr>
+					
+						<tr height="36px">
+							<td width="60px"><h:outputLabel for="stuName" value="姓名：" /></td>
+							<td><p:inputText id="stuName" value="#{newStudentView.newuser.stuName}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuSex" value="性别：" /></td>
+							<td><p:inputText id="stuSex" value="#{newStudentView.newuser.stuSex}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuQQ" value="QQ：" /></td>
+							<td><p:inputText id="stuQQ" value="#{newStudentView.newuser.stuQQ}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuTel" value="电话：" /></td>
+							<td><p:inputText id="stuTel" value="#{newStudentView.newuser.stuTel}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuMajor" value="专业：" /></td>
+							<td><p:inputText id="stuMajor" value="#{newStudentView.newuser.stuMajor}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuYear" value="入学年份：" /></td>
+							<td><p:inputText id="stuYear" value="#{newStudentView.newuser.stuYear}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="stuClass" value="班级：" /></td>
+							<td><p:inputText id="stuClass" value="#{newStudentView.newuser.stuClass}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td class="teacher-login-btn" style="margin: 16px auto;">
+								<p:commandButton value="提交" actionListener="#{newStudentView.addStudentUser}" style=" width:100px;margin:15px 0 0 15px;" /> 
+								<p:commandButton value="重置" type="reset" style="position:absolute;width:100px;margin:15px 0 0  48px;" />
+							</td>
+						</tr>
+					</table>
+				</center>
+			</h:form>
+		</p:dialog>
+
+		<!-- 导入学生对话框-->
+		<p:dialog header="导入学生" widgetVar="importStudentDialog1" modal="true"
+			width="700">
+			<h:form>
+				<iframe style="border: 0px none; width: 680px; height: 120px;"
+					frameborder="0" src="importStudent.xhtml"></iframe>
+			</h:form>
+		</p:dialog>
+	</p:outputPanel>
+
+	<p:outputPanel id="studentListPanel" style="margin:5% 0;">
+		<h2 class="title">查看所有学生信息</h2>
+		<h:form id="showAllStudentInfo">
+			<p:dataTable id="studentListTable" var="student1"
+				value="#{newStudentView.listNewUser}" rows="5"
+				paginator="#{not empty newStudentView.listNewUser}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+				emptyMessage="No items.">
+
+				<p:column headerText="学号" width="10%">
+					<h:outputText value="#{student1.stuNumber}" />
+				</p:column>
+
+				<p:column headerText="姓名" width="10%">
+					<h:outputText value="#{student1.stuName}" />
+				</p:column>
+
+				<p:column headerText="性别" width="5%">
+					<h:outputText value="#{student1.stuSex}" />
+				</p:column>
+
+				<p:column headerText="QQ" width="10%">
+					<h:outputText value="#{student1.stuQQ}" />
+				</p:column>
+
+				<p:column headerText="联系方式" width="15%">
+					<h:outputText value="#{student1.stuTel}" />
+				</p:column>
+
+				<p:column headerText="专业" width="10%">
+					<h:outputText value="#{student1.stuMajor}" />
+				</p:column>
+
+				<p:column headerText="入学年份" width="8%">
+					<h:outputText value="#{student1.stuYear}" />
+				</p:column>
+
+				<p:column headerText="班级" width="8%">
+					<h:outputText value="#{student1.stuClass}" />
+				</p:column>
+
+				<p:column headerText="操作" width="24%">
+					<p:commandButton id="deleteStudent" value="删除学生"/>
+					<p:commandButton id="addPlan" value="新增计划" />
+					<p:commandButton id="updatePlan" value="更新计划" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+		<!-- 查询面板 ，start-->
+		<h:form id="studentQueryForm">
+			<table>
+				<tr>
+					<td align="right">姓名:</td>
+					<td><p:inputText /></td>
+					<td align="right">电话号码:</td>
+					<td><p:inputText /></td>
+				</tr>
+				<tr>
+					<td align="right">专业:</td>
+					<td><p:inputText /></td>
+				</tr>
+				<tr>
+					<td />
+					<td><p:commandButton value="查询" icon="icon-user" /> <p:commandButton
+							value="重置" type="reset" icon="ui-icon-plusthick" /></td>
+					<td />
+				</tr>
+			</table>
+		</h:form>
+		<br />
+		<div class="teacher-login-btn">
+			<p:commandButton value="沟通记录" type="button"
+				onclick="PF('addStudentDialog').show();" icon="ui-icon-plusthick"
+				style="margin-right:20px;" />
+			<p:commandButton value="沟通计划" type="button"
+				onclick="PF('communicationplanDialog').show();"
+				icon="ui-icon-plusthick" />
+		</div>
+		<br />
+		<!-- 添加计划 -->
+		<p:dialog header="沟通计划" widgetVar="communicationplanDialog"
+			id="communicationplanDialog" modal="true" width="500">
+			<h:form>
+				<center>
+					<table>
+						<tr height="36px">
+							<td width="60px"><h:outputLabel for="time" value="时间：" /></td>
+							<td><p:inputText id="time" value="#{planView.createDate}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="userId" value="账号：" /></td>
+							<td><p:inputText id="userId" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="location" value="地点：" /></td>
+							<td><p:inputText id="location" value="#{planView.location}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="title" value="Title：" /></td>
+							<td><p:inputText id="title" value="#{planView.title}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td><h:outputLabel for="context" value="沟通详情：" /></td>
+							<td><p:inputText id="context" value="#{planView.context}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td class="teacher-login-btn" style="margin: 16px auto;"><p:commandButton
+									value="提交" actionListener="#{planView.plan.save}"
+									style=" width:100px;margin:15px 0 0 15px;" /> <p:commandButton
+									value="重置" type="reset"
+									style="position:absolute;width:100px;margin:15px 0 0  48px;" />
+							</td>
+						</tr>
+					</table>
+				</center>
+			</h:form>
+		</p:dialog>
+
+		<!-- 沟通摘要 -->
+		<!-- 显示列表面板 ，start-->
+		<p:dataTable id="studentListTable">
+			<p:column headerText="姓名" style="width:100px">
+				<h:outputText value="#{newStudentView.newuser.stuName}" />
+			</p:column>
+			<p:column headerText="学号" style="width:100px">
+				<h:outputText />
+			</p:column>
+			<p:column headerText="老师">
+				<h:outputText />
+			</p:column>
+			<p:column headerText="时间">
+				<h:outputText />
+			</p:column>
+			<p:column headerText="沟通摘要">
+				<h:outputText />
+			</p:column>
+			<p:column headerText="操作">
+				<button>删除</button>
+			</p:column>
+		</p:dataTable>
+	</p:outputPanel>
+
+</f:view>

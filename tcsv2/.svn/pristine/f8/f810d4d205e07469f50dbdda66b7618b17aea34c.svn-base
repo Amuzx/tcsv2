@@ -1,0 +1,12 @@
+package com.meession.communication.dao.impl;
+
+
+import org.springframework.stereotype.Repository;
+
+import com.meession.common.support.dao.DaoSupport;
+import com.meession.communication.dao.IStudentDao;
+
+@Repository
+public class StudentDaoImpl extends DaoSupport implements IStudentDao{
+
+}

@@ -1,0 +1,63 @@
+.tx-c {
+	text-align: center;
+}
+
+.tx-l {
+	text-align: left;
+}
+
+.tx-r {
+	text-align: right;
+}
+
+.title-t1 {
+	font-size: 18px;
+	font-weight: bold;
+	color: #33667C;
+	white-space: nowrap;
+}
+
+.info-i1 {
+	color: #33667C;
+	padding: 4px 0;
+	line-height: 24px;
+	word-break: break-all;
+	word-wrap: break-word;
+	overflow: hidden;
+}
+
+.info-i1 .item {
+	white-space: nowrap;
+	float: left;
+}
+
+.info-i1 .label {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.info-i1 .value {
+	border-bottom: 1px solid #33667C;
+	padding: 1px 4px;
+	margin-right: 4px;
+	font-weight: normal;
+	font-size: 12px;
+}
+
+.sign-field {
+	white-space: nowrap;
+	color: #33667C;
+}
+
+.sign-field .item {
+	display: inline-block;
+}
+
+.sign-field .item .label {
+	border-top: 1px solid #33667C;
+	padding: 2px 8px;
+	margin: 14px 8px 0 0;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+}

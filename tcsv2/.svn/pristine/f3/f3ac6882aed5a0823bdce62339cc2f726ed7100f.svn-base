@@ -1,0 +1,138 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h2 class="title">Orga Structure</h2>
+
+	<h:form id="orgaListForm">
+		<p:dataTable id="orgaListTable" widgetVar="orgaListTable" var="user"
+			value="#{orgaListView.lazyModel}" rows="10" lazy="true"
+			paginator="#{orgaListView.lazyModel.rowCount > 0}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items." style="min-width: 2200px;">
+
+			<f:facet name="header">
+				<div class="search">
+					<p:inputText id="globalFilter"
+						onkeyup="PF('orgaListTable').filter()" placeholder="Search" />
+					<span class="icon-search"></span>
+				</div>
+			</f:facet>
+
+			<p:column headerText="Company" sortBy="#{user.company}"
+				field="company" style="width: 100px;">
+				<h:outputText value="#{user.company}" />
+			</p:column>
+
+			<p:column headerText="Division" sortBy="#{user.division}"
+				field="division">
+				<h:outputText value="#{user.division}" />
+			</p:column>
+
+			<p:column headerText="Department" sortBy="#{user.department}"
+				field="department">
+				<h:outputText value="#{user.department}" />
+			</p:column>
+
+			<p:column headerText="Sub Department1"
+				sortBy="#{user.subDepartment1}" field="subDepartment1">
+				<h:outputText value="#{user.subDepartment1}" />
+			</p:column>
+
+			<p:column headerText="Sub Department2"
+				sortBy="#{user.subDepartment2}" field="subDepartment2">
+				<h:outputText value="#{user.subDepartment2}" />
+			</p:column>
+
+			<p:column headerText="Sub Department3"
+				sortBy="#{user.subDepartment3}" field="subDepartment3">
+				<h:outputText value="#{user.subDepartment3}" />
+			</p:column>
+
+			<p:column headerText="Staff Name" sortBy="#{user.name}" field="name"
+				style="width: 100px;">
+				<h:outputText value="#{user.name}" />
+			</p:column>
+
+			<p:column headerText="Staff Code" sortBy="#{user.staffCode}"
+				field="staffCode" style="width: 70px;">
+				<h:outputText value="#{user.staffCode}" />
+			</p:column>
+
+			<p:column headerText="Position" sortBy="#{user.position}"
+				field="position">
+				<h:outputText value="#{user.position}" />
+			</p:column>
+
+			<p:column headerText="PG" sortBy="#{user.personalGrade}"
+				field="personalGrade" style="width: 60px;">
+				<h:outputText value="#{user.personalGrade}" />
+			</p:column>
+
+			<p:column headerText="FG" sortBy="#{user.functionalGrade}"
+				field="functionalGrade" style="width: 60px;">
+				<h:outputText value="#{user.functionalGrade}" />
+			</p:column>
+
+			<p:column headerText="Company Starting Date"
+				sortBy="#{user.companyStartingDate}" field="companyStartingDate"
+				style="width: 90px;">
+				<h:outputText value="#{user.companyStartingDate}" />
+			</p:column>
+
+			<p:column headerText="Cost Center" sortBy="#{user.costCenter}"
+				field="costCenter" style="width: 70px;">
+				<h:outputText value="#{user.costCenter}" />
+			</p:column>
+
+			<p:column headerText="Employee Type" sortBy="#{user.category}"
+				field="category" style="width: 90px;">
+				<h:outputText value="#{user.category}" />
+			</p:column>
+
+			<p:column headerText="Report to (Name)"
+				sortBy="#{user.reportToName}" field="reportToName"
+				style="width: 90px;">
+				<h:outputText value="#{user.reportToName}" />
+			</p:column>
+
+			<p:column headerText="Report to (Code)"
+				sortBy="#{user.reportToCode}" field="reportToCode"
+				style="width: 90px;">
+				<h:outputText value="#{user.reportToCode}" />
+			</p:column>
+			
+			<p:column headerText="ntAccount"
+				sortBy="#{user.ntAccount}" field="ntAccount"
+				style="width: 90px;">
+				<h:outputText value="#{user.ntAccount}" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+
+	<p:outputPanel rendered="#{historyEdListView.user.itSuperAdminUser}">
+	<div class="group-btn">
+		<p:commandButton value="Import"
+			onclick="PF('importOrgaDialog').show();" type="button"
+			icon="ui-icon-plusthick" />
+	</div>
+	</p:outputPanel>
+
+	<h:form id="orgaForm">
+		<p:dialog header="Import Orga Structure" widgetVar="importOrgaDialog"
+			id="importOrgaDialog" modal="true" onHide="resetImportOrgaDialog();">
+
+			<iframe style="border: 0px none; width: 640px; height: 300px;"
+				frameborder="0" src="orgaImport.xhtml"></iframe>
+
+			<p:remoteCommand name="resetImportOrgaDialog" process="@this"
+				update=":adminTab:orgaListForm:orgaListTable,:adminTab:orgaForm:importOrgaDialog" />
+
+		</p:dialog>
+	</h:form>
+
+</f:view>

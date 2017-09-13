@@ -1,0 +1,8 @@
+package com.meession.communication.dao;
+
+import com.meession.communication.entity.Student1;
+
+public interface IStudentDao {
+
+	public void addStudent(Student1 student);
+}

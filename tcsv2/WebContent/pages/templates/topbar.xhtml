@@ -1,0 +1,81 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<div class="topbar">
+		<div class="logo">
+			<img src="../../images/EDS-Logo.png" height="60" />
+		</div>
+		<div class="header-info" id="currentUserInfo">
+<!-- 			<div class="row"> -->
+<!-- 				<label class="item"><span class="label">Staff Name: </span><span>#{currentUserView.user.name}</span></label> -->
+<!-- 				<label class="item"><span class="label">Staff Code: </span><span>#{currentUserView.user.staffCode}</span></label> -->
+<!-- 				<label class="item"><span class="label">Position: </span><span>#{currentUserView.user.position}</span></label> -->
+<!-- 				<label class="item"><span class="label">Personal Grade: </span><span>#{currentUserView.user.personalGrade}</span></label> -->
+<!-- 			</div> -->
+<!-- 			<div class="row"> -->
+<!-- 				<label class="item"><span class="label">Company: </span><span>#{currentUserView.user.company}</span></label> -->
+<!-- 				<label class="item"><span class="label">Division: </span><span>#{currentUserView.user.division}</span></label> -->
+<!-- 				<label class="item"><span class="label">Department: </span><span>#{currentUserView.user.department}</span></label> -->
+<!-- 			</div> -->
+		</div>
+		<ul class="tools clearfix">
+			<li>
+				<a class="item" href="javascript:void(0);">
+					<i class="icon-arrow-down2 support"></i>
+					<span class="icon-user"></span>
+					<span class="item-title">#{currentUserView.user.name}</span>
+					<span class="sub-item-panel ui-shadow">
+						<span class="sub-item"><span class="label">Staff Code: </span><span class="value">#{currentUserView.user.staffCode}</span></span>
+						<span class="sub-item"><span class="label">Position: </span><span class="value">#{currentUserView.user.position}</span></span>
+						<span class="sub-item"><span class="label">Personal Grade: </span><span class="value">#{currentUserView.user.personalGrade}</span></span>
+						<span class="sub-item"><span class="label">Company: </span><span class="value">#{currentUserView.user.company}</span></span>
+						<span class="sub-item"><span class="label">Division: </span><span class="value">#{currentUserView.user.division}</span></span>
+						<span class="sub-item last"><span class="label">Department: </span><span class="value">#{currentUserView.user.department}</span></span>
+					</span>
+				</a>
+			</li>
+			<li>
+				<a class="item" href="../other/faq.xhtml" style="width: 80px;">
+					<span class="icon-question"></span>
+					<span class="item-title">FAQ</span>
+				</a>
+			</li>
+			<li>
+				<a class="item" href="../../files/EDS_Blank_Forms_for_Preparation.pdf">
+					<span class="icon-file"></span>
+					<span class="item-title">Blank Forms for Preparation</span>
+				</a>
+			</li>
+			<li>
+				<div class="item">
+					<i class="icon-arrow-down2 support"></i>
+					<span class="icon-file2"></span>
+					<span class="item-title">ED Information</span>
+					<div class="sub-item-panel ui-shadow" style="width: 300px;">
+						<a class="sub-item-link" href="../../files/EDS_ED_General_Information.pdf"><i class="icon-file-pdf"></i>ED General Information</a>
+						<a class="sub-item-link last" href="../../files/EDS_Check_list_of_Performance_Evaluation.pdf"><i class="icon-file-pdf"></i>Check list of Performance Evaluation</a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="item">
+					<i class="icon-arrow-down2 support"></i>
+					<span class="icon-book"></span>
+					<span class="item-title">User Manual</span>
+					<div class="sub-item-panel ui-shadow" style="width: 300px;">
+						<a class="sub-item-link" href="../../files/EDS_User_Guide_For_Employee.pdf"><i class="icon-file-pdf"></i>User guide for Employee</a>
+						<a class="sub-item-link" href="../../files/EDS_User_Guide_For_Supervisor.pdf"><i class="icon-file-pdf"></i>User guide for Supervisor</a>
+						<a class="sub-item-link last" href="../../files/EDS_General_User_Guide.pdf"><i class="icon-file-pdf"></i>General User Guide </a>
+					</div>
+				</div>
+			</li>
+			<li>
+				<a class="item" href="../../logout">
+					<span class="icon-arrow-right"></span>
+					<span class="item-title">Logout</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</f:view>

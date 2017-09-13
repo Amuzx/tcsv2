@@ -1,0 +1,16 @@
+package com.meession.communication2.service;
+
+import java.io.InputStream;
+import java.util.List;
+
+import com.meession.communication2.entity.NewUser;
+public interface INewAdminService{
+
+	
+	public void importUser(InputStream userStream);
+	public void addUser(NewUser user);
+	public List<NewUser> listUser();
+	
+	public String addUsers(InputStream inputStream);
+
+}

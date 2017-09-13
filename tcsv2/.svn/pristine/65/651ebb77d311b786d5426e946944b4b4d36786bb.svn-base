@@ -1,0 +1,5 @@
+package com.meession.communication.dao;
+
+public interface IStudentDao {
+
+}

@@ -1,0 +1,290 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h2 class="title">Manage Admin Users</h2>
+
+	<h:form id="adminUserListForm">
+		<p:dataTable id="adminUserListTable" var="user"
+			value="#{adminUserListView.userList}" rows="5"
+			paginator="#{not empty adminUserListView.userList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<p:column headerText="Company" sortBy="#{user.company}"
+				style="width:100px">
+				<h:outputText value="#{user.company}" />
+			</p:column>
+
+			<p:column headerText="Division" sortBy="#{user.division}"
+				field="division">
+				<h:outputText value="#{user.division}" />
+			</p:column>
+
+			<p:column headerText="Department" sortBy="#{user.department}"
+				field="department">
+				<h:outputText value="#{user.department}" />
+			</p:column>
+
+			<p:column headerText="Staff Name" sortBy="#{user.name}" field="name"
+				style="width: 140px;">
+				<h:outputText value="#{user.name}" />
+			</p:column>
+
+			<p:column headerText="Staff Code" sortBy="#{user.staffCode}"
+				field="staffCode" style="width: 100px;">
+				<h:outputText value="#{user.staffCode}" />
+			</p:column>
+
+			<p:column headerText="Position" sortBy="#{user.position}"
+				field="position">
+				<h:outputText value="#{user.position}" />
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:commandButton update="adminUserListTable,:adminTab:addUserForm:addUserTable"
+					actionListener="#{adminUserListView.delete}" icon="ui-icon-trash">
+					<f:attribute name="userId" value="#{user.id}" />
+					<p:confirm header="Delete"
+						message="Are you sure you want to delete it?" icon="ui-icon-alert" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+
+	<div class="group-btn">
+		<p:commandButton value="Add Admin User" onclick="PF('addUserDialog').show();"
+			type="button" icon="ui-icon-plusthick" />
+	</div>
+
+	<h:form id="addUserForm">
+		<p:dialog header="Add Admin Users" widgetVar="addUserDialog" id="addUserDialog"
+		modal="true" onHide="resetAddAdminUserDialog();" width="900">
+			
+			<p:dataTable id="addUserTable" widgetVar="addUserTable" var="user"
+				value="#{adminUserAddView.userListForAdd}" rows="5"
+				paginator="#{not empty adminUserAddView.userListForAdd}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15"
+				emptyMessage="No items."
+				filteredValue="#{adminUserAddView.filteredUsers}"
+				selection="#{adminUserAddView.selectedUsers}" rowKey="#{user.id}">
+
+			<f:facet name="header">
+				<div class="search">
+					<p:inputText id="globalFilter"
+						onkeyup="PF('addUserTable').filter()" placeholder="Search" />
+					<span class="icon-search"></span>
+				</div>
+			</f:facet>
+
+			<p:column selectionMode="multiple" style="width:20px;text-align:center"/>
+			
+			<p:column headerText="Company" sortBy="#{user.company}"
+			 	field="company"
+				filterMatchMode="contains" filterBy="#{user.company}"
+				filterStyle="display: none;"
+				style="width:100px">
+				<h:outputText value="#{user.company}" />
+			</p:column>
+
+			<p:column headerText="Division" sortBy="#{user.division}"
+				field="division"
+				filterMatchMode="contains" filterBy="#{user.division}"
+				filterStyle="display: none;">
+				<h:outputText value="#{user.division}" />
+			</p:column>
+
+			<p:column headerText="Department" sortBy="#{user.department}"
+				field="department"
+				filterMatchMode="contains" filterBy="#{user.department}"
+				filterStyle="display: none;">
+				<h:outputText value="#{user.department}" />
+			</p:column>
+
+			<p:column headerText="Staff Name" sortBy="#{user.name}"
+				field="name"
+				filterMatchMode="contains" filterBy="#{user.name}"
+				filterStyle="display: none;"
+				style="width: 140px;">
+				<h:outputText value="#{user.name}" />
+			</p:column>
+
+			<p:column headerText="Staff Code" sortBy="#{user.staffCode}"
+				field="staffCode"
+				filterMatchMode="contains" filterBy="#{user.staffCode}"
+				filterStyle="display: none;"
+				style="width: 100px;">
+				<h:outputText value="#{user.staffCode}" />
+			</p:column>
+
+			<p:column headerText="Position" sortBy="#{user.position}"
+				field="position"
+				filterMatchMode="contains" filterBy="#{user.position}"
+				filterStyle="display: none;">
+				<h:outputText value="#{user.position}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<div class="group-btn">
+			<p:commandButton value="Add" icon="ui-icon-disk"
+				actionListener="#{adminUserAddView.add}"
+				oncomplete="if(!args.validationFailed){PF('addUserDialog').hide();}"
+				update="addUserTable,:adminTab:adminUserListForm:adminUserListTable"/>
+		</div>
+		<p:remoteCommand name="resetAddAdminUserDialog"
+					actionListener="#{adminUserAddView.reset}" process="@this"
+					update="addUserTable" />
+		</p:dialog>
+	</h:form>
+
+	<h2 class="title2">Manage Super Admin Users</h2>
+
+	<h:form id="superAdminUserListForm">
+		<p:dataTable id="superAdminUserListTable" var="user"
+			value="#{superAdminUserListView.userList}" rows="5"
+			paginator="#{not empty superAdminUserListView.userList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<p:column headerText="Company" sortBy="#{user.company}"
+				style="width:100px">
+				<h:outputText value="#{user.company}" />
+			</p:column>
+
+			<p:column headerText="Division" sortBy="#{user.division}"
+				field="division">
+				<h:outputText value="#{user.division}" />
+			</p:column>
+
+			<p:column headerText="Department" sortBy="#{user.department}"
+				field="department">
+				<h:outputText value="#{user.department}" />
+			</p:column>
+
+			<p:column headerText="Staff Name" sortBy="#{user.name}" field="name"
+				style="width: 140px;">
+				<h:outputText value="#{user.name}" />
+			</p:column>
+
+			<p:column headerText="Staff Code" sortBy="#{user.staffCode}"
+				field="staffCode" style="width: 100px;">
+				<h:outputText value="#{user.staffCode}" />
+			</p:column>
+
+			<p:column headerText="Position" sortBy="#{user.position}"
+				field="position">
+				<h:outputText value="#{user.position}" />
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:commandButton update="superAdminUserListTable,:adminTab:addSUserForm:addSUserTable"
+					actionListener="#{superAdminUserListView.delete}" icon="ui-icon-trash">
+					<f:attribute name="userId" value="#{user.id}" />
+					<p:confirm header="Delete"
+						message="Are you sure you want to delete it?" icon="ui-icon-alert" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+
+	<div class="group-btn">
+		<p:commandButton value="Add Super Admin User" onclick="PF('addSUserDialog').show();"
+			type="button" icon="ui-icon-plusthick" />
+	</div>
+
+	<h:form id="addSUserForm">
+		<p:dialog header="Add Super Admin Users" widgetVar="addSUserDialog" id="addSUserDialog"
+		modal="true" onHide="resetAddSuperAdminUserDialog();" width="900">
+			
+			<p:dataTable id="addSUserTable" widgetVar="addSUserTable" var="user"
+				value="#{superAdminUserAddView.userListForAdd}" rows="5"
+				paginator="#{not empty superAdminUserAddView.userListForAdd}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15"
+				emptyMessage="No items."
+				filteredValue="#{superAdminUserAddView.filteredUsers}" 
+				selection="#{superAdminUserAddView.selectedUsers}" rowKey="#{user.id}">
+
+			<f:facet name="header">
+				<div class="search">
+					<p:inputText id="globalFilter"
+						onkeyup="PF('addSUserTable').filter()" placeholder="Search" />
+					<span class="icon-search"></span>
+				</div>
+			</f:facet>
+			
+			<p:column selectionMode="multiple" style="width:20px;text-align:center"/>
+			
+			<p:column headerText="Company" sortBy="#{user.company}"
+			 	field="company"
+				filterMatchMode="contains" filterBy="#{user.company}"
+				filterStyle="display: none;"
+				style="width:100px">
+				<h:outputText value="#{user.company}" />
+			</p:column>
+
+			<p:column headerText="Division" sortBy="#{user.division}"
+				field="division"
+				filterMatchMode="contains" filterBy="#{user.division}"
+				filterStyle="display: none;">
+				<h:outputText value="#{user.division}" />
+			</p:column>
+
+			<p:column headerText="Department" sortBy="#{user.department}"
+				field="department"
+				filterMatchMode="contains" filterBy="#{user.department}"
+				filterStyle="display: none;">
+				<h:outputText value="#{user.department}" />
+			</p:column>
+
+			<p:column headerText="Staff Name" sortBy="#{user.name}"
+				field="name"
+				filterMatchMode="contains" filterBy="#{user.name}"
+				filterStyle="display: none;"
+				style="width: 140px;">
+				<h:outputText value="#{user.name}" />
+			</p:column>
+
+			<p:column headerText="Staff Code" sortBy="#{user.staffCode}"
+				field="staffCode"
+				filterMatchMode="contains" filterBy="#{user.staffCode}"
+				filterStyle="display: none;"
+				style="width: 100px;">
+				<h:outputText value="#{user.staffCode}" />
+			</p:column>
+
+			<p:column headerText="Position" sortBy="#{user.position}"
+				field="position"
+				filterMatchMode="contains" filterBy="#{user.position}"
+				filterStyle="display: none;">
+				<h:outputText value="#{user.position}" />
+			</p:column>
+
+		</p:dataTable>
+		
+		<div class="group-btn">
+			<p:commandButton value="Add" icon="ui-icon-disk"
+				actionListener="#{superAdminUserAddView.add}"
+				oncomplete="if(!args.validationFailed){PF('addSUserDialog').hide();}"
+				update="addSUserTable,:adminTab:superAdminUserListForm:superAdminUserListTable"/>
+		</div>
+		<p:remoteCommand name="resetAddSuperAdminUserDialog"
+					actionListener="#{superAdminUserAddView.reset}" process="@this"
+					update="addSUserTable" />
+		</p:dialog>
+	</h:form>
+	
+</f:view>

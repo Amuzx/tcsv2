@@ -1,0 +1,300 @@
+package com.meession.communication2.entity;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="newUser")
+public class newUser {
+
+	@Id
+	@GeneratedValue
+	/**
+	 * ID
+	 */
+	private int uId;
+	
+	/**
+	 * 登录账号
+	 */
+	private String username;
+	
+	/**
+	 * 密码
+	 */
+	private String pwd;
+	
+	/**
+	 * 用户类型（0：管理员，1：老师，2：学生）
+	 */
+	private int type;
+	
+	/**
+	 * 用户状态（0：不可用，1：可用）
+	 */
+	private int status;
+	
+	//============================老师信息
+	/**
+	 * 老师工号
+	 */
+	private String tNumber;
+	
+	/**
+	 * 老师姓名
+	 */
+	private String tName;
+	
+	/**
+	 * 老师性别
+	 */
+	private int tSex;
+	
+	/**
+	 * 老师电话
+	 */
+	private String tTel;
+	
+	//=================================学生信息
+	/**
+	 * 学号
+	 */
+	private String stuNumber;
+	
+	/**
+	 * 学生姓名
+	 */
+	private String stuName;
+	
+	/**
+	 * 学生性别
+	 */
+	private int stuSex;
+	
+	/**
+	 * 专业
+	 */
+	private String stuMajor;
+	
+	/**
+	 * 入学年份
+	 */
+	private Date stuYear;
+	
+	/**
+	 * 班级
+	 */
+	private String stuClass;
+	
+	/**
+	 * 学生电话
+	 */
+	private String stuTel;
+	
+	/**
+	 * 学生QQ
+	 */
+	private String stuQQ;
+	
+	//===================================管理员信息
+	/**
+	 * 管理员账号
+	 */
+	private String adminNumber;
+	
+	/**
+	 * 管理员姓名
+	 */
+	private String adminName;
+	
+	/**
+	 * 管理员电话
+	 */
+	private String adminTel;
+
+	//=====================构造方法 start
+	public newUser() {
+		super();
+	}
+	
+	public newUser(String stuNumber, String stuName, int stuSex, String stuMajor, Date stuYear, String stuClass,
+			String stuTel, String stuQQ) {
+		super();
+		this.stuNumber = stuNumber;
+		this.stuName = stuName;
+		this.stuSex = stuSex;
+		this.stuMajor = stuMajor;
+		this.stuYear = stuYear;
+		this.stuClass = stuClass;
+		this.stuTel = stuTel;
+		this.stuQQ = stuQQ;
+	}
+
+	//=====================构造方法 end
+
+	public int getuId() {
+		return uId;
+	}
+
+	public void setuId(int uId) {
+		this.uId = uId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String gettNumber() {
+		return tNumber;
+	}
+
+	public void settNumber(String tNumber) {
+		this.tNumber = tNumber;
+	}
+
+	public String gettName() {
+		return tName;
+	}
+
+	public void settName(String tName) {
+		this.tName = tName;
+	}
+
+	public int gettSex() {
+		return tSex;
+	}
+
+	public void settSex(int tSex) {
+		this.tSex = tSex;
+	}
+
+	public String gettTel() {
+		return tTel;
+	}
+
+	public void settTel(String tTel) {
+		this.tTel = tTel;
+	}
+
+	public String getStuNumber() {
+		return stuNumber;
+	}
+
+	public void setStuNumber(String stuNumber) {
+		this.stuNumber = stuNumber;
+	}
+
+	public String getStuName() {
+		return stuName;
+	}
+
+	public void setStuName(String stuName) {
+		this.stuName = stuName;
+	}
+
+	public int getStuSex() {
+		return stuSex;
+	}
+
+	public void setStuSex(int stuSex) {
+		this.stuSex = stuSex;
+	}
+
+	public String getStuMajor() {
+		return stuMajor;
+	}
+
+	public void setStuMajor(String stuMajor) {
+		this.stuMajor = stuMajor;
+	}
+
+	public Date getStuYear() {
+		return stuYear;
+	}
+
+	public void setStuYear(Date stuYear) {
+		this.stuYear = stuYear;
+	}
+
+	public String getStuClass() {
+		return stuClass;
+	}
+
+	public void setStuClass(String stuClass) {
+		this.stuClass = stuClass;
+	}
+
+	public String getStuTel() {
+		return stuTel;
+	}
+
+	public void setStuTel(String stuTel) {
+		this.stuTel = stuTel;
+	}
+
+	public String getStuQQ() {
+		return stuQQ;
+	}
+
+	public void setStuQQ(String stuQQ) {
+		this.stuQQ = stuQQ;
+	}
+
+	public String getAdminNumber() {
+		return adminNumber;
+	}
+
+	public void setAdminNumber(String adminNumber) {
+		this.adminNumber = adminNumber;
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+
+	public String getAdminTel() {
+		return adminTel;
+	}
+
+	public void setAdminTel(String adminTel) {
+		this.adminTel = adminTel;
+	}
+	
+	
+}

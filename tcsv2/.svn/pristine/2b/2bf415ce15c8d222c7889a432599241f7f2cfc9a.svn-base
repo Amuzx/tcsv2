@@ -1,0 +1,123 @@
+package com.meession.communication2.dao.impl;
+
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.ProjectionList;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
+
+import com.meession.common.support.dao.DaoSupport;
+import com.meession.communication2.dao.INewStudentDao;
+import com.meession.communication2.entity.NewPlan;
+import com.meession.communication2.entity.NewUser;
+
+@Repository("newStudentDaoImpl")
+public class NewStudentDaoImpl extends DaoSupport implements INewStudentDao {
+
+	@SuppressWarnings("deprecation")
+	private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+	
+	private Session getSession(){
+		return sessionFactory.openSession();
+	}
+	
+	@Override
+	public NewUser findStudent() {
+		NewUser user = getDaoTemplate().find(NewUser.class, 24);
+		return user;
+	}
+
+	@Override
+	public List<NewPlan> findPlanForStudent() {
+		List<NewPlan> listStudentPLan = getDaoTemplate().list(NewPlan.class);
+		return listStudentPLan;
+	}
+
+	@Override
+	public NewPlan findPlanById(int planId) {
+		NewPlan newPlan = this.getDaoTemplate().find(NewPlan.class, planId);
+		return newPlan;
+	}
+
+	@Override
+	public List<NewPlan> findPlanByStudentNo(String stuNo) {
+		String sql = "select pId,title,location,content,createTime,result,teachername,studentnum,studentname from NewPlan where studentNum='"+stuNo+"'";
+		List<NewPlan> planList = this.getDaoTemplate().list(NewPlan.class, sql);
+		return planList;
+	}
+
+	@Override
+	public void updateFinishPlan(NewPlan newPlan) {
+		this.getDaoTemplate().update(newPlan);
+	}
+
+	//=======================================================图表 start
+	/**
+	 * 查询评价的星星数
+	 */
+	@Override
+	public int findStarsAccount(int starAccount) {
+		Session session = getSession();
+		Criteria cri = session.createCriteria(NewPlan.class);
+		ProjectionList projectList = Projections.projectionList();
+		projectList.add(Projections.count("pId"));
+		cri.setProjection(projectList);
+		cri.add(Restrictions.eq("score", starAccount));
+		List result = cri.list();
+		if(result.size() > 0){
+			int stars = (int) result.get(0);
+			System.out.println(stars+"======星星数为"+starAccount+"的人数");
+			return stars;
+		}else{
+			return -1;
+		}
+//		String sql = "select count(*) from newplan where score="+starAccount;
+//		int stars = (int) this.getDaoTemplate().findBySql(sql);
+	}
+
+	/**
+	 * 查找各方确认人数
+	 * @param teastatus 老师确认状态
+	 * @param stustatus 学生确认状态
+	 * @param params 参数一：老师状态字段；参数二：学生状态字段
+	 * @return
+	 */
+	@Override
+	public List findAffirmedUser(int teastatus,int stustatus,String...params) {
+		Session session = getSession();
+		Criteria cri = session.createCriteria(NewPlan.class);
+		ProjectionList projectList = Projections.projectionList();
+		projectList.add(Projections.count("pId"));
+		cri.setProjection(projectList);
+		cri.add(Restrictions.eq(params[0], teastatus));
+		if(params.length > 1){
+			cri.add(Restrictions.eq(params[1], stustatus));
+		}
+		List result = cri.list();
+		return result;
+	}
+	
+	/**
+	 * 查找有/没有沟通结果的计划
+	 * @param content 沟通结构内容
+	 * @param result 沟通内容字段
+	 * @return
+	 */
+	@Override
+	public List findHaveContentPlan(String content,String result) {
+		Session session = getSession();
+		Criteria cri = session.createCriteria(NewPlan.class);
+		ProjectionList projectList = Projections.projectionList();
+		projectList.add(Projections.count("pId"));
+		cri.setProjection(projectList);
+		cri.add(Restrictions.eq(result, content));
+		List list = cri.list();
+		return list;
+	}
+	//===========================================================图表 end
+}

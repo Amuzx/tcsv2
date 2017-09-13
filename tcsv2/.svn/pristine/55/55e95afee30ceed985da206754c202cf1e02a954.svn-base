@@ -1,0 +1,92 @@
+package com.meession.communication2.view;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+
+import org.primefaces.context.RequestContext;
+
+import com.meession.communication2.entity.NewUser;
+import com.meession.communication2.service.INewUserService;
+
+@SuppressWarnings("serial")
+@ManagedBean
+@ViewScoped
+public class NewStudentView implements Serializable{
+
+	@ManagedProperty("#{newUserServiceImpl}")
+	private INewUserService newUserService;
+	
+	private NewUser newuser;
+	
+	private List<NewUser> listNewUser;
+
+	@PostConstruct
+	public void init(){
+		newuser = new NewUser();
+		listNewUser = this.newUserService.listStudentUser();
+		if(listNewUser != null){			
+			System.out.println(listNewUser.size());
+		}
+	}
+	
+	/**
+	 * 添加学生
+	 */
+	public void addStudentUser(){
+		newuser.setType(2);
+		NewUser user = this.newUserService.addStudentUser(newuser);
+		if(user != null){
+			listNewUser = this.newUserService.listStudentUser();
+			RequestContext.getCurrentInstance().execute("PF('addStudentDialog1').hide()");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info!", "add "+user.getUsername()+" successful!"));
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "error!", "the user is null"));
+		}
+	}
+	
+	/**
+	 * 删除学生
+	 */
+	public void deleteStudentUser(ActionEvent e){
+		int id = (int) e.getComponent().getAttributes().get("userid");
+		String result = this.newUserService.deleteStudentUserById(id);
+		if("delete succeed".equals(result)){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "info!", "delete succeed"));
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "error!", "unsuccessful delete the student"));
+		}
+	}
+	
+	public List<NewUser> getListNewUser() {
+		return listNewUser;
+	}
+
+	public void setListNewUser(List<NewUser> listNewUser) {
+		this.listNewUser = listNewUser;
+	}
+
+	public INewUserService getNewUserService() {
+		return newUserService;
+	}
+
+	public void setNewUserService(INewUserService newUserService) {
+		this.newUserService = newUserService;
+	}
+
+	public NewUser getNewuser() {
+		return newuser;
+	}
+
+	public void setNewuser(NewUser newuser) {
+		this.newuser = newuser;
+	}
+	
+}

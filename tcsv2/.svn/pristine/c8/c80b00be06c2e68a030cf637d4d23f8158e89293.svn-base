@@ -1,0 +1,99 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<!-- 查询面板 ，end-->
+
+<!-- 			paginator="#{not empty newAdminView.userList}"  rows="5"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20" -->
+<!--  sortBy="#{stu.userAccount}" -->
+	<!-- 显示列表面板 ，start-->
+	<h:form id="adminListForm">
+		<p:outputPanel  id="adminListTable">
+			<p:dataTable var="users" value="#{newAdminView.userList}" emptyMessage="No items.">
+				<p:column headerText="账号" >
+					<h:outputText value="#{users.username}" />
+				</p:column>
+				<p:column headerText="密码">
+					<h:outputText value="#{users.pwd}" />
+				</p:column>
+				<p:column headerText="用户类型">
+					<h:outputText value="#{users.type}" />
+				</p:column>
+				<p:column headerText="用户状态">
+					<h:outputText value="#{users.status}" />
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</h:form>
+	
+	<!-- 显示列表面板 ，end-->
+	<h:form id="buttonForm">
+		 <div class="group-btn">
+				<p:commandButton value="手动添加用户" icon="ui-icon-plusthick"
+					onclick="PF('addadminDialog').show();" type="button" />
+				<p:commandButton value="excel导入用户" icon="ui-icon-plusthick"
+					onclick="PF('importadminDialog').show();" />
+			</div>
+		</h:form>
+
+	<!-- 弹出对话框，start -->
+
+	<!-- 添加用户对话框-->
+	<h:form id="addadminForm">
+		<p:dialog header="添加用户" widgetVar="addadminDialog" id="addadminDialog"
+			modal="true" width="400px" height="250px">
+			<table>
+				<tr>
+					<td align="right" width="30%" style="padding-top: 30px">账号:</td>
+					<td style="padding-top: 30px"><p:inputText
+							value="#{newAdminView.user.username}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="30%" style="padding-top: 20px">密码:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.pwd}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">Type:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.type}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">status:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.status}" /></td>
+				</tr>
+							<!-- 	onsuccess="PF{@form:userstutInfo}" -->
+				<tr>
+					<td style="padding-top: 17px"><span class="group-btn"
+						style="margin-left: 50px;"> <p:commandButton value="确定"
+								actionListener="#{newAdminView.addUsers}" 
+								update="@form:@parent:adminListForm"
+								oncomplete="PF('addadminDialog').hide();" />
+					</span></td>
+					<td><span class="group-btn" style="margin-left: 60px">
+							<p:commandButton value="重置" type="reset" />
+					</span></td>
+				</tr>
+			</table>
+
+		</p:dialog>
+	</h:form>
+
+	<!-- 导入用户对话框-->
+	<h:form id="importadminForm">
+		<p:dialog header="导入用户" widgetVar="importadminDialog"
+			id="importadminDialog" modal="true" width="900">
+			<h:form>
+				<iframe style="border: 0px none; width: 640px; height: 300px;"
+					frameborder="0" src="usersImport.xhtml"></iframe>
+			</h:form>
+		</p:dialog>
+	</h:form>
+
+</f:view>

@@ -1,0 +1,91 @@
+package com.meession.communication.view;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+
+import com.meession.communication.entity.Student1;
+import com.meession.communication.service.IStudentService;
+
+@SuppressWarnings("serial")
+@ManagedBean
+@ViewScoped
+public class StudentView1 implements Serializable{
+
+	@ManagedProperty("#{studentServiceImpl}")
+	private IStudentService studentService;
+
+	/**
+	 * 要提交的学生
+	 */
+	private Student1 student ;
+	
+	/**
+	 * 学生列表
+	 */
+	private List<Student1> listStudent;
+	
+	@PostConstruct
+	public void init(){
+		student = new Student1();
+		listStudent = this.studentService.listStudent();
+		student.setUserAccount(20122110010414l);
+		student.setStuName("xxw");
+		student.setStuSex("男");
+		student.setStuQQ("1735814844");
+		student.setStuTel("18729273043");
+		student.setStuMajor("软件工程");
+		student.setStuYear("2012");
+		student.setStuClass("4班");
+		listStudent.add(student);
+	}
+	
+	/**
+	 * 添加学生
+	 */
+	public void addStudent(){
+			student.setUserId(null);
+		String isSuccess = this.studentService.addStudent(student);
+//		FacesContext.getCurrentInstance().getExternalContext()
+//		RequestContext.getCurrentInstance().closeDialog();
+		if ( "save success!".equals(isSuccess) ){
+			RequestContext.getCurrentInstance().execute("PF('addStudentDialog').hide()");
+			RequestContext.getCurrentInstance().reset("PF('studentInfo')");
+		}else{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "this account is already!"));
+		}
+	}
+	
+	public Student1 getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student1 student) {
+		this.student = student;
+	}
+
+	public IStudentService getStudentService() {
+		return studentService;
+	}
+
+	public void setStudentService(IStudentService studentService) {
+		this.studentService = studentService;
+	}
+
+	public List<Student1> getListStudent() {
+		return listStudent;
+	}
+
+	public void setListStudent(List<Student1> listStudent) {
+		this.listStudent = listStudent;
+	}
+	
+}

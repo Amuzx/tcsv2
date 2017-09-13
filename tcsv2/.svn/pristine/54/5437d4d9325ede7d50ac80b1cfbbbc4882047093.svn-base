@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ui:composition template="../templates/basicPage.xhtml">
+
+	<ui:param name="menuIndex" value="1" />
+	<ui:define name="content">
+	      <ui:include src="homeContent.xhtml"></ui:include>
+		<!-- <iframe id="homeIframe" src="homeContent.html" marginwidth="0"
+			marginheight="0" frameborder="0" scrolling="No"
+			style="background-color: #ffffff; width: 100%" bordercolor="#ffffff">
+		</iframe>
+		<script>
+			document.getElementById('homeIframe').onload = function() {
+				document.getElementById('homeIframe').contentWindow.document
+						.getElementById('body').innerHTML = '${homePageView.homePage.content}';
+				this.height = this.contentWindow.document.documentElement.scrollHeight;
+			}
+		</script> -->
+	</ui:define>
+</ui:composition>
+</html>

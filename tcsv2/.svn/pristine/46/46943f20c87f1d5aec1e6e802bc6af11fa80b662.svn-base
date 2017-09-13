@@ -1,0 +1,20 @@
+package com.meession.communication2.service.impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.meession.communication2.dao.INewUserDao;
+import com.meession.communication2.service.INewUserService;
+
+@Service
+public class NewUserServiceImpl implements INewUserService {
+
+	@Resource(name="newUserDao")
+	private INewUserDao newUserDao;
+
+	public void setNewUserDao(INewUserDao newUserDao) {
+		this.newUserDao = newUserDao;
+	}
+	
+}

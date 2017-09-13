@@ -1,0 +1,11 @@
+package com.meession.communication2.dao.impl;
+
+import org.springframework.stereotype.Repository;
+
+import com.meession.common.support.dao.DaoSupport;
+import com.meession.communication2.dao.INewUserDao;
+
+@Repository("newUserDao")
+public class NewUserDaoImpl extends DaoSupport implements INewUserDao {
+
+}

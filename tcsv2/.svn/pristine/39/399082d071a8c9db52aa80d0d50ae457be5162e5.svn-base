@@ -1,0 +1,21 @@
+package com.meession.communication.service.impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.meession.communication.dao.IStudentDao;
+import com.meession.communication.service.IStudentService;
+
+@Service
+public class StudentServiceImpl implements IStudentService{
+
+	@Resource
+	private IStudentDao studentDao;
+
+	public void setStudentDao(IStudentDao studentDao) {
+		this.studentDao = studentDao;
+	}
+	
+	
+}

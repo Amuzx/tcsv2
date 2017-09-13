@@ -1,0 +1,155 @@
+package com.meession.communication2.entity;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="newPlan")
+public class NewPlan {
+	
+	
+	/**
+	 * ID
+	 */
+	@Id
+	@GeneratedValue
+	private int pId;
+	
+	@ManyToOne
+	@JoinColumn(name="userId")
+	private NewUser newuser;
+	
+	/**
+	 * 标题
+	 */
+	private String title;
+	
+	/**
+	 * 地点
+	 */
+	private String location;
+	
+	/**
+	 * 沟通计划内容（摘要）
+	 */
+	private String content;
+	
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
+	
+	/**
+	 * 沟通结果
+	 */
+	private String result;
+	
+	/**
+	 * 学生姓名
+	 */
+	private String studentname;
+	public String getStudentname() {
+		return studentname;
+	}
+
+	public void setStudentname(String studentname) {
+		this.studentname = studentname;
+	}
+
+	public String getStudentnum() {
+		return studentnum;
+	}
+
+	public void setStudentnum(String studentnum) {
+		this.studentnum = studentnum;
+	}
+
+	public String getTeachername() {
+		return teachername;
+	}
+
+	public void setTeachername(String teachername) {
+		this.teachername = teachername;
+	}
+
+	/**
+	 * 学生学号
+	 */
+	private String studentnum;
+	
+	/**
+	 * 老师姓名
+	 */
+	private String teachername;
+	
+	
+
+	//===================构造方法 start
+	public NewPlan() {
+		super();
+	}
+	//====================构造方法 end
+
+	public int getpId() {
+		return pId;
+	}
+
+	public void setpId(int pId) {
+		this.pId = pId;
+	}
+
+	public NewUser getNewuser() {
+		return newuser;
+	}
+
+	public void setNewuser(NewUser newuser) {
+		this.newuser = newuser;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+	
+}

@@ -1,0 +1,365 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:form id="reportForm">
+
+	<p:outputPanel id="reportSearchField">
+		<h3 style="font-size: 14px;font-weight: bold;color: #33667C; margin-bottom: 4px;">By orga structure</h3>
+		<div>
+		<p:selectOneMenu value="#{reportsListView.organization.division}" styleClass="select" style="width: 170px;">
+			<p:ajax listener="#{reportsListView.updateForDivision}" update="reportSearchField" event="change" process="@form" />
+			<f:selectItems value="#{reportsListView.divisionList}" />
+		</p:selectOneMenu>
+	
+		<p:selectOneMenu value="#{reportsListView.organization.department}" styleClass="select" style="width: 170px;">
+			<p:ajax listener="#{reportsListView.updateForDepartment}" update="reportSearchField" event="change" process="@form" />
+			<f:selectItems value="#{reportsListView.departmentList}" />
+		</p:selectOneMenu>
+	
+		<p:selectOneMenu value="#{reportsListView.organization.subDepartment1}" styleClass="select" style="width: 170px;">
+			<p:ajax listener="#{reportsListView.updateForSubDep1}" update="reportSearchField" event="change" process="@form" />
+			<f:selectItems value="#{reportsListView.subDep1List}" />
+		</p:selectOneMenu>
+	
+		<p:selectOneMenu value="#{reportsListView.organization.subDepartment2}" styleClass="select" style="width: 170px;">
+			<p:ajax listener="#{reportsListView.updateForSubDep2}" update="reportSearchField" event="change" process="@form" />
+			<f:selectItems value="#{reportsListView.subDep2List}" />
+		</p:selectOneMenu>
+	
+		<p:selectOneMenu value="#{reportsListView.organization.subDepartment3}" styleClass="select" style="width: 170px;">
+			<!-- <p:ajax listener="#{reportsListView.updateForSubDep3}" update="reportSearchField" event="change" process="@form" /> -->
+			<f:selectItems value="#{reportsListView.subDep3List}" />
+		</p:selectOneMenu>
+		</div>
+
+		<h3 style="font-size: 14px;font-weight: bold;color: #33667C; margin: 10px 0 4px;">By criteria</h3>
+		<div>
+		<p:selectOneMenu value="#{reportsListView.userType}" styleClass="select" style="width: 170px;">
+			<f:selectItem itemLabel="All UserType" itemValue="" />
+			<f:selectItems value="#{reportsListView.employeeTypeMap}" />
+		</p:selectOneMenu>
+
+		<p:selectOneMenu value="#{reportsListView.category}" styleClass="select" style="width: 170px;">
+			<f:selectItem itemLabel="All Category" itemValue="" />
+			<f:selectItems value="#{reportsListView.employeeCategoryList}" var="category" itemLabel="#{category}" itemValue="#{category}" />
+		</p:selectOneMenu>
+	
+		<p:selectOneMenu value="#{reportsListView.reportType}" styleClass="select" style="width: 170px;">
+			<f:selectItem itemLabel="By status" itemValue="0" />
+			<f:selectItem itemLabel="By overall performance" itemValue="1" />
+			<f:selectItem itemLabel="By target category" itemValue="2"/>
+			<f:selectItem itemLabel="By dev. recom. 1y" itemValue="3" />
+			<f:selectItem itemLabel="By dev. recom. 3y" itemValue="4" />
+		</p:selectOneMenu>
+		</div>
+	</p:outputPanel>
+
+	<div class="group-btn">
+		<p:commandButton value="Submit" update="reportListField" actionListener="#{reportsListView.listReport}" icon="ui-icon-check" />
+	</div>
+
+	<p:outputPanel id="reportListField">
+	<p:dataTable rendered="#{reportsListView.reportType == 0}" id="statusTable" widgetVar="statusTable" var="reportRecord"
+		value="#{reportsListView.reportRecordList}" emptyMessage="No items." style="min-width: 900px;">
+
+		<p:column headerText="Division" style="width: 100px;">
+			<h:outputText value="#{reportRecord.organization.division}" />
+		</p:column>
+
+		<p:column headerText="Department" style="width: 110px;">
+			<h:outputText value="#{reportRecord.organization.department}" />
+		</p:column>
+
+		<p:column headerText="Sub Department1">
+			<h:outputText value="#{reportRecord.organization.subDepartment1}" />
+		</p:column>
+
+		<p:column headerText="Sub Department2">
+			<h:outputText value="#{reportRecord.organization.subDepartment2}" />
+		</p:column>
+
+		<p:column headerText="Sub Department3">
+			<h:outputText value="#{reportRecord.organization.subDepartment3}" />
+		</p:column>
+		
+		<p:column headerText="User Type">
+			<h:outputText value="#{reportRecord.userType}" converter="userTypeConverter" />
+		</p:column>
+		
+		<p:column headerText="User Category">
+			<h:outputText value="#{reportRecord.category}" />
+		</p:column>
+
+		<p:column headerText="Status" style="width: 120px;">
+			<h:outputText value="#{reportRecord.value}" converter="edStatusConverter" />
+		</p:column>
+		
+		<p:column headerText="Number of users">
+			<h:outputText value="#{reportRecord.number}"/>
+		</p:column>
+
+		<p:column headerText="Actions" style="width:100px;">
+			<p:commandLink value="Export to Excel" ajax="false">
+				<p:fileDownload value="#{reportsListView.reportToExcel(reportRecord.value)}" />
+            </p:commandLink>
+		</p:column>
+		
+		<p:columnGroup type="footer">
+            <p:row>
+                <p:column colspan="8" footerText="Total: " style="text-align:right"/>
+                <p:column footerText="#{reportsListView.allNumbers}"  style="text-align:left"/>
+                <p:column>
+	                <f:facet name="footer">
+			            <p:commandLink value="Export to Excel" ajax="false">
+							<p:fileDownload value="#{reportsListView.reportToExcel('all')}" />
+		            	</p:commandLink>
+			        </f:facet>
+                </p:column>
+            </p:row>
+        </p:columnGroup>
+	</p:dataTable>
+	
+	<p:dataTable rendered="#{reportsListView.reportType == 1}" id="performanceTable" widgetVar="performanceTable" var="reportRecord"
+		value="#{reportsListView.reportRecordList}" emptyMessage="No items." style="min-width: 900px;">
+
+		<p:column headerText="Division" style="width: 100px;">
+			<h:outputText value="#{reportRecord.organization.division}" />
+		</p:column>
+
+		<p:column headerText="Department" style="width: 110px;">
+			<h:outputText value="#{reportRecord.organization.department}" />
+		</p:column>
+
+		<p:column headerText="Sub Department1">
+			<h:outputText value="#{reportRecord.organization.subDepartment1}" />
+		</p:column>
+
+		<p:column headerText="Sub Department2">
+			<h:outputText value="#{reportRecord.organization.subDepartment2}" />
+		</p:column>
+
+		<p:column headerText="Sub Department3">
+			<h:outputText value="#{reportRecord.organization.subDepartment3}" />
+		</p:column>
+		
+		<p:column headerText="User Type">
+			<h:outputText value="#{reportRecord.userType}" converter="userTypeConverter" />
+		</p:column>
+		
+		<p:column headerText="User Category">
+			<h:outputText value="#{reportRecord.category}" />
+		</p:column>
+
+		<p:column headerText="Performance" style="width: 120px;">
+			<h:outputText value="#{reportRecord.value}" />
+		</p:column>
+		
+		<p:column headerText="Number of users">
+			<h:outputText value="#{reportRecord.number}"/>
+		</p:column>
+		
+		<p:column headerText="Actions" style="width:100px;">
+			<p:commandLink value="Export to Excel" ajax="false">
+				<p:fileDownload value="#{reportsListView.reportToExcel(reportRecord.value)}" />
+			</p:commandLink>
+		</p:column>
+		
+		<p:columnGroup type="footer">
+            <p:row>
+                <p:column colspan="8" footerText="Total: " style="text-align:right"/>
+                <p:column footerText="#{reportsListView.allNumbers}"  style="text-align:left"/>
+                <p:column>
+	                <f:facet name="footer">
+			            <p:commandLink value="Export to Excel" ajax="false">
+							<p:fileDownload value="#{reportsListView.reportToExcel('all')}" />
+		            	</p:commandLink>
+			        </f:facet>
+                </p:column>
+            </p:row>
+        </p:columnGroup>
+	</p:dataTable>
+	
+	<p:dataTable rendered="#{reportsListView.reportType == 2}" id="categoryTable" widgetVar="categoryTable" var="reportRecord"
+		value="#{reportsListView.reportRecordList}" emptyMessage="No items." style="min-width: 900px;">
+
+		<p:column headerText="Division" style="width: 100px;">
+			<h:outputText value="#{reportRecord.organization.division}" />
+		</p:column>
+
+		<p:column headerText="Department" style="width: 110px;">
+			<h:outputText value="#{reportRecord.organization.department}" />
+		</p:column>
+
+		<p:column headerText="Sub Department1">
+			<h:outputText value="#{reportRecord.organization.subDepartment1}" />
+		</p:column>
+
+		<p:column headerText="Sub Department2">
+			<h:outputText value="#{reportRecord.organization.subDepartment2}" />
+		</p:column>
+
+		<p:column headerText="Sub Department3">
+			<h:outputText value="#{reportRecord.organization.subDepartment3}" />
+		</p:column>
+		
+		<p:column headerText="User Type">
+			<h:outputText value="#{reportRecord.userType}" converter="userTypeConverter" />
+		</p:column>
+		
+		<p:column headerText="User Category">
+			<h:outputText value="#{reportRecord.category}" />
+		</p:column>
+
+		<p:column headerText="Target Category" style="width: 120px;">
+			<h:outputText value="#{reportRecord.value}" />
+		</p:column>
+		
+		<p:column headerText="Number of users">
+			<h:outputText value="#{reportRecord.number}"/>
+		</p:column>
+		
+		<p:column headerText="Actions" style="width:100px;">
+			<p:commandLink value="Export to Excel" ajax="false">
+				<p:fileDownload value="#{reportsListView.reportToExcel(reportRecord.value)}" />
+			</p:commandLink>
+		</p:column>
+		
+		<p:columnGroup type="footer">
+            <p:row>
+                <p:column colspan="8" footerText="Total: " style="text-align:right"/>
+                <p:column footerText="#{reportsListView.allNumbers}"  style="text-align:left"/>
+                <p:column>
+	                <f:facet name="footer">
+			            <p:commandLink value="Export to Excel" ajax="false">
+							<p:fileDownload value="#{reportsListView.reportToExcel('all')}" />
+		            	</p:commandLink>
+			        </f:facet>
+                </p:column>
+            </p:row>
+        </p:columnGroup>
+	</p:dataTable>
+	
+	<p:dataTable rendered="#{reportsListView.reportType == 3}" id="devRecom1yTable" widgetVar="devRecom1yTable" var="reportRecord"
+		value="#{reportsListView.reportRecordList}" emptyMessage="No items." style="min-width: 900px;">
+
+		<p:column headerText="Division" sortBy="#{reportRecord.organization.division}" style="width: 100px;">
+			<h:outputText value="#{reportRecord.organization.division}" />
+		</p:column>
+
+		<p:column headerText="Department" sortBy="#{reportRecord.organization.department}" style="width: 110px;">
+			<h:outputText value="#{reportRecord.organization.department}" />
+		</p:column>
+
+		<p:column headerText="Sub Department1" sortBy="#{reportRecord.organization.subDepartment1}">
+			<h:outputText value="#{reportRecord.organization.subDepartment1}" />
+		</p:column>
+
+		<p:column headerText="Sub Department2" sortBy="#{reportRecord.organization.subDepartment2}">
+			<h:outputText value="#{reportRecord.organization.subDepartment2}" />
+		</p:column>
+
+		<p:column headerText="Sub Department3" sortBy="#{reportRecord.organization.subDepartment3}">
+			<h:outputText value="#{reportRecord.organization.subDepartment3}" />
+		</p:column>
+		
+		<p:column headerText="User Type" sortBy="#{reportRecord.userType}">
+			<h:outputText value="#{reportRecord.userType}" converter="userTypeConverter" />
+		</p:column>
+		
+		<p:column headerText="User Category" sortBy="#{reportRecord.category}">
+			<h:outputText value="#{reportRecord.category}" />
+		</p:column>
+
+		<p:column headerText="Dev.recom.1y" sortBy="#{reportRecord.value}" style="width: 120px;">
+			<h:outputText value="#{reportRecord.value}" />
+		</p:column>
+		
+		<p:column headerText="Number of users" sortBy="#{reportRecord.number}">
+			<h:outputText value="#{reportRecord.number}"/>
+		</p:column>
+		
+		<p:column headerText="Actions" style="width:100px;">
+			<p:commandLink value="Export to Excel" ajax="false">
+				<p:fileDownload value="#{reportsListView.reportToExcel(reportRecord.value)}" />
+			</p:commandLink>
+		</p:column>
+		
+		<p:columnGroup type="footer">
+            <p:row>
+                <p:column colspan="8" footerText="Total: " style="text-align:right"/>
+                <p:column footerText="#{reportsListView.allNumbers}"  style="text-align:left"/>
+                <p:column>
+	                <f:facet name="footer">
+			            <p:commandLink value="Export to Excel" ajax="false">
+							<p:fileDownload value="#{reportsListView.reportToExcel('all')}" />
+		            	</p:commandLink>
+			        </f:facet>
+                </p:column>
+            </p:row>
+        </p:columnGroup>
+	</p:dataTable>
+	
+	<p:dataTable rendered="#{reportsListView.reportType == 4}" id="devRecom3yTable" widgetVar="devRecom3yTable" var="reportRecord"
+		value="#{reportsListView.reportRecordList}" emptyMessage="No items." style="min-width: 900px;">
+
+		<p:column headerText="Division" sortBy="#{reportRecord.organization.division}" style="width: 100px;">
+			<h:outputText value="#{reportRecord.organization.division}" />
+		</p:column>
+
+		<p:column headerText="Department" sortBy="#{reportRecord.organization.department}" style="width: 110px;">
+			<h:outputText value="#{reportRecord.organization.department}" />
+		</p:column>
+
+		<p:column headerText="Sub Department1" sortBy="#{reportRecord.organization.subDepartment1}">
+			<h:outputText value="#{reportRecord.organization.subDepartment1}" />
+		</p:column>
+
+		<p:column headerText="Sub Department2" sortBy="#{reportRecord.organization.subDepartment2}">
+			<h:outputText value="#{reportRecord.organization.subDepartment2}" />
+		</p:column>
+
+		<p:column headerText="Sub Department3" sortBy="#{reportRecord.organization.subDepartment3}">
+			<h:outputText value="#{reportRecord.organization.subDepartment3}" />
+		</p:column>
+		
+		<p:column headerText="User Type" sortBy="#{reportRecord.userType}">
+			<h:outputText value="#{reportRecord.userType}" converter="userTypeConverter" />
+		</p:column>
+		
+		<p:column headerText="User Category" sortBy="#{reportRecord.category}">
+			<h:outputText value="#{reportRecord.category}" />
+		</p:column>
+
+		<p:column headerText="Dev.recom.3y" sortBy="#{reportRecord.value}" style="width: 120px;">
+			<h:outputText value="#{reportRecord.value}" />
+		</p:column>
+		
+		<p:column headerText="Number of users" sortBy="#{reportRecord.number}">
+			<h:outputText value="#{reportRecord.number}"/>
+		</p:column>
+		
+		<p:column headerText="Actions" style="width:100px;">
+			<p:commandLink value="Export to Excel" ajax="false">
+				<p:fileDownload value="#{reportsListView.reportToExcel(reportRecord.value)}" />
+			</p:commandLink>
+		</p:column>
+		
+		<p:columnGroup type="footer">
+            <p:row>
+                <p:column colspan="8" footerText="Total: " style="text-align:right"/>
+                <p:column footerText="#{reportsListView.allNumbers}"  style="text-align:left"/>
+                <p:column>
+	                <f:facet name="footer">
+			            <p:commandLink value="Export to Excel" ajax="false">
+							<p:fileDownload value="#{reportsListView.reportToExcel('all')}" />
+		            	</p:commandLink>
+			        </f:facet>
+                </p:column>
+            </p:row>
+        </p:columnGroup>
+	</p:dataTable>
+	</p:outputPanel>
+</h:form>
+</f:view>

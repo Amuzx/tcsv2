@@ -1,0 +1,122 @@
+package com.meession.communication.entity;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="student1")
+public class Student1{
+	
+	/**
+	 * 姓名
+	 */
+	private String stuName;
+	
+	/**
+	 * 性别
+	 */
+	private String stuSex;
+	
+	/**
+	 * QQ
+	 */
+	private String stuQQ;
+	
+	/**
+	 * 电话
+	 */
+	private String stuTel;
+	
+	/**
+	 * 专业
+	 */
+	private String stuMajor;
+	
+	/**
+	 * 入学年份
+	 */
+	private String stuYear;
+	
+	/**
+	 * 班级
+	 */
+	private String stuClass;
+	
+	@OneToOne
+	@JoinColumn(name="stuNo",referencedColumnName="userAccount")
+	private User1 user1;
+	
+	public Student1() {
+	}
+
+	public Student1(String stuName, String stuSex, String stuQQ, String stuTel, String stuMajor, String stuYear, String stuClass) {
+		this.stuName = stuName;
+		this.stuSex = stuSex;
+		this.stuQQ = stuQQ;
+		this.stuTel = stuTel;
+		this.stuMajor = stuMajor;
+		this.stuYear = stuYear;
+		this.stuClass = stuClass;
+	}
+
+	public String getStuName() {
+		return stuName;
+	}
+
+	public void setStuName(String stuName) {
+		this.stuName = stuName;
+	}
+
+	public String getStuSex() {
+		return stuSex;
+	}
+
+	public void setStuSex(String stuSex) {
+		this.stuSex = stuSex;
+	}
+
+	public String getStuQQ() {
+		return stuQQ;
+	}
+
+	public void setStuQQ(String stuQQ) {
+		this.stuQQ = stuQQ;
+	}
+
+	public String getStuTel() {
+		return stuTel;
+	}
+
+	public void setStuTel(String stuTel) {
+		this.stuTel = stuTel;
+	}
+
+	public String getStuMajor() {
+		return stuMajor;
+	}
+
+	public void setStuMajor(String stuMajor) {
+		this.stuMajor = stuMajor;
+	}
+
+	public String getStuYear() {
+		return stuYear;
+	}
+
+	public void setStuYear(String stuYear) {
+		this.stuYear = stuYear;
+	}
+
+	public String getStuClass() {
+		return stuClass;
+	}
+
+	public void setStuClass(String stuClass) {
+		this.stuClass = stuClass;
+	}
+	
+	
+}

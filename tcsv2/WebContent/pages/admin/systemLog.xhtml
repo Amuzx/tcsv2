@@ -1,0 +1,49 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h2 class="title">System Audit Log</h2>
+
+	<h:form id="systemLogListForm">
+		<p:dataTable id="systemLogListTable" widgetVar="systemLogListTable"
+			var="systemLog" value="#{systemLogListView.lazyModel}" rows="10"
+			lazy="true" paginator="#{systemLogListView.lazyModel.rowCount > 0}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<f:facet name="header">
+				<div class="search">
+					<p:inputText id="globalFilter"
+						onkeyup="PF('systemLogListTable').filter()" placeholder="Search" />
+					<span class="icon-search"></span>
+				</div>
+			</f:facet>
+
+			<p:column headerText="Staff Code" sortBy="#{systemLog.staffCode}"
+				field="staffCode" style="width: 100px;">
+				<h:outputText value="#{systemLog.staffCode}" />
+			</p:column>
+
+			<p:column headerText="Action Type" sortBy="#{systemLog.actionType}"
+				field="actionType" style="width: 120px;">
+				<h:outputText value="#{systemLog.actionType}" />
+			</p:column>
+
+			<p:column headerText="Message" sortBy="#{systemLog.message}"
+				field="message">
+				<h:outputText value="#{systemLog.message}" />
+			</p:column>
+
+			<p:column headerText="Date" sortBy="#{systemLog.actionDate}"
+				field="actionDate" style="width: 180px;">
+				<h:outputText value="#{systemLog.actionDate}">
+				</h:outputText>
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+
+</f:view>

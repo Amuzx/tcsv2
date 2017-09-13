@@ -1,0 +1,63 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h2 class="title">班级管理</h2>
+	
+	 <!-- 查询面板 ，start-->
+	  <h:form   id="classRoomQueryForm">
+	          <table>
+	             <tr><td   align="right">班级编号:</td><td><p:inputText   /></td><td align="right">创建日期:</td><td><p:calendar  /></td></tr>
+	             <tr><td   align="right">班级名称:</td><td><p:inputText   /></td></tr>
+	             <tr>
+	             	<td/>
+	                <td>
+	             	 <div class="group-btn">
+						<p:commandButton value="查询" icon="icon-user"  actionListener="#{classRoomView.query}"   update="@form:@parent:classRoomListForm"/>
+					</div>
+					</td>
+				    <td>
+				        <div class="group-btn">  
+				            <p:commandButton value="重置" type="reset" icon="ui-icon-plusthick" />
+				        </div>
+				    </td>
+				 <td/>
+				</tr>
+	          </table>
+	 </h:form>
+	
+	<!-- 列表面板，start -->
+	<h:form id="classRoomListForm">
+		<p:dataTable id="classRoomListTable" var="classRoom"
+			value="#{classRoomView.classRoomList}" rows="5"
+			paginator="#{not empty classRoomView.classRoomList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<p:column headerText="班级编号">
+				<h:outputText value="#{classRoom.code}" />
+			</p:column>
+
+			<p:column headerText="班级名称">
+				<h:outputText value="#{classRoom.name}" />
+			</p:column>
+
+			<p:column headerText="创建日期">
+				<h:outputText value="#{classRoom.createDate}" />
+			</p:column>
+
+			<p:column headerText="最后更改日期">
+				<h:outputText  converter="javax.faces.DateTime"  value="#{classRoom.lastModifyDate}" />
+			</p:column>
+			
+			<p:column headerText="备注">
+				<h:outputText value="#{classRoom.remark}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+	
+	
+</f:view>

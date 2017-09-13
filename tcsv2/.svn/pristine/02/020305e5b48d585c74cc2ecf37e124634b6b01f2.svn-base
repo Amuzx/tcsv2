@@ -1,0 +1,107 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<p:outputPanel id="notificationListPanel">
+		<h2 class="title">查看作业通知</h2>
+		<h:form>
+			<p:dataTable id="notificationListTable" var="notification"
+				value="#{notificationView.notificationList}" rows="5"
+				paginator="#{not empty notificationView.notificationList}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+				emptyMessage="No items.">
+
+				<p:column headerText="标题" width="10%">
+					<h:outputText value="#{notification.title}" />
+				</p:column>
+
+				<p:column headerText="通知内容" width="70%">
+					<h:outputText value="#{notification.content}" />
+				</p:column>
+
+				<p:column headerText="起止日期" width="20%">
+					<h:outputText
+						value="#{notification.startDate} --- #{notification.endDate}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:outputPanel>
+
+    <p:outputPanel  id="notificationManagementPanel" style="margin-top:50px"> 
+	<h2 class="title">通知管理</h2>
+	   <div class="group-btn">  
+            <p:commandButton value="创建通知"  type="button"  onclick="PF('createNotificationDialog').show();" icon="ui-icon-plusthick" />
+      </div>
+	<h:form>
+		<p:dataTable id="notificationManagementListTable" var="notification"
+			value="#{notificationView.notificationManagementList}" rows="5"
+			paginator="#{not empty notificationView.notificationManagementList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<p:column headerText="标题" width="10%">
+				<h:outputText value="#{notification.title}" />
+			</p:column>
+
+			<p:column headerText="通知内容" width="40%">
+				<h:outputText value="#{notification.content}" />
+			</p:column>
+
+			<p:column headerText="起止日期">
+				<h:outputText
+					value="#{notification.startDate} --- #{notification.endDate}" />
+			</p:column>
+
+			<p:column headerText="创建日期">
+				<h:outputText value="#{notification.createDate}" />
+			</p:column>
+
+			<p:column headerText="最后一次更改日期">
+				<h:outputText value="#{notification.lastModifyDate}" />
+			</p:column>
+
+			<p:column headerText="状态">
+				<h:outputText value="#{notification.isCanceled? '已取消':'正常'}" />
+			</p:column>
+
+			<p:column headerText="操作">
+				<p:commandButton value="#{notification.isCanceled? '不取消':'取消'}"
+					process="@none" update="@form" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+	
+	<p:dialog   header="创建通知" widgetVar="createNotificationDialog" showEffect="fade" hideEffect="fade">
+	<h:form>
+      	   <table>
+      	      <tr><td width="80px">通知标题:</td><td><p:inputText /></td></tr>
+      	      <tr>
+      	      <td>通知内容:</td>
+      	      <td>
+      	       <p:editor widgetVar="notificationEditor"  width="600"     /> 
+					<h:panelGrid  columns="2" style="margin-top: 10px">
+							<p:commandButton value="清空" type="button" onclick="PF('notificationEditor').clear();" icon="ui-icon-close" />
+					</h:panelGrid>
+      	      </td>
+      	      </tr>
+      	      <tr><td>开始时间:</td><td><p:calendar  /></td></tr>
+      	      <tr><td>结束时间:</td><td><p:calendar  /></td></tr>
+      	      <tr>
+      	      <td/><td>
+      	        <div class="group-btn">  
+      	           <p:commandButton value="完成"  />
+                   <p:commandButton value="重置"  type="reset" onclick="PF('notificationEditor').clear();"/>
+                 </div>
+      	       </td></tr>
+      	    </table>
+      	   </h:form>
+	</p:dialog>
+   </p:outputPanel>
+
+</f:view>

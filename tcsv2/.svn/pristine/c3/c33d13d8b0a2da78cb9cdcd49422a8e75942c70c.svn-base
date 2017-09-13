@@ -1,0 +1,9 @@
+@page {
+    size: A4 landscape;
+	margin: 1.4cm 0.8cm 1cm 1cm;
+}
+
+.page-breaker {
+	break-after: always;
+	page-break-after: always;
+}

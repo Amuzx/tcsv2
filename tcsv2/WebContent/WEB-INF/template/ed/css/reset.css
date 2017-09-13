@@ -1,0 +1,64 @@
+body, button, input, textarea, select, pre {
+	font: 14px Verdana, Arial, sans-serif;
+	-webkit-text-size-adjust: none;
+}
+
+body, p, form, dl, dd, figure, input, pre {
+	margin: 0;
+}
+
+ol, ul, menu {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+th {
+	font-weight: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	font-size: 100%;
+	font-weight: normal;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+
+a label {
+	cursor: pointer;
+}
+
+a img {
+	border: 0;
+}
+
+fieldset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+legend {
+	padding: 0;
+}
+
+textarea {
+	margin: 0;
+	overflow: auto;
+	display: block;
+}
+
+button {
+	margin: 0;
+	cursor: pointer;
+	outline: none;
+}

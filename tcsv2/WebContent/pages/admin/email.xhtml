@@ -1,0 +1,39 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h2 class="title">Send Notification Emails</h2>
+	<p:outputPanel id="emailPanel">
+		<table class="table">
+			<thead>
+				<tr>
+					<th style="width: 60px;">Company</th>
+					<th>Number of Users (Open)</th>
+					<th>Number of Users (In progress)</th>
+					<th>Number of Users Notified</th>
+					<th>Last Notification Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</p:outputPanel>
+	<h:form>
+
+		<p:inputTextarea value="" label="Email Content" rows="15" cols="100"
+			required="true">
+			<f:validateLength maximum="4000" />
+		</p:inputTextarea>
+
+		<div class="group-btn">
+			<p:commandButton value="Send Email"
+				actionListener="#{emailView.sendEmail}" icon="ui-icon-disk"
+				update=":adminTab:emailPanel" />
+		</div>
+
+	</h:form>
+</f:view>

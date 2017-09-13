@@ -1,0 +1,46 @@
+package com.meession.communication.view;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+
+import com.meession.communication.entity.Student1;
+import com.meession.communication.service.IStudentService;
+
+@ManagedBean
+@ViewScoped
+public class StudentView1 {
+
+	@ManagedProperty("#{studentService}")
+	private IStudentService studentService;
+
+	/**
+	 * 要提交的学生
+	 */
+	private Student1 student;
+	
+	@PostConstruct
+	public void init(){
+		
+	}
+	
+	
+	public Student1 getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student1 student) {
+		this.student = student;
+	}
+
+	public IStudentService getStudentService() {
+		return studentService;
+	}
+
+	public void setStudentService(IStudentService studentService) {
+		this.studentService = studentService;
+	}
+	
+}

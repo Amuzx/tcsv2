@@ -1,0 +1,1 @@
+select * from user_constraints where constraint_name like 'SYS_C0013101';

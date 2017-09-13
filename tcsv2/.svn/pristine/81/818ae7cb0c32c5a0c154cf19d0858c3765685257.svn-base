@@ -1,0 +1,35 @@
+package com.meession.communication2.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import com.meession.communication2.dao.INewUserDao;
+import com.meession.communication2.entity.newUser;
+import com.meession.communication2.service.INewUserService;
+
+@Service
+public class NewUserServiceImpl implements INewUserService {
+
+	@Resource(name="newUserDao")
+	private INewUserDao newUserDao;
+
+	public void setNewUserDao(INewUserDao newUserDao) {
+		this.newUserDao = newUserDao;
+	}
+
+	@Override
+	public newUser addStudentUser(newUser newuser) {
+		this.newUserDao.addStudentUser(newuser);
+		return newuser;
+	}
+
+	@Override
+	public List<newUser> listStudentUser() {
+		List<newUser> listStudent = this.newUserDao.listStudentUser();
+		return null;
+	}
+	
+}

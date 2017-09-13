@@ -1,0 +1,115 @@
+package com.meession.communication2.entity;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="newPlan")
+public class newPlan {
+
+	@Id
+	@GeneratedValue
+	/**
+	 * ID
+	 */
+	private int pId;
+	
+	@ManyToOne
+	@JoinColumn(name="stuNumber",referencedColumnName="stuNumber")
+	private newUser newuser;
+	
+	/**
+	 * 标题
+	 */
+	private String title;
+	
+	/**
+	 * 地点
+	 */
+	private String location;
+	
+	/**
+	 * 沟通计划内容（摘要）
+	 */
+	private String content;
+	
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
+	
+	/**
+	 * 沟通结果
+	 */
+	private String result;
+
+	//===================构造方法 start
+	public newPlan() {
+		super();
+	}
+	//====================构造方法 end
+
+	public int getpId() {
+		return pId;
+	}
+
+	public void setpId(int pId) {
+		this.pId = pId;
+	}
+
+	public newUser getNewuser() {
+		return newuser;
+	}
+
+	public void setNewuser(newUser newuser) {
+		this.newuser = newuser;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+	
+}

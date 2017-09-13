@@ -1,0 +1,112 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h2 class="title">Manage FAQ</h2>
+
+	<h:form id="faqListForm">
+		<p:dataTable id="faqListTable" var="faq"
+			value="#{faqListView.faqList}" editable="true" rows="10"
+			paginator="#{not empty faqListView.faqList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<p:ajax event="rowEdit" listener="#{faqListView.updateFaq}" />
+
+			<p:column headerText="Question" sortBy="#{faq.question}"
+				style="width:300px">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{faq.question}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputTextarea value="#{faq.question}" label="Question"
+							required="true" style="width: 98%;">
+							<f:validateLength maximum="200" />
+						</p:inputTextarea>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Answer" sortBy="#{faq.answer}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{faq.answer}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputTextarea value="#{faq.answer}" label="Answer"
+							required="true" style="width: 98%;">
+							<f:validateLength maximum="4000" />
+						</p:inputTextarea>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:commandButton update="faqListTable"
+					actionListener="#{faqListView.deleteFaq}" icon="ui-icon-trash">
+					<f:attribute name="faqId" value="#{faq.id}" />
+					<p:confirm header="Delete"
+						message="Are you sure you want to delete it?" icon="ui-icon-alert" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+
+	<div class="group-btn">
+		<p:commandButton value="Add FAQ" onclick="PF('addFaqDialog').show();"
+			type="button" icon="ui-icon-plusthick" />
+	</div>
+
+	<h:form id="addFaqForm">
+		<p:dialog header="Add FAQ" widgetVar="addFaqDialog" id="addFaqDialog"
+			modal="true" onHide="resetAddFaqDialog();">
+			<p:panel id="addFaqPanel">
+				<!-- 				<p:messages /> -->
+				<h:panelGrid columns="2" cellpadding="5">
+
+					<p:outputLabel value="Question" for="question" />
+					<p:inputTextarea id="question" value="#{faqAddView.faq.question}"
+						rows="2" cols="100" required="true" autoResize="false">
+						<f:validateLength maximum="200" />
+					</p:inputTextarea>
+
+					<p:outputLabel value="Answer" for="answer" />
+					<p:inputTextarea id="answer" value="#{faqAddView.faq.answer}"
+						rows="10" cols="100" required="true" autoResize="false">
+						<f:validateLength maximum="4000" />
+					</p:inputTextarea>
+
+				</h:panelGrid>
+
+				<p:commandButton value="Add FAQ" icon="ui-icon-disk"
+					actionListener="#{faqAddView.addFaq}"
+					update="addFaqPanel,:adminTab:faqListForm:faqListTable"
+					oncomplete="if(!args.validationFailed){PF('addFaqDialog').hide();}">
+				</p:commandButton>
+
+				<!-- 				<p:commandButton value="Reset Tag" update="addFaqPanel" -->
+				<!-- 					process="@this"> -->
+				<!-- 					<p:resetInput target="addFaqPanel" /> -->
+				<!-- 				</p:commandButton> -->
+
+				<!-- 				<p:commandButton value="Reset Code" update="addFaqPanel" -->
+				<!-- 					process="@this" actionListener="#{faqAddView.reset}" /> -->
+
+				<p:remoteCommand name="resetAddFaqDialog"
+					actionListener="#{faqAddView.reset}" process="@this"
+					update="addFaqPanel" />
+
+			</p:panel>
+		</p:dialog>
+	</h:form>
+
+</f:view>

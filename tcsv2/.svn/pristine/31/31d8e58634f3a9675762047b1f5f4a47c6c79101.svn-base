@@ -1,0 +1,84 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h2 class="title">General Settings</h2>
+
+	<h:form>
+		<div class="setting-field">
+			<div class="setting-item">
+				<p:outputLabel for="s1"
+					value="Enable/disable submission ED for tariff employee for VCIC" />
+				<p:selectBooleanCheckbox id="s1"
+					value="#{settingView.settingMap['enableSubmissionForTariffEmployeeVCIC']['value']}" />
+			</div>
+			<div class="setting-item">
+				<p:outputLabel for="s2"
+					value="Enable/disable submission ED for management employee for VCIC" />
+				<p:selectBooleanCheckbox id="s2"
+					value="#{settingView.settingMap['enableSubmissionForManagementEmployeeVCIC']['value']}" />
+			</div>
+		</div>
+
+
+		<div class="setting-field">
+			<div class="setting-item">
+				<p:outputLabel for="s3"
+					value="Enable/disable submission ED for tariff employee for VGIC" />
+				<p:selectBooleanCheckbox id="s3"
+					value="#{settingView.settingMap['enableSubmissionForTariffEmployeeVGIC']['value']}" />
+			</div>
+			<div class="setting-item">
+				<p:outputLabel for="s4"
+					value="Enable/disable submission ED for management employee for VGIC" />
+				<p:selectBooleanCheckbox id="s4"
+					value="#{settingView.settingMap['enableSubmissionForManagementEmployeeVGIC']['value']}" />
+			</div>
+		</div>
+
+		<div class="setting-field">
+			<div class="setting-item">
+				<p:outputLabel for="s5"
+					value="Enable/disable submission ED for tariff employee for AUDI" />
+				<p:selectBooleanCheckbox id="s5"
+					value="#{settingView.settingMap['enableSubmissionForTariffEmployeeAUDI']['value']}" />
+			</div>
+			<div class="setting-item">
+				<p:outputLabel for="s6"
+					value="Enable/disable submission ED for management employee for AUDI" />
+				<p:selectBooleanCheckbox id="s6"
+					value="#{settingView.settingMap['enableSubmissionForManagementEmployeeAUDI']['value']}" />
+			</div>
+		</div>
+
+		<div class="setting-field">
+			<div class="setting-item">
+				<p:outputLabel for="s7"
+					value="Enable/disable submission ED for tariff employee for VCRA" />
+				<p:selectBooleanCheckbox id="s7"
+					value="#{settingView.settingMap['enableSubmissionForTariffEmployeeVCRA']['value']}" />
+			</div>
+			<div class="setting-item">
+				<p:outputLabel for="s8"
+					value="Enable/disable submission ED for management employee for VCRA" />
+				<p:selectBooleanCheckbox id="s8"
+					value="#{settingView.settingMap['enableSubmissionForManagementEmployeeVCRA']['value']}" />
+			</div>
+		</div>
+
+		<div class="setting-field">
+			<div class="setting-item">
+				<p:outputLabel for="s9"
+					value="Enable/disable email notification for all users" />
+				<p:selectBooleanCheckbox id="s9"
+					value="#{settingView.settingMap['enableEmailNotification']['value']}" />
+			</div>
+		</div>
+
+		<div class="group-btn">
+			<p:commandButton value="Save" actionListener="#{settingView.save}"
+				icon="ui-icon-disk" />
+		</div>
+	</h:form>
+
+</f:view>

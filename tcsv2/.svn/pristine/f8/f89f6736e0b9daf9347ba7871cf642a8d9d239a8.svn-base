@@ -1,0 +1,27 @@
+package com.meession.communication2.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.meession.common.support.dao.DaoSupport;
+import com.meession.communication2.dao.INewUserDao;
+import com.meession.communication2.entity.newUser;
+
+@Repository("newUserDao")
+public class NewUserDaoImpl extends DaoSupport implements INewUserDao {
+
+	@Override
+	public void addStudentUser(newUser newuser) {
+		getDaoTemplate().save(newuser);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<newUser> listStudentUser() {
+		List<newUser> listStudent = getDaoTemplate().listBySql("SELECT stuNumber,stuName,stuSex,stuMajor,stuYear,stuClass,stuTel,stuQQ "
+				+ "FROM newUser WHERE type=2");
+		return listStudent;
+	}
+
+}

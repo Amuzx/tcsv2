@@ -1,0 +1,137 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<p:outputPanel id="edListField">
+
+	<h2 class="title">Reopen Employees Dialogue</h2>
+	<h:form id="reopenEdListForm">
+		<p:dataTable id="edListTable" widgetVar="edListTable" var="userEd"
+			value="#{reopenEdListView.userEdList}" rows="10"
+			paginator="#{not empty reopenEdListView.userEdList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items." style="min-width: 900px;" filteredValue="#{reopenEdListView.filteredUserEdList}">
+
+			<f:facet name="header">
+				<div class="search">
+					<p:inputText id="globalFilter"
+						onkeyup="PF('edListTable').filter()" placeholder="Search" />
+					<span class="icon-search"></span>
+				</div>
+			</f:facet>
+
+			<p:column headerText="Name" sortBy="#{userEd.user.name}" filterBy="#{userEd.user.name}" style="width: 100px;">
+				<h:outputText value="#{userEd.user.name}" />
+			</p:column>
+
+			<p:column headerText="Staff Code" sortBy="#{userEd.user.staffCode}" filterBy="#{userEd.user.staffCode}" style="width: 100px;">
+				<h:outputText value="#{userEd.user.staffCode}" />
+			</p:column>
+
+			<p:column headerText="Contract" sortBy="#{userEd.user.category}" style="width: 100px;">
+				<h:outputText value="#{userEd.user.category}" />
+			</p:column>
+
+			<p:column headerText="Position" sortBy="#{userEd.user.position}">
+				<h:outputText value="#{userEd.user.position}" />
+			</p:column>
+
+			<p:column headerText="Overall P" sortBy="#{userEd.ed.overallPerformance}" style="width: 90px;">
+				<h:outputText value="#{userEd.ed.overallPerformance}" />
+			</p:column>
+
+			<p:column headerText="Target cat. and %" style="width: 144px;">
+				<h:outputText value="#{userEd.ed.targetCategory}/#{userEd.ed.targetAchievement}%" />
+			</p:column>
+
+			<p:column headerText="Dev. recom. 1y/3y" style="width: 150px;">
+				<h:outputText value="#{userEd.ed.devRecom1y}/#{userEd.ed.devRecom3y}" />
+			</p:column>
+
+			<p:column headerText="Status" sortBy="#{userEd.ed.status}" style="width: 120px;">
+				<h:outputText value="#{userEd.ed.status}" converter="edStatusConverter" />
+			</p:column>
+
+			<p:column headerText="Reopen" style="width:80px;text-align:center;">
+				<p:commandButton icon="ui-icon-search" update=":edDetailField" actionListener="#{myEdView.show(userEd, 3)}" oncomplete="showDetail();">
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+	
+	<h2 class="title2">Reopen Employees Dialogue after CAP</h2>
+	
+	<h:form id="reopenEdAfterCapListForm">
+		<p:dataTable id="edAfterCapListListTable" widgetVar="edAfterCapListListTable" var="userEd"
+			value="#{reopenEdListView.userEdAfterCapList}" rows="10"
+			paginator="#{not empty reopenEdListView.userEdAfterCapList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items." style="min-width: 900px;" filteredValue="#{reopenEdListView.filteredUserEdAfterCapList}">
+
+			<f:facet name="header">
+				<div class="search">
+					<p:inputText id="globalFilter"
+						onkeyup="PF('edAfterCapListListTable').filter()" placeholder="Search" />
+					<span class="icon-search"></span>
+				</div>
+			</f:facet>
+
+			<p:column headerText="Name" sortBy="#{userEd.user.name}" filterBy="#{userEd.user.name}" style="width: 100px;">
+				<h:outputText value="#{userEd.user.name}" />
+			</p:column>
+
+			<p:column headerText="Staff Code" sortBy="#{userEd.user.staffCode}" filterBy="#{userEd.user.staffCode}" style="width: 100px;">
+				<h:outputText value="#{userEd.user.staffCode}" />
+			</p:column>
+
+			<p:column headerText="Contract" sortBy="#{userEd.user.category}" style="width: 100px;">
+				<h:outputText value="#{userEd.user.category}" />
+			</p:column>
+
+			<p:column headerText="Position" sortBy="#{userEd.user.position}">
+				<h:outputText value="#{userEd.user.position}" />
+			</p:column>
+
+			<p:column headerText="Overall P" sortBy="#{userEd.ed.overallPerformance}" style="width: 90px;">
+				<h:outputText value="#{userEd.ed.overallPerformance}" />
+			</p:column>
+
+			<p:column headerText="Target cat. and %" style="width: 144px;">
+				<h:outputText value="#{userEd.ed.targetCategory}/#{userEd.ed.targetAchievement}%" />
+			</p:column>
+
+			<p:column headerText="Dev. recom. 1y/3y" style="width: 150px;">
+				<h:outputText value="#{userEd.ed.devRecom1y}/#{userEd.ed.devRecom3y}" />
+			</p:column>
+
+			<p:column headerText="Status" sortBy="#{userEd.ed.status}" style="width: 120px;">
+				<h:outputText value="#{userEd.ed.status}" converter="edStatusConverter" />
+			</p:column>
+
+			<p:column headerText="Reopen after CAP" style="width:80px;text-align:center;">
+				<p:commandButton icon="ui-icon-search" update=":edDetailField" actionListener="#{myEdView.show(userEd, 3)}" oncomplete="showDetail();"
+					rendered="#{userEd.ed.status == 3}" />
+				<p:commandButton icon="ui-icon-search" update=":edDetailField" actionListener="#{myEdView.show(userEd, 4)}" oncomplete="showDetail();"
+					rendered="#{userEd.ed.status == 4}" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+
+	</p:outputPanel>
+
+<script>
+function showDetail() {
+	$('#adminTab').slideUp();
+	$('#edDetailField').slideDown();
+}
+</script>
+</f:view>

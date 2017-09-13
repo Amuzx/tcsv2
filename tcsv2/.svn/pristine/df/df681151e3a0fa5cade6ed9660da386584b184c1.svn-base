@@ -1,0 +1,11 @@
+#JavaMail
+mail.host=smtp.126.com
+mail.username=vgc_eds@126.com
+mail.password=abc123
+mail.smtp.from=vgc_eds@126.com
+mail.smtp.auth=true
+mail.smtp.timeout=120000
+mail.debug=false
+mail.smtp.port=25
+mail.smtp.socketFactory.port=994
+mail.smtp.starttls.enable=false

@@ -1,0 +1,173 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:outputPanel id="adminLoginPanel">
+		<h2 class="title">添加学生</h2>
+		<div class="teacher-option-btn">
+			<h:form>
+				<p:commandButton value="手动添加学生" type="button" onclick="PF('addStuDialog').show();" icon="ui-icon-plusthick" style="margin-right:20px;" />
+				<p:commandButton value="Excel导入学生" type="button" onclick="PF('importStuDialog').show();" icon="ui-icon-plusthick" />
+			</h:form>
+		</div>
+		
+		<p:messages id="message" showDetail="true" autoUpdate="true" closable="true" />
+		
+		<p:dialog header="添加学生" widgetVar="addStuDialog" id="addStuDialog"
+			showEffect="fade" hideEffect="fade" height="340" width="420">
+			<h:form id="stuInfo">
+				<center>
+					<table>
+						<tr>
+							<td align="right" width="30%" style="padding-top: 30px">账号:</td>
+							<td style="padding-top: 30px"><p:inputText
+							value="#{newStudentView.newuser.username}" /></td>
+						</tr>
+						<tr>
+							<td align="right" width="30%" style="padding-top: 20px">密码:</td>
+							<td style="padding-top: 20px"><p:inputText
+							value="#{newStudentView.newuser.pwd}" /></td>
+						</tr>
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">Type:</td>
+							<td style="padding-top: 20px"><p:inputText
+							value="#{newStudentView.newuser.type}" /></td>
+						</tr>
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">status:</td>
+							<td style="padding-top: 20px"><p:inputText
+							value="#{newStudentView.newuser.status}" /></td>
+						</tr>
+					
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">学号：</td>
+							<td style="padding-top: 20px"><p:inputText value="#{newStudentView.newuser.stuNumber}" /></td>
+						</tr>
+					
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">姓名：</td>
+							<td style="padding-top: 20px"><p:inputText value="#{newStudentView.newuser.stuName}" /></td>
+						</tr>
+
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">性别：</td>
+							<td style="padding-top: 20px"><p:inputText value="#{newStudentView.newuser.stuSex}" /></td>
+						</tr>
+
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">QQ：</td>
+							<td style="padding-top: 20px"><p:inputText value="#{newStudentView.newuser.stuQQ}" /></td>
+						</tr>
+
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">电话：</td>
+							<td style="padding-top: 20px"><p:inputText value="#{newStudentView.newuser.stuTel}" /></td>
+						</tr>
+
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">专业：</td>
+							<td style="padding-top: 20px"><p:inputText value="#{newStudentView.newuser.stuMajor}" /></td>
+						</tr>
+
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">入学年份：</td>
+							<td style="padding-top: 20px"><p:calendar value="#{newStudentView.newuser.stuYear}" navigator="true" pattern="yyyy"/></td>
+						</tr>
+
+						<tr>
+							<td align="right" width="10%" style="padding-top: 20px">班级：</td>
+							<td style="padding-top: 20px"><p:inputText value="#{newStudentView.newuser.stuClass}" /></td>
+						</tr>
+
+						<tr height="36px">
+							<td class="teacher-login-btn" style="margin: 16px auto;">
+								<p:commandButton value="提交" actionListener="#{newStudentView.addStudentUser}" style=" width:100px;margin:15px 0 0 15px;" update="@form:stuInfo,@form:@parent:showAllStuInfo"/> 
+								<p:commandButton value="重置" type="reset" style="position:absolute;width:100px;margin:15px 0 0  48px;" />
+							</td>
+						</tr>
+					</table>
+				</center>
+			</h:form>
+		</p:dialog>
+
+		<!-- 导入学生对话框 http://www.cnbeta.com/articles/464691.htm   http://www.bilibili.com/video/av2812914/  http://www.bilibili.com/video/av3383934/-->
+		<p:dialog header="导入学生" widgetVar="importStuDialog" modal="true"
+			width="700">
+			<h:form>
+				<iframe style="border: 0px none; width: 680px; height: 120px;"
+					frameborder="0" src="importStudent.xhtml"></iframe>
+			</h:form>
+		</p:dialog>
+	   </p:outputPanel>
+
+	<p:outputPanel id="stuListPanel" style="margin:5% 0;">
+		<h2 class="title">查看所有学生信息</h2>
+		<h:form id="showAllStuInfo">
+			<p:dataTable id="stuListTab" var="newStu"
+				value="#{newStudentView.listNewUser}" rows="5"
+				paginator="#{not empty newStudentView.listNewUser}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+				emptyMessage="No items.">
+
+				<!--  <h:outputText name="userid" rendered="false" value="#{newUser.id}"></h:outputText> 
+				<h:inputHidden name="userid" value="#{newUser.id}"></h:inputHidden>-->
+
+				<p:column headerText="账号" >
+					<h:outputText value="#{newStu.username}" />
+				</p:column>
+				<p:column headerText="密码">
+					<h:outputText value="#{newStu.pwd}" />
+				</p:column>
+				<p:column headerText="用户类型">
+					<h:outputText value="#{newStu.type}" />
+				</p:column>
+				<p:column headerText="用户状态">
+					<h:outputText value="#{newStu.status}" />
+				</p:column>
+				<p:column headerText="学号" >
+					<h:outputText value="#{newStu.stuNumber}" />
+				</p:column>
+				
+				<p:column headerText="姓名" >
+					<h:outputText value="#{newStu.stuName}" />
+				</p:column>
+
+				<p:column headerText="性别" >
+					<h:outputText value="#{(newStu.stuSex==0)?'女':'男'}" escape="true"/>
+				</p:column>
+
+				<p:column headerText="QQ" >
+					<h:outputText value="#{newStu.stuQQ}" />
+				</p:column>
+
+				<p:column headerText="联系方式" >
+					<h:outputText value="#{newStu.stuTel}" />
+				</p:column>
+
+				<p:column headerText="专业" >
+					<h:outputText value="#{newStu.stuMajor}" />
+				</p:column>
+
+				<p:column headerText="入学年份" >
+					<h:outputText value="#{newStu.stuYear}" ><f:convertDateTime pattern="yyyy"/> </h:outputText>
+				</p:column>
+
+				<p:column headerText="班级" >
+					<h:outputText value="#{newStu.stuClass}" />
+				</p:column>
+				
+			
+				<p:column headerText="操作">
+					<p:commandButton id="deleteStu" value="删除学生" icon="ui-icon-trash" actionListener="#{newStudentView.deleteStudentUser}" ajax="true" update="@form:showAllStuInfo">
+						<f:attribute name="userid" value="#{newStu.id}" />
+						<p:confirm header="删除"  message="确定删除吗？"></p:confirm>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		<br />
+	</p:outputPanel>
+</f:view>

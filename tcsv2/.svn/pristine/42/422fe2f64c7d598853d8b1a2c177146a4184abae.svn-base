@@ -1,0 +1,218 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h2 class="title">Language Training</h2>
+
+	<h:form id="languageTrainingListForm">
+		<p:dataTable id="languageTrainingListTable" var="languageTraining"
+			value="#{languageTrainingListView.languageTrainingList}" editable="true" rows="10"
+			paginator="#{not empty languageTrainingListView.languageTrainingList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<p:ajax event="rowEdit" listener="#{languageTrainingListView.updateLanguageTraining}" />
+
+			<p:column headerText="Name" sortBy="#{languageTraining.name}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{languageTraining.name}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{languageTraining.name}" label="Name"
+							required="true" style="width: 98%;">
+							<f:validateLength maximum="200" />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Code" sortBy="#{languageTraining.code}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{languageTraining.code}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{languageTraining.code}" label="Code"
+							required="true" style="width: 98%;">
+							<f:validateLength maximum="100" />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:commandButton update="languageTrainingListTable"
+					actionListener="#{languageTrainingListView.deleteLanguageTraining}" icon="ui-icon-trash">
+					<f:attribute name="languageTrainingId" value="#{languageTraining.id}" />
+					<p:confirm header="Delete"
+						message="Are you sure you want to delete it?" icon="ui-icon-alert" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+
+	<div class="group-btn">
+		<p:commandButton value="Add" onclick="PF('addLanguageTrainingDialog').show();"
+			type="button" icon="ui-icon-plusthick" />
+	</div>
+
+	<h:form id="addLanguageTrainingForm">
+		<p:dialog header="Add Language Training" widgetVar="addLanguageTrainingDialog" id="addLanguageTrainingDialog"
+			modal="true" onHide="resetAddLanguageTrainingDialog();">
+			<p:panel id="addLanguageTrainingPanel">
+				<h:panelGrid columns="2" cellpadding="5">
+
+					<p:outputLabel value="Name" for="name" />
+					<p:inputText id="name" value="#{languageTrainingAddView.languageTraining.name}"
+						required="true" style="width: 200px;">
+						<f:validateLength maximum="100" />
+					</p:inputText>
+
+					<p:outputLabel value="Code" for="code" />
+					<p:inputText id="code" value="#{languageTrainingAddView.languageTraining.code}"
+						required="true" style="width: 200px;">
+						<f:validateLength maximum="100" />
+					</p:inputText>
+
+				</h:panelGrid>
+
+				<p:commandButton value="Add" icon="ui-icon-disk"
+					actionListener="#{languageTrainingAddView.addLanguageTraining}"
+					update="addLanguageTrainingPanel,:adminTab:languageTrainingListForm:languageTrainingListTable"
+					oncomplete="if(!args.validationFailed){PF('addLanguageTrainingDialog').hide();}">
+				</p:commandButton>
+
+				<p:remoteCommand name="resetAddLanguageTrainingDialog"
+					actionListener="#{languageTrainingAddView.reset}" process="@this"
+					update="addLanguageTrainingPanel" />
+
+			</p:panel>
+		</p:dialog>
+	</h:form>
+
+	<h2 class="title2">Development</h2>
+
+	<h:form id="developmentListForm">
+		<p:dataTable id="developmentListTable" var="development"
+			value="#{developmentListView.developmentList}" editable="true" rows="10"
+			paginator="#{not empty developmentListView.developmentList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<p:ajax event="rowEdit" listener="#{developmentListView.updateDevelopment}" />
+
+			<p:column headerText="Name" sortBy="#{development.name}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{development.name}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{development.name}" label="Name"
+							required="true" style="width: 98%;">
+							<f:validateLength maximum="64" />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Alert Message" sortBy="#{development.alertMessage}" style="min-width: 300px;">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{development.alertMessage}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{development.alertMessage}" label="Alert Message"
+							required="true" style="width: 98%;">
+							<f:validateLength maximum="200" />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Code" sortBy="#{development.code}">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{development.code}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{development.code}" label="Code"
+							required="true" style="width: 98%;">
+							<f:validateLength maximum="32" />
+						</p:inputText>
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:commandButton update="developmentListTable"
+					actionListener="#{developmentListView.deleteDevelopment}" icon="ui-icon-trash">
+					<f:attribute name="developmentId" value="#{development.id}" />
+					<p:confirm header="Delete"
+						message="Are you sure you want to delete it?" icon="ui-icon-alert" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+
+	<div class="group-btn">
+		<p:commandButton value="Add" onclick="PF('addDevelopmentDialog').show();"
+			type="button" icon="ui-icon-plusthick" />
+	</div>
+
+	<h:form id="addDevelopmentForm">
+		<p:dialog header="Add Development" widgetVar="addDevelopmentDialog" id="addDevelopmentDialog"
+			modal="true" onHide="resetAddDevelopmentDialog();">
+			<p:panel id="addDevelopmentPanel">
+				<h:panelGrid columns="2" cellpadding="5">
+
+					<p:outputLabel value="Name" for="name" />
+					<p:inputText id="name" value="#{developmentAddView.development.name}"
+						required="true" style="width: 300px;">
+						<f:validateLength maximum="64" />
+					</p:inputText>
+
+					<p:outputLabel value="Alert Message" for="alertMessage" />
+					<p:inputTextarea id="alertMessage" value="#{developmentAddView.development.alertMessage}"
+						required="true" style="width: 300px;">
+						<f:validateLength maximum="200" />
+					</p:inputTextarea>
+
+					<p:outputLabel value="Code" for="code" />
+					<p:inputText id="code" value="#{developmentAddView.development.code}"
+						required="true" style="width: 300px;">
+						<f:validateLength maximum="32" />
+					</p:inputText>
+
+				</h:panelGrid>
+
+				<p:commandButton value="Add" icon="ui-icon-disk"
+					actionListener="#{developmentAddView.addDevelopment}"
+					update="addDevelopmentPanel,:adminTab:developmentListForm:developmentListTable"
+					oncomplete="if(!args.validationFailed){PF('addDevelopmentDialog').hide();}">
+				</p:commandButton>
+
+				<p:remoteCommand name="resetAddDevelopmentDialog"
+					actionListener="#{developmentAddView.reset}" process="@this"
+					update="addDevelopmentPanel" />
+
+			</p:panel>
+		</p:dialog>
+	</h:form>
+</f:view>

@@ -1,0 +1,114 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<!-- 查询面板 ，end-->
+	
+	<!-- 显示列表面板 ，start-->
+	<h:form id="studentListForm">
+		<p:dataTable id="studentListTable" var="student"
+			value="#{studentView.studentList}" rows="5"
+			paginator="#{not empty studentView.studentList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items." rowKey="#{student.studentNum}"
+			selection="#{studentView.selectedStudentList}">
+
+			<p:column selectionMode="multiple"
+				style="width:16px;text-align:center" />
+
+			<p:column headerText="姓名" sortBy="#{student.studentName}"
+				style="width:100px">
+				<h:outputText value="#{student.studentName}" />
+			</p:column>
+			<p:column headerText="学号" sortBy="#{student.studentNum}"
+				style="width:100px">
+				<h:outputText value="#{student.studentNum}" />
+			</p:column>
+			<p:column headerText="用户名">
+				<h:outputText value="#{student.name}" />
+			</p:column>
+			<p:column headerText="电话号码">
+				<h:outputText value="#{student.cellPhone}" />
+			</p:column>
+			<p:column headerText="邮箱地址">
+				<h:outputText value="#{student.email}" />
+			</p:column>
+			<p:column headerText="用户状态">
+				<h:outputText value="#{student.disabled? '禁用' : '开启'}" />
+			</p:column>
+			<p:column headerText="备注信息">
+				<h:outputText value="#{student.remark}" />
+			</p:column>
+			
+		</p:dataTable>
+
+		<div class="group-btn">
+			 	     
+			<p:commandButton value="手动添加学生"   icon="ui-icon-plusthick"
+			         onclick="PF('addStudentDialog').show();" type="button" />
+			         
+			<p:commandButton value="excel导入学生" icon="ui-icon-plusthick" 
+				     onclick="PF('importStudentDialog').show();" />
+		</div>
+	</h:form>
+	<!-- 显示列表面板 ，end-->
+	
+	
+   <!-- 弹出对话框，start -->
+   
+   <!-- 添加学生对话框-->
+   <h:form id="addStudentForm">
+	<p:dialog header="添加学生" widgetVar="addStudentDialog"
+		id="addStudentDialog" modal="true" width="900">
+        <table>
+			<tr>
+				<td align="right" width="30%">学号:</td><td><p:inputText   value="#{studentView.studentAdd.studentNum}" /></td>
+				<td align="right" width="30%">电话号码:</td><td><p:inputText   value="#{studentView.studentAdd.cellPhone}" /></td>
+			    <td align="right"  width="30%">是否禁用:</td><td><p:selectBooleanCheckbox value="#{studentView.studentAdd.disabled}" /></td>
+			</tr>
+			<tr>
+				<td align="right">姓名:</td><td><p:inputText   value="#{studentView.studentAdd.studentName}" /></td>
+				<td align="right">邮箱地址:</td><td><p:inputText value="#{studentView.studentAdd.email}"/></td>
+				<td></td><td></td>
+			</tr>
+			<tr  >
+				<td align="right" width="25%" height="100px"  >备注信息:</td><td  colspan="3"><p:inputTextarea  value="#{studentView.studentAdd.remark}"/> </td>
+				<td></td><td></td>
+			</tr>
+			
+			<tr>
+				<td />
+				<td>
+					<div class="group-btn">
+						<p:commandButton value="确定" icon="icon-user"
+							actionListener="#{studentView.query}" />
+					</div>
+				</td>
+				<td>
+					<div class="group-btn">
+						<p:commandButton value="重置" type="reset" icon="ui-icon-plusthick" />
+					</div>
+				</td>
+				<td />
+			</tr>
+		</table>
+
+	</p:dialog>
+	</h:form>
+	
+	 <!-- 导入学生对话框-->
+	 <h:form id="importStudentForm">
+	<p:dialog header="导入学生" widgetVar="importStudentDialog"
+		id="importStudentDialog" modal="true" width="900">
+		<h:form>
+       	<iframe style="border: 0px none; width: 640px; height: 300px;"
+				frameborder="0" src="../admin/orgaImport.xhtml"></iframe>
+         </h:form>
+	</p:dialog>
+	</h:form>
+	
+</f:view>

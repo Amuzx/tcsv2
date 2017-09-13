@@ -1,0 +1,46 @@
+package com.meession.communication2.dao.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.meession.common.support.dao.DaoSupport;
+import com.meession.communication2.dao.INewStudentDao;
+import com.meession.communication2.entity.NewPlan;
+import com.meession.communication2.entity.NewUser;
+
+@Repository("newStudentDaoImpl")
+public class NewStudentDaoImpl extends DaoSupport implements INewStudentDao {
+
+	@Override
+	public NewUser findStudent() {
+		NewUser user = getDaoTemplate().find(NewUser.class, 24);
+		return user;
+	}
+
+	@Override
+	public List<NewPlan> findPlanForStudent() {
+		List<NewPlan> listStudentPLan = getDaoTemplate().list(NewPlan.class);
+		return listStudentPLan;
+	}
+
+	@Override
+	public NewPlan findPlanById(int planId) {
+		NewPlan newPlan = this.getDaoTemplate().find(NewPlan.class, planId);
+		return newPlan;
+	}
+
+	@Override
+	public List<NewPlan> findPlanByStudentNo(String stuNo) {
+		String sql = "select pId,title,location,content,createTime,result,teachername,studentnum,studentname from NewPlan where studentNum='"+stuNo+"'";
+		List<NewPlan> planList = this.getDaoTemplate().list(NewPlan.class, sql);
+		return planList;
+	}
+
+	@Override
+	public void updateFinishPlan(NewPlan newPlan) {
+		System.out.println(newPlan.getStustatus()+"====dao");
+		this.getDaoTemplate().update(newPlan);
+	}
+
+}

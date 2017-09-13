@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+	
+	
+	<!-- 显示列表面板 ，start-->
+	<h:form id="modelForm">
+		<p:outputPanel  id="modelTable">
+			<p:dataTable var="model" value="#{newAdminView.modelList}" emptyMessage="No items."
+			paginator="#{not empty newAdminView.modelList}"  rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			 currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20">
+				<p:column headerText="标题" >
+					<h:outputText value="#{model.title}" />
+				</p:column>
+				<p:column headerText="摘要">
+					<h:outputText value="#{model.content}" />
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</h:form>
+	
+	<!-- 显示列表面板 ，end-->
+	<h:form id="buttonForm">
+	
+		<!-- 添加模块Button -->
+		<div class="group-btn">
+				<p:commandButton type="button" value="添加模块1" icon="ui-icon-plusthick" onclick="PF('addMode1Dialog').show()"/>
+		</div>
+	
+	</h:form>
+	
+	<!-- 弹出对话框start -->
+	
+	<!-- 添加模块1对话框 -->
+	<h:form id="addMode1From">
+			<p:dialog header="添加模块1" widgetVar="addMode1Dialog" id="addMode1Dialog" modal="true" width="400">
+					<table align="center">
+						<tr>
+							<td>标题:</td><td><p:inputText value="#{newAdminView.model.title}"/></td>
+						</tr>
+						<tr>
+							<td>摘要:</td><td><p:inputText value="#{newAdminView.model.content}"/></td>
+						</tr>
+						<tr>
+							<td>
+								<div class="group-btn">
+									<p:commandButton value="提交" icon="ui-icon-plusthick" actionListener="#{newAdminView.addmodel}"/>
+								</div>
+							</td>
+							<td align="center">
+								<div class="group-btn">
+									<p:commandButton value="重置" type="reset" icon="icon-user"/>
+								</div>
+							</td>
+						</tr>
+					
+					</table>
+			
+			</p:dialog>
+	</h:form>
+	
+	
+<!-- 弹出对话框end -->
+
+</f:view>

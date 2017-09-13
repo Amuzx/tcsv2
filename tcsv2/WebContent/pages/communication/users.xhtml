@@ -1,0 +1,248 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<!-- 查询面板 ，end-->
+
+	<!-- 			paginator="#{not empty newAdminView.userList}"  rows="5"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20" -->
+	<!--  sortBy="#{stu.userAccount}" -->
+
+
+	<!-- 显示列表面板 ，start-->
+	<h:form id="adminListForm">
+		<p:outputPanel id="adminListTable">
+			<p:dataTable var="teacher" value="#{newAdminView.userList}"
+				emptyMessage="No items."
+				paginator="#{not empty newAdminView.userList}" rows="5"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+				selection="#{newAdminView.userList}">
+				
+				<p:column headerText="账号">
+					<h:outputText value="#{teacher.username}" />
+				</p:column>
+				<p:column headerText="密码">
+					<h:outputText value="#{teacher.pwd}" />
+				</p:column>
+				<p:column headerText="用户类型">
+					<h:outputText value="#{teacher.type}" />
+				</p:column>
+				<p:column headerText="用户状态">
+					<h:outputText value="#{teacher.status}" />
+				</p:column>
+				<p:column headerText="老师工号">
+					<h:outputText value="#{teacher.tNumber}" />
+				</p:column>
+				<p:column headerText="老师姓名">
+					<h:outputText value="#{teacher.tName}" />
+				</p:column>
+				<p:column headerText="老师性别">
+					<h:outputText value="#{teacher.tSex}" />
+				</p:column>
+				<p:column headerText="老师电话">
+					<h:outputText value="#{teacher.tTel}" />
+				</p:column>
+				<p:column headerText="操作">
+					<p:commandButton id="deleteTeacher" value="删除老师"
+						icon="ui-icon-trash" 
+						actionListener="#{newAdminView.deleteTeacher}" ajax="true"
+						update="@form:adminListTable">
+						<f:attribute name="teacherId" value="#{teacher.id}" />
+						<p:confirm header="删除"  message="确定删除老师吗？"></p:confirm>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</h:form>
+
+	<!-- 显示列表面板 ，end-->
+
+	<h:form id="modebuttonForm">
+		<div class="group-btn">
+			<p:commandButton value="手动添加老师" icon="ui-icon-plusthick"
+				onclick="PF('addadminDialog').show();" type="button" />
+			<p:commandButton value="excel导入老师" icon="ui-icon-plusthick"
+				onclick="PF('importadminDialog').show();" />
+		</div>
+	</h:form>
+
+	<!-- 弹出对话框，start -->
+
+	<!-- 添加用户对话框-->
+	<h:form id="addadminForm">
+		<p:dialog header="添加老师" widgetVar="addadminDialog" id="addadminDialog"
+			modal="true" width="400px" height="250px">
+			<table>
+				<tr>
+					<td align="right" width="30%" style="padding-top: 30px">账号:</td>
+					<td style="padding-top: 30px"><p:inputText
+							value="#{newAdminView.user.username}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="30%" style="padding-top: 20px">密码:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.pwd}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">Type:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.type}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">status:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.status}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">老师工号:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.tNumber}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">老师姓名:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.tName}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">老师性别:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.tSex}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">老师电话:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.tTel}" /></td>
+				</tr>
+				<!-- 	onsuccess="PF{@form:userstutInfo}" -->
+				<tr>
+					<td style="padding-top: 17px"><span class="group-btn"
+						style="margin-left: 50px;"> <p:commandButton value="确定"
+								actionListener="#{newAdminView.addUsers}"
+								update="@form:addadminForm,@form:@parent:adminListForm"
+								oncomplete="PF('addadminDialog').hide();" />
+					</span></td>
+					<td><span class="group-btn" style="margin-left: 60px">
+							<p:commandButton value="重置" type="reset" />
+					</span></td>
+				</tr>
+			</table>
+
+		</p:dialog>
+	</h:form>
+
+	<!-- 导入用户对话框-->
+	<h:form id="importadminForm">
+		<p:dialog header="导入老师" widgetVar="importadminDialog"
+			id="importadminDialog" modal="true" width="900">
+			<h:form>
+				<iframe style="border: 0px none; width: 640px; height: 300px;"
+					frameborder="0" src="usersImport.xhtml"></iframe>
+			</h:form>
+		</p:dialog>
+	</h:form>
+
+	<!-- 显示列表面板 ，start-->
+	<!-- <h:form id="adminListForm1">
+		<p:outputPanel  id="adminListTable1">
+			<p:dataTable var="admin" value="#{newAdminView.userList}" emptyMessage="No items."
+			paginator="#{not empty newAdminView.userList}"  rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			 currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20">
+				<p:column headerText="账号" >
+					<h:outputText value="#{admin.username}" />
+				</p:column>
+				<p:column headerText="密码">
+					<h:outputText value="#{admin.pwd}" />
+				</p:column>
+				<p:column headerText="用户类型">
+					<h:outputText value="#{admin.type}" />
+				</p:column>
+				<p:column headerText="用户状态">
+					<h:outputText value="#{admin.status}" />
+				</p:column>
+				<p:column headerText="管理员账号">
+					<h:outputText value="#{admin.adminNumber}" />
+				</p:column>
+				<p:column headerText="管理员姓名">
+					<h:outputText value="#{admin.adminName}" />
+				</p:column>
+				<p:column headerText="管理员电话">
+					<h:outputText value="#{admin.adminTel}" />
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</h:form> -->
+	<!-- 显示列表面板 ，end-->
+
+	<!-- <h:form id="modebuttonForm1">
+		 <div class="group-btn">
+				<p:commandButton value="手动添加管理员" icon="ui-icon-plusthick"
+					onclick="PF('addadminDialog1').show();" type="button" />
+		</div>
+		</h:form> -->
+
+	<!-- 弹出对话框，start -->
+
+	<!-- 添加用户对话框-->
+	<!-- <h:form id="addadminForm1">
+		<p:dialog header="添加管理员" widgetVar="addadminDialog1" id="addadminDialog1"
+			modal="true" width="400px" height="250px">
+			<table>
+				<tr>
+					<td align="right" width="30%" style="padding-top: 30px">账号:</td>
+					<td style="padding-top: 30px"><p:inputText
+							value="#{newAdminView.user.username}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="30%" style="padding-top: 20px">密码:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.pwd}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">Type:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.type}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">status:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.status}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">管理员账号:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.adminNumber}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">管理员姓名:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.adminName}" /></td>
+				</tr>
+				<tr>
+					<td align="right" width="10%" style="padding-top: 20px">管理员电话:</td>
+					<td style="padding-top: 20px"><p:inputText
+							value="#{newAdminView.user.adminTel}" /></td>
+				</tr>
+								onsuccess="PF{@form:userstutInfo}"
+				<tr>
+					<td style="padding-top: 17px"><span class="group-btn"
+						style="margin-left: 50px;"> <p:commandButton value="确定"
+								actionListener="#{newAdminView.addUsers}" 
+								update="@form:@parent:adminListForm1"
+								oncomplete="PF('addadminDialog1').hide();" />
+					</span></td>
+					<td><sp	an class="group-btn" style="margin-left: 60px">
+							<p:commandButton value="重置" type="reset" />
+					</span></td>
+				</tr>
+			</table>
+
+		</p:dialog>
+	</h:form> -->
+
+</f:view>

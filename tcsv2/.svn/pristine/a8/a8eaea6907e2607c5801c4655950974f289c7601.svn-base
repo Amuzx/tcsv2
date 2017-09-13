@@ -1,0 +1,37 @@
+package com.meession.communication.service.impl;
+
+import java.util.List;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+import com.meession.communication.dao.impl.PlanImpl;
+import com.meession.communication.entity.Plan;
+import com.meession.communication.service.IPlanService;
+@Service("planServiceImpl")
+public class PlanServiceImpl implements IPlanService{
+	@Resource(name="planImpl")
+	private PlanImpl planImpl;
+	@Override
+	public Plan save(Plan p) {
+		return planImpl.save(p);
+	}
+	@Override
+	public void update(Plan p) {
+		planImpl.update(p);
+		
+	}
+	@Override
+	public Plan findByuserAccount(long uid) {
+		
+		return planImpl.findByuserAccount(uid);
+	}
+	@Override
+	public List<Plan> list() {
+		List<Plan> list=null;
+		list=planImpl.list();
+		return list;
+	}
+	@Override
+	public void delete(long uid) {
+		planImpl.delete(uid);
+	}
+}

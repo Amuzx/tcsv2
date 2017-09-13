@@ -1,0 +1,39 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h2 class="title">行政管理员信息管理</h2>
+	<h:form id="adminUserListForm">
+		<p:dataTable id="adminUserListTable" var="user"
+			value="#{adminUserListView.userList}" rows="5"
+			paginator="#{not empty adminUserListView.userList}"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+			paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,20"
+			emptyMessage="No items.">
+
+			<p:column headerText="姓名" sortBy="#{user.name}" style="width:100px">
+				<h:outputText value="#{user.name}" />
+			</p:column>
+
+			<p:column headerText="邮箱地址" sortBy="#{user.email}">
+				<h:outputText value="#{user.email}" />
+			</p:column>
+
+			<p:column headerText="电话号码" sortBy="#{user.cellPhone}"
+				field="department">
+				<h:outputText value="#{user.cellPhone}" />
+			</p:column>
+
+			<p:column headerText="是否被禁用" sortBy="#{user.disabled}" field="name"
+				style="width: 140px;">
+				<h:outputText value="#{user.disabled}" />
+			</p:column>
+
+			<p:column headerText="备注信息"  style="width: 140px;">
+				<h:outputText value="#{user.remark}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</f:view>

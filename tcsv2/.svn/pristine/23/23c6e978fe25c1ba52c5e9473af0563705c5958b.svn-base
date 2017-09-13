@@ -1,0 +1,12 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	<ul class="menu">
+		<ui:repeat value="#{menuView.menuList}" var="menu">
+			<li class="item #{menuIndex eq menu.code ? 'selected' : ''}"><a
+				href="../#{menu.url}"><i class="#{menu.icon}"></i><span>#{menu.name}</span></a></li>
+		</ui:repeat>
+	</ul>
+</f:view>

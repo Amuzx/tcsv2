@@ -1,0 +1,208 @@
+package com.meession.communication2.service.impl;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Service;
+
+import com.meession.communication2.dao.INewAdminDao;
+import com.meession.communication2.entity.NewUser;
+import com.meession.communication2.service.INewAdminService;
+import com.meession.system.aop.Logable;
+
+@SuppressWarnings("serial")
+@Service
+public class NewAdminServiceImpl implements INewAdminService,Serializable {
+	
+	@Resource(name="newAdminDao")
+	private INewAdminDao newAdminDao;
+	
+
+	public void setNewAdminDao(INewAdminDao newAdminDao) {
+		this.newAdminDao = newAdminDao;
+	}
+
+	@Override
+	@Logable(value="import",message="import users")
+	@Transactional
+	public void importUser(InputStream userStream) {
+
+	}
+
+//	@Override
+//	public void addUser(NewUser user) {
+////		String isSuccess = null;
+//		newAdminDao.addTeacher(user);
+////		return isSuccess;
+//	}
+//
+//	@Override
+//	public List<NewUser> listUser() {
+//		List<NewUser> listUser = newAdminDao.listTeacher();
+//		return listUser;
+//	}
+	
+	/*
+	 * 添加老师
+	 */
+	@Override
+	public void addTeacher(NewUser teacher) {
+		newAdminDao.addTeacher(teacher);
+		
+	}
+
+	@Override
+	public List<NewUser> listTeacher() {
+		List<NewUser> listTeacher = newAdminDao.listTeacher();
+		return listTeacher;
+	}  
+	
+	/*
+	 * 根据ID删除老师
+	 */
+	@Override
+	public void delectTeacherById(int id) {
+		this.newAdminDao.delectTeacherById(id);
+	}
+	
+
+	/**
+	 * 解析Excel，将每行数据封装成一个NewUser对象
+	 */
+	public static List<NewUser> changeExcelToObject(InputStream inputStream) {
+		List<NewUser> listUsers = new ArrayList<NewUser>();
+		NewUser users = null;
+		
+		ByteArrayOutputStream byteOS = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int count;
+		try {
+			while ((count = inputStream.read(buffer)) != -1){
+				byteOS.write(buffer, 0, count);
+			}
+			byteOS.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		byte[] allBytes = byteOS.toByteArray();
+		InputStream byteIS = new ByteArrayInputStream(allBytes);
+		
+		try{
+			//创建Excel工作簿
+			XSSFWorkbook hwb = new XSSFWorkbook(byteIS);
+			//得到一个工作表
+			XSSFSheet sheet = hwb.getSheetAt(0);
+			XSSFRow row = null;
+			//日期格式化
+			DateFormat df = new SimpleDateFormat("yyyy");
+			//遍历该表格中所有的工作表，i表示工作表的数量，getNumberOfSheets表示工作表的总数
+			for(int i=0;  i<hwb.getNumberOfSheets(); i++){
+				sheet = hwb.getSheetAt(i);
+				//遍历所有的行，j表示行数，getPhysicalNumberOfRows行的总数
+				for(int j=1; j<sheet.getPhysicalNumberOfRows(); j++){
+					row = sheet.getRow(j);
+					users = new NewUser();
+					
+					//=====================将每行数据转成一个NewUser的对象
+					//用户账号
+					users.setUsername(NewAdminServiceImpl.getCellValue(row.getCell(0)));
+					//用户密码
+					users.setPwd(NewAdminServiceImpl.getCellValue(row.getCell(1)));
+					/**
+					 * 用户类型,0管理员，1老师，2学生
+					 */
+					String type = NewAdminServiceImpl.getCellValue(row.getCell(2));
+					users.setType(Integer.valueOf(type));
+					/**
+					 * 用户状态,0可用，1不可用
+					 */
+					String status = NewAdminServiceImpl.getCellValue(row.getCell(3));
+					users.setStatus(Integer.valueOf(status));
+					//老师工号
+					users.settNumber(NewAdminServiceImpl.getCellValue(row.getCell(4)));
+					//老师姓名
+					users.settName(NewAdminServiceImpl.getCellValue(row.getCell(5)));
+					//老师性别
+					String tSex = NewAdminServiceImpl.getCellValue(row.getCell(6));
+					users.settSex(Integer.valueOf(tSex));
+					//老师电话
+					users.settTel(NewAdminServiceImpl.getCellValue(row.getCell(7)));
+					//==========================================
+					
+					listUsers.add(users);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return listUsers;
+	}
+	
+	/**
+	 * 插入学生列表
+	 */
+	@Override
+	public String addUsers(InputStream is){
+		List<NewUser> listUsers = NewAdminServiceImpl.changeExcelToObject(is);
+		if(listUsers.size() > 0){
+				for(NewUser newuser : listUsers){
+					newuser.setType(2);
+//					newuser.settSex(0);
+//					newuser.setStatus(0);
+					System.out.println(newuser.getUsername()+"："+newuser.getPwd()+"："+newuser.getType()+"："+newuser.getStatus()+":"+newuser.gettNumber()+":"+newuser.gettName()+":"+newuser.gettSex()+":"+newuser.gettTel());
+					this.newAdminDao.addTeacher(newuser);
+				}
+		}else{
+			System.out.println("表格没有数据！");
+			return "failure";
+		}
+		return "successful";
+	}
+	
+    //判断从Excel文件中解析出来数据的格式  
+    private static String getCellValue(XSSFCell cell){  
+        String value = null;  
+        //简单的查检列类型  
+        switch(cell.getCellType())  
+        {  
+            case XSSFCell.CELL_TYPE_STRING://字符串  
+                value = cell.getRichStringCellValue().getString();  
+                break;  
+            case XSSFCell.CELL_TYPE_NUMERIC://数字  
+                long dd = (long)cell.getNumericCellValue();  
+                value = dd+"";  
+                break;  
+            case XSSFCell.CELL_TYPE_BLANK:  
+                value = "";  
+                break;     
+            case XSSFCell.CELL_TYPE_FORMULA:  
+                value = String.valueOf(cell.getCellFormula());  
+                break;  
+            case XSSFCell.CELL_TYPE_BOOLEAN://boolean型值  
+                value = String.valueOf(cell.getBooleanCellValue());  
+                break;  
+            case XSSFCell.CELL_TYPE_ERROR:  
+                value = String.valueOf(cell.getErrorCellValue());  
+                break;  
+            default:  
+                break;  
+        }  
+        return value;  
+    }
+
+
+}

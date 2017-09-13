@@ -1,0 +1,48 @@
+package com.meession.communication.view;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
+
+import org.primefaces.context.RequestContext;
+import org.primefaces.model.UploadedFile;
+
+import com.meession.communication.service.IStudentService;
+
+@ManagedBean
+public class ImportStudentView {
+
+	@ManagedProperty("#{studentService}")
+	private IStudentService studentService;
+	
+	private UploadedFile studentExcel;
+
+	
+	public IStudentService getStudentService() {
+		return studentService;
+	}
+
+	public void setStudentService(IStudentService studentService) {
+		this.studentService = studentService;
+	}
+
+	public UploadedFile getStudentExcel() {
+		return studentExcel;
+	}
+
+	public void setStudentExcel(UploadedFile studentExcel) {
+		this.studentExcel = studentExcel;
+	}
+	
+	@SuppressWarnings("unused")
+	private void uploadStudent() throws Exception{
+		this.studentService.importStudent(studentExcel.getInputstream());
+		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Succesful", "");
+		FacesContext.getCurrentInstance().addMessage(null, message);
+		RequestContext.getCurrentInstance().update(
+				":adminTab:orgaListForm:orgaListTable");
+	}
+	
+}

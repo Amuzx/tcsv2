@@ -1,0 +1,156 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<style>
+		td.student{
+			width:120px;
+			font-size:16px;
+		}
+	</style>
+	<script>
+		function changeValue(button){
+			var str = button.innerHTML;
+			if(str.match("已确认")){
+				button.style="width:90%;height:26px;background:#CCC;";
+				button.disabled="true";
+			}
+		}
+		
+		function changeDisable(button){
+			var str1 = button.innerHTML;
+			if(str1.match("已确认")){
+				button.disabled="false";
+			}
+		}
+	</script>
+	<h:form>
+		<h2 class="title">个人资料</h2>
+		<table>
+			<tr>
+				<td class="student">学号：</td><td></td>
+				<td><p:outputLabel value="#{newStudentPageView.student.stuNumber}" style="font-size:16px;"/></td>
+			</tr>
+			<tr>
+				<td class="student">姓名：</td><td></td>
+				<td><p:outputLabel value="#{newStudentPageView.student.stuName}" style="font-size:16px;"/></td>
+			</tr>
+			<tr>
+				<td class="student">性别：</td><td></td>
+				<td><p:outputLabel value="#{newStudentPageView.student.stuSex==0?'女':'男'}" style="font-size:16px;"/></td>
+			</tr>
+			<tr>
+				<td class="student">QQ：</td><td></td>
+				<td><p:outputLabel value="#{newStudentPageView.student.stuQQ}" style="font-size:16px;"/></td>
+			</tr>
+			<tr>
+				<td class="student">电话：</td><td></td>
+				<td><p:outputLabel value="#{newStudentPageView.student.stuTel}" style="font-size:16px;"/></td>
+			</tr>
+			<tr>
+				<td class="student">入学年份：</td><td></td>
+				<td><p:outputLabel value="#{newStudentPageView.student.stuYear}" style="font-size:16px;"><f:convertDateTime pattern="yyyy"/></p:outputLabel></td>
+			</tr>
+			<tr>
+				<td class="student">专业：</td><td></td>
+				<td><p:outputLabel value="#{newStudentPageView.student.stuMajor}" style="font-size:16px;"/></td>
+			</tr>
+			<tr>
+				<td class="student">班级：</td><td></td>
+				<td><p:outputLabel value="#{newStudentPageView.student.stuClass}" style="font-size:16px;"/></td>
+			</tr>
+		</table>
+	</h:form>
+	
+	<h:form id="studentPlanInfo" style="margin-top:3%;">
+			<h2 class="title">个人沟通情况</h2>
+			<p:dataTable id="planListTable" var="studentPlan"
+				value="#{newStudentPageView.studentListPlan}" rows="5"
+				paginator="#{not empty newStudentPageView.studentListPlan}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="{totalRecords} ({currentPage} of {totalPages})"
+				paginatorPosition="bottom" rowsPerPageTemplate="5,10"
+				emptyMessage="No items.">
+
+				<p:column headerText="学生姓名" width="12%">
+					<h:outputText value="#{studentPlan.studentname}"/>
+				</p:column>
+
+			<!-- 	<p:column headerText="老师" width="10%">
+					<h:outputText value="#{studentPlan.teachername}"/>
+				</p:column> -->
+				
+				<p:column headerText="时间" width="10%">
+					<h:outputText value="#{studentPlan.createTime}" ><f:convertDateTime pattern="YYYY-MM-DD"/></h:outputText>
+				</p:column>
+				
+				<p:column headerText="标题" width="25%">
+					<p:commandLink oncomplete="PF('detailPlanDialog').show()" actionListener="#{newStudentPageView.findPlanById}" update="@form:@parent:detailPlanDialog">
+						<f:attribute name="planId" value="#{studentPlan.pId}"/>
+						<h:outputText value="#{studentPlan.title}"/>
+					</p:commandLink>
+				</p:column>
+				
+				<p:column headerText="摘要" width="15%">
+					<h:outputText value="#{studentPlan.content}"/>
+				</p:column>
+				
+				<p:column headerText="状态" width="8%">
+				<!--  <f:facet name="header">Description</f:facet>-->
+					<h:outputText value="#{newStudentPageView.status}"/>
+				</p:column>
+				
+				<p:column headerText="评价" width="10%">
+					 <p:rating value="#{newStudentPageView.rating3}" stars="6">
+			               <p:ajax event="rate" listener="#{newStudentPageView.onrate}" />
+			        </p:rating>
+				</p:column>
+				
+				<p:column headerText="确认完成沟通" width="8%">
+					<p:commandButton value="#{newStudentPageView.isAffirm}" style="width:90%;" actionListener="#{newStudentPageView.affirmFinishPlan}" onmouseover="changeValue(this)" onmouseout="changeDisable(this)" >
+						<f:attribute name="pId" value="#{studentPlan.pId}"/>
+					</p:commandButton>
+				</p:column>
+						
+			</p:dataTable>
+		</h:form>
+		
+			<p:dialog header="沟通详情" widgetVar="detailPlanDialog" id="detailPlanDialog"
+				showEffect="fade" hideEffect="fade" height="380" width="480">
+				<h:form id="detailPlanInfo">
+						<table>
+							<tr height="36px">
+								<td width="60px"><h:outputLabel value="学号：" /></td>
+								<td><h:outputText  value="#{newStudentPageView.newPlan.studentnum}"/></td>
+							</tr>
+						
+							<tr height="36px">
+								<td width="60px"><h:outputLabel  value="姓名：" /></td>
+								<td><h:outputText  value="#{newStudentPageView.newPlan.studentname}"/></td>
+							</tr>
+							
+							<tr height="36px">
+								<td><h:outputLabel  value="标题：" /></td>
+								<td><h:outputText  value="#{newStudentPageView.newPlan.title}"/></td>
+							</tr>
+	
+							<tr height="36px">
+								<td><h:outputLabel  value="摘要：" /></td>
+								<td><h:outputText  value="#{newStudentPageView.newPlan.content}"/></td>
+							</tr>
+							
+							<tr height="36px">
+								<td><h:outputLabel  value="地点：" /></td>
+								<td><h:outputText  value="#{newStudentPageView.newPlan.location}"/></td>
+							</tr>
+							
+							<tr height="36px">
+								<td><h:outputLabel  value="结果：" /></td>
+								<td><h:outputText  value="#{newStudentPageView.newPlan.result}"/></td>
+							</tr>
+	
+						</table>
+				</h:form>
+			</p:dialog>
+
+</f:view>
